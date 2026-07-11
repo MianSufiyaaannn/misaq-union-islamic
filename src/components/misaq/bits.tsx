@@ -1,4 +1,6 @@
+import { useState } from "react";
 import { cn } from "@/lib/utils";
+import { useT } from "@/components/misaq/providers";
 
 export function CompatibilityRing({ value, size = 56, tone = "primary" }: { value: number; size?: number; tone?: "primary" | "gold" | "light" }) {
   const stroke = 5;
@@ -19,10 +21,11 @@ export function CompatibilityRing({ value, size = 56, tone = "primary" }: { valu
 }
 
 export function VerifiedBadge({ className }: { className?: string }) {
+  const t = useT();
   return (
     <span className={cn("inline-flex items-center gap-1 rounded-full bg-primary/10 px-2 py-0.5 text-[10px] font-semibold text-primary", className)}>
       <svg viewBox="0 0 24 24" className="h-3 w-3 fill-primary"><path d="M12 2l2.09 2.26L17 4l1 2.83 2.83 1L20 10.5l1.83 2.83L19 15l-1 2.83-2.91-.26L12 20l-2.09-2.43L6 17.83 5 15l-2.83-1.67L4 10.5 2.17 7.83 5 6l1-2.83 2.91.26z"/></svg>
-      Verified
+      {t("profile.verified")}
     </span>
   );
 }
@@ -35,13 +38,45 @@ export function PremiumBadge() {
   );
 }
 
-export function Avatar({ person, size = 56 }: { person: { avatar: string; name: string }; size?: number }) {
+export function Avatar({ person, size = 56 }: { person: { photo?: string; avatar: string; name: string }; size?: number }) {
   const initials = person.name.split(" ").map(n => n[0]).slice(0,2).join("");
+  const [err, setErr] = useState(false);
+  const showImage = person.photo && !err;
   return (
     <div
-      className="flex shrink-0 items-center justify-center rounded-full font-display text-white shadow-soft"
+      className="relative flex shrink-0 items-center justify-center overflow-hidden rounded-full font-display text-white shadow-soft"
       style={{ width: size, height: size, background: person.avatar, fontSize: size * 0.36 }}
       aria-label={person.name}
-    >{initials}</div>
+    >
+      {showImage ? (
+        <img
+          src={person.photo}
+          alt={person.name}
+          loading="lazy"
+          width={size}
+          height={size}
+          onError={() => setErr(true)}
+          className="h-full w-full object-cover"
+        />
+      ) : initials}
+    </div>
+  );
+}
+
+export function PhotoBg({ person, className, children }: { person: { photo?: string; avatar: string; name: string }; className?: string; children?: React.ReactNode }) {
+  const [err, setErr] = useState(false);
+  return (
+    <div className={cn("relative overflow-hidden", className)} style={{ background: person.avatar }}>
+      {person.photo && !err && (
+        <img
+          src={person.photo}
+          alt={person.name}
+          loading="lazy"
+          onError={() => setErr(true)}
+          className="absolute inset-0 h-full w-full object-cover"
+        />
+      )}
+      {children}
+    </div>
   );
 }
