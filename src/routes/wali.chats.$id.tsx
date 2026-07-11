@@ -1,0 +1,48 @@
+import { createFileRoute } from "@tanstack/react-router";
+import { TopBar } from "@/components/misaq/top-bar";
+import { findChat, findPerson, meMember } from "@/lib/mock";
+import { Avatar } from "@/components/misaq/bits";
+import { ShieldCheck, Ban, Flag, Trash2, Play } from "lucide-react";
+import { cn } from "@/lib/utils";
+
+export const Route = createFileRoute("/wali/chats/$id")({ component: WaliThread });
+
+function WaliThread() {
+  const { id } = Route.useParams();
+  const chat = findChat(id);
+  const other = findPerson(chat.personId);
+  return (
+    <div className="flex min-h-full flex-col bg-gradient-cream">
+      <TopBar title={`${meMember.name.split(" ")[0]} ↔ ${other.name.split(" ")[0]}`} subtitle="Read-only oversight" right={
+        <div className="flex gap-1.5">
+          <button className="flex h-8 w-8 items-center justify-center rounded-full bg-muted"><Ban className="h-3.5 w-3.5" /></button>
+          <button className="flex h-8 w-8 items-center justify-center rounded-full bg-muted"><Flag className="h-3.5 w-3.5" /></button>
+          <button className="flex h-8 w-8 items-center justify-center rounded-full bg-muted"><Trash2 className="h-3.5 w-3.5" /></button>
+        </div>
+      } />
+      <div className="mx-4 mt-3 flex items-center gap-2 rounded-2xl border border-gold/40 bg-gold/10 p-3 text-[11px] text-[color:var(--color-gold-foreground)]">
+        <ShieldCheck className="h-4 w-4 text-gold" /> You are viewing this conversation as Wali. Members are aware.
+      </div>
+      <div className="flex flex-1 flex-col gap-3 px-4 py-4">
+        {chat.messages.map((m) => {
+          const speaker = m.from === "me" ? meMember : other;
+          return (
+            <div key={m.id} className={cn("flex items-end gap-2", m.from === "me" ? "flex-row-reverse" : "")}>
+              <Avatar person={speaker} size={28} />
+              <div className={cn("max-w-[75%] rounded-2xl px-4 py-2.5 text-sm shadow-soft", m.from === "me" ? "rounded-br-md bg-primary text-primary-foreground" : "rounded-bl-md bg-card")}>
+                {m.text && <p>{m.text}</p>}
+                {m.voice && (
+                  <div className="flex items-center gap-2">
+                    <button className={cn("flex h-8 w-8 items-center justify-center rounded-full", m.from === "me" ? "bg-primary-foreground/20" : "bg-primary/10")}><Play className="h-3 w-3" /></button>
+                    <span className="text-[10px] opacity-70">Voice · 0:{String(m.voice.seconds).padStart(2, "0")}</span>
+                  </div>
+                )}
+                <p className="mt-1 text-right text-[9px] opacity-60">{m.time}</p>
+              </div>
+            </div>
+          );
+        })}
+      </div>
+    </div>
+  );
+}

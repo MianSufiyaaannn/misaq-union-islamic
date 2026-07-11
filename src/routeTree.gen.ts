@@ -9,38 +9,564 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as WelcomeRouteImport } from './routes/welcome'
+import { Route as WaliRouteImport } from './routes/wali'
+import { Route as AppRouteImport } from './routes/app'
+import { Route as AdminRouteImport } from './routes/admin'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as WaliIndexRouteImport } from './routes/wali.index'
+import { Route as AppIndexRouteImport } from './routes/app.index'
+import { Route as AdminIndexRouteImport } from './routes/admin.index'
+import { Route as WaliSettingsRouteImport } from './routes/wali.settings'
+import { Route as WaliProposalsRouteImport } from './routes/wali.proposals'
+import { Route as WaliChatsRouteImport } from './routes/wali.chats'
+import { Route as OnboardingThemeRouteImport } from './routes/onboarding.theme'
+import { Route as OnboardingLanguageRouteImport } from './routes/onboarding.language'
+import { Route as AuthRegisterRouteImport } from './routes/auth.register'
+import { Route as AuthLoginRouteImport } from './routes/auth.login'
+import { Route as AppSettingsRouteImport } from './routes/app.settings'
+import { Route as AppPremiumRouteImport } from './routes/app.premium'
+import { Route as AppNotificationsRouteImport } from './routes/app.notifications'
+import { Route as AppMatchesRouteImport } from './routes/app.matches'
+import { Route as AppDiscoverRouteImport } from './routes/app.discover'
+import { Route as AppChatsRouteImport } from './routes/app.chats'
+import { Route as AdminWalisRouteImport } from './routes/admin.walis'
+import { Route as AdminVerificationRouteImport } from './routes/admin.verification'
+import { Route as AdminSettingsRouteImport } from './routes/admin.settings'
+import { Route as AdminReportsRouteImport } from './routes/admin.reports'
+import { Route as AdminPremiumRouteImport } from './routes/admin.premium'
+import { Route as AdminPaymentsRouteImport } from './routes/admin.payments'
+import { Route as AdminMembersRouteImport } from './routes/admin.members'
+import { Route as AdminLoginRouteImport } from './routes/admin.login'
+import { Route as AdminCmsRouteImport } from './routes/admin.cms'
+import { Route as AdminChatsRouteImport } from './routes/admin.chats'
+import { Route as AdminCallsRouteImport } from './routes/admin.calls'
+import { Route as AdminAnalyticsRouteImport } from './routes/admin.analytics'
+import { Route as AdminAdminsRouteImport } from './routes/admin.admins'
+import { Route as AppProfileIndexRouteImport } from './routes/app.profile.index'
+import { Route as WaliProfileIdRouteImport } from './routes/wali.profile.$id'
+import { Route as WaliChatsIdRouteImport } from './routes/wali.chats.$id'
+import { Route as AuthRegisterStepsRouteImport } from './routes/auth.register.steps'
+import { Route as AppProfileIdRouteImport } from './routes/app.profile.$id'
+import { Route as AppChatsIdRouteImport } from './routes/app.chats.$id'
+import { Route as AppCallVoiceRouteImport } from './routes/app.call.voice'
+import { Route as AppCallVideoRouteImport } from './routes/app.call.video'
 
+const WelcomeRoute = WelcomeRouteImport.update({
+  id: '/welcome',
+  path: '/welcome',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const WaliRoute = WaliRouteImport.update({
+  id: '/wali',
+  path: '/wali',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AppRoute = AppRouteImport.update({
+  id: '/app',
+  path: '/app',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminRoute = AdminRouteImport.update({
+  id: '/admin',
+  path: '/admin',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const WaliIndexRoute = WaliIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => WaliRoute,
+} as any)
+const AppIndexRoute = AppIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => AppRoute,
+} as any)
+const AdminIndexRoute = AdminIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => AdminRoute,
+} as any)
+const WaliSettingsRoute = WaliSettingsRouteImport.update({
+  id: '/settings',
+  path: '/settings',
+  getParentRoute: () => WaliRoute,
+} as any)
+const WaliProposalsRoute = WaliProposalsRouteImport.update({
+  id: '/proposals',
+  path: '/proposals',
+  getParentRoute: () => WaliRoute,
+} as any)
+const WaliChatsRoute = WaliChatsRouteImport.update({
+  id: '/chats',
+  path: '/chats',
+  getParentRoute: () => WaliRoute,
+} as any)
+const OnboardingThemeRoute = OnboardingThemeRouteImport.update({
+  id: '/onboarding/theme',
+  path: '/onboarding/theme',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const OnboardingLanguageRoute = OnboardingLanguageRouteImport.update({
+  id: '/onboarding/language',
+  path: '/onboarding/language',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AuthRegisterRoute = AuthRegisterRouteImport.update({
+  id: '/auth/register',
+  path: '/auth/register',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AuthLoginRoute = AuthLoginRouteImport.update({
+  id: '/auth/login',
+  path: '/auth/login',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AppSettingsRoute = AppSettingsRouteImport.update({
+  id: '/settings',
+  path: '/settings',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppPremiumRoute = AppPremiumRouteImport.update({
+  id: '/premium',
+  path: '/premium',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppNotificationsRoute = AppNotificationsRouteImport.update({
+  id: '/notifications',
+  path: '/notifications',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppMatchesRoute = AppMatchesRouteImport.update({
+  id: '/matches',
+  path: '/matches',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppDiscoverRoute = AppDiscoverRouteImport.update({
+  id: '/discover',
+  path: '/discover',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppChatsRoute = AppChatsRouteImport.update({
+  id: '/chats',
+  path: '/chats',
+  getParentRoute: () => AppRoute,
+} as any)
+const AdminWalisRoute = AdminWalisRouteImport.update({
+  id: '/walis',
+  path: '/walis',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminVerificationRoute = AdminVerificationRouteImport.update({
+  id: '/verification',
+  path: '/verification',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminSettingsRoute = AdminSettingsRouteImport.update({
+  id: '/settings',
+  path: '/settings',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminReportsRoute = AdminReportsRouteImport.update({
+  id: '/reports',
+  path: '/reports',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminPremiumRoute = AdminPremiumRouteImport.update({
+  id: '/premium',
+  path: '/premium',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminPaymentsRoute = AdminPaymentsRouteImport.update({
+  id: '/payments',
+  path: '/payments',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminMembersRoute = AdminMembersRouteImport.update({
+  id: '/members',
+  path: '/members',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminLoginRoute = AdminLoginRouteImport.update({
+  id: '/login',
+  path: '/login',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminCmsRoute = AdminCmsRouteImport.update({
+  id: '/cms',
+  path: '/cms',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminChatsRoute = AdminChatsRouteImport.update({
+  id: '/chats',
+  path: '/chats',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminCallsRoute = AdminCallsRouteImport.update({
+  id: '/calls',
+  path: '/calls',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminAnalyticsRoute = AdminAnalyticsRouteImport.update({
+  id: '/analytics',
+  path: '/analytics',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminAdminsRoute = AdminAdminsRouteImport.update({
+  id: '/admins',
+  path: '/admins',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AppProfileIndexRoute = AppProfileIndexRouteImport.update({
+  id: '/profile/',
+  path: '/profile/',
+  getParentRoute: () => AppRoute,
+} as any)
+const WaliProfileIdRoute = WaliProfileIdRouteImport.update({
+  id: '/profile/$id',
+  path: '/profile/$id',
+  getParentRoute: () => WaliRoute,
+} as any)
+const WaliChatsIdRoute = WaliChatsIdRouteImport.update({
+  id: '/$id',
+  path: '/$id',
+  getParentRoute: () => WaliChatsRoute,
+} as any)
+const AuthRegisterStepsRoute = AuthRegisterStepsRouteImport.update({
+  id: '/steps',
+  path: '/steps',
+  getParentRoute: () => AuthRegisterRoute,
+} as any)
+const AppProfileIdRoute = AppProfileIdRouteImport.update({
+  id: '/profile/$id',
+  path: '/profile/$id',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppChatsIdRoute = AppChatsIdRouteImport.update({
+  id: '/$id',
+  path: '/$id',
+  getParentRoute: () => AppChatsRoute,
+} as any)
+const AppCallVoiceRoute = AppCallVoiceRouteImport.update({
+  id: '/call/voice',
+  path: '/call/voice',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppCallVideoRoute = AppCallVideoRouteImport.update({
+  id: '/call/video',
+  path: '/call/video',
+  getParentRoute: () => AppRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/admin': typeof AdminRouteWithChildren
+  '/app': typeof AppRouteWithChildren
+  '/wali': typeof WaliRouteWithChildren
+  '/welcome': typeof WelcomeRoute
+  '/admin/admins': typeof AdminAdminsRoute
+  '/admin/analytics': typeof AdminAnalyticsRoute
+  '/admin/calls': typeof AdminCallsRoute
+  '/admin/chats': typeof AdminChatsRoute
+  '/admin/cms': typeof AdminCmsRoute
+  '/admin/login': typeof AdminLoginRoute
+  '/admin/members': typeof AdminMembersRoute
+  '/admin/payments': typeof AdminPaymentsRoute
+  '/admin/premium': typeof AdminPremiumRoute
+  '/admin/reports': typeof AdminReportsRoute
+  '/admin/settings': typeof AdminSettingsRoute
+  '/admin/verification': typeof AdminVerificationRoute
+  '/admin/walis': typeof AdminWalisRoute
+  '/app/chats': typeof AppChatsRouteWithChildren
+  '/app/discover': typeof AppDiscoverRoute
+  '/app/matches': typeof AppMatchesRoute
+  '/app/notifications': typeof AppNotificationsRoute
+  '/app/premium': typeof AppPremiumRoute
+  '/app/settings': typeof AppSettingsRoute
+  '/auth/login': typeof AuthLoginRoute
+  '/auth/register': typeof AuthRegisterRouteWithChildren
+  '/onboarding/language': typeof OnboardingLanguageRoute
+  '/onboarding/theme': typeof OnboardingThemeRoute
+  '/wali/chats': typeof WaliChatsRouteWithChildren
+  '/wali/proposals': typeof WaliProposalsRoute
+  '/wali/settings': typeof WaliSettingsRoute
+  '/admin/': typeof AdminIndexRoute
+  '/app/': typeof AppIndexRoute
+  '/wali/': typeof WaliIndexRoute
+  '/app/call/video': typeof AppCallVideoRoute
+  '/app/call/voice': typeof AppCallVoiceRoute
+  '/app/chats/$id': typeof AppChatsIdRoute
+  '/app/profile/$id': typeof AppProfileIdRoute
+  '/auth/register/steps': typeof AuthRegisterStepsRoute
+  '/wali/chats/$id': typeof WaliChatsIdRoute
+  '/wali/profile/$id': typeof WaliProfileIdRoute
+  '/app/profile/': typeof AppProfileIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/welcome': typeof WelcomeRoute
+  '/admin/admins': typeof AdminAdminsRoute
+  '/admin/analytics': typeof AdminAnalyticsRoute
+  '/admin/calls': typeof AdminCallsRoute
+  '/admin/chats': typeof AdminChatsRoute
+  '/admin/cms': typeof AdminCmsRoute
+  '/admin/login': typeof AdminLoginRoute
+  '/admin/members': typeof AdminMembersRoute
+  '/admin/payments': typeof AdminPaymentsRoute
+  '/admin/premium': typeof AdminPremiumRoute
+  '/admin/reports': typeof AdminReportsRoute
+  '/admin/settings': typeof AdminSettingsRoute
+  '/admin/verification': typeof AdminVerificationRoute
+  '/admin/walis': typeof AdminWalisRoute
+  '/app/chats': typeof AppChatsRouteWithChildren
+  '/app/discover': typeof AppDiscoverRoute
+  '/app/matches': typeof AppMatchesRoute
+  '/app/notifications': typeof AppNotificationsRoute
+  '/app/premium': typeof AppPremiumRoute
+  '/app/settings': typeof AppSettingsRoute
+  '/auth/login': typeof AuthLoginRoute
+  '/auth/register': typeof AuthRegisterRouteWithChildren
+  '/onboarding/language': typeof OnboardingLanguageRoute
+  '/onboarding/theme': typeof OnboardingThemeRoute
+  '/wali/chats': typeof WaliChatsRouteWithChildren
+  '/wali/proposals': typeof WaliProposalsRoute
+  '/wali/settings': typeof WaliSettingsRoute
+  '/admin': typeof AdminIndexRoute
+  '/app': typeof AppIndexRoute
+  '/wali': typeof WaliIndexRoute
+  '/app/call/video': typeof AppCallVideoRoute
+  '/app/call/voice': typeof AppCallVoiceRoute
+  '/app/chats/$id': typeof AppChatsIdRoute
+  '/app/profile/$id': typeof AppProfileIdRoute
+  '/auth/register/steps': typeof AuthRegisterStepsRoute
+  '/wali/chats/$id': typeof WaliChatsIdRoute
+  '/wali/profile/$id': typeof WaliProfileIdRoute
+  '/app/profile': typeof AppProfileIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/admin': typeof AdminRouteWithChildren
+  '/app': typeof AppRouteWithChildren
+  '/wali': typeof WaliRouteWithChildren
+  '/welcome': typeof WelcomeRoute
+  '/admin/admins': typeof AdminAdminsRoute
+  '/admin/analytics': typeof AdminAnalyticsRoute
+  '/admin/calls': typeof AdminCallsRoute
+  '/admin/chats': typeof AdminChatsRoute
+  '/admin/cms': typeof AdminCmsRoute
+  '/admin/login': typeof AdminLoginRoute
+  '/admin/members': typeof AdminMembersRoute
+  '/admin/payments': typeof AdminPaymentsRoute
+  '/admin/premium': typeof AdminPremiumRoute
+  '/admin/reports': typeof AdminReportsRoute
+  '/admin/settings': typeof AdminSettingsRoute
+  '/admin/verification': typeof AdminVerificationRoute
+  '/admin/walis': typeof AdminWalisRoute
+  '/app/chats': typeof AppChatsRouteWithChildren
+  '/app/discover': typeof AppDiscoverRoute
+  '/app/matches': typeof AppMatchesRoute
+  '/app/notifications': typeof AppNotificationsRoute
+  '/app/premium': typeof AppPremiumRoute
+  '/app/settings': typeof AppSettingsRoute
+  '/auth/login': typeof AuthLoginRoute
+  '/auth/register': typeof AuthRegisterRouteWithChildren
+  '/onboarding/language': typeof OnboardingLanguageRoute
+  '/onboarding/theme': typeof OnboardingThemeRoute
+  '/wali/chats': typeof WaliChatsRouteWithChildren
+  '/wali/proposals': typeof WaliProposalsRoute
+  '/wali/settings': typeof WaliSettingsRoute
+  '/admin/': typeof AdminIndexRoute
+  '/app/': typeof AppIndexRoute
+  '/wali/': typeof WaliIndexRoute
+  '/app/call/video': typeof AppCallVideoRoute
+  '/app/call/voice': typeof AppCallVoiceRoute
+  '/app/chats/$id': typeof AppChatsIdRoute
+  '/app/profile/$id': typeof AppProfileIdRoute
+  '/auth/register/steps': typeof AuthRegisterStepsRoute
+  '/wali/chats/$id': typeof WaliChatsIdRoute
+  '/wali/profile/$id': typeof WaliProfileIdRoute
+  '/app/profile/': typeof AppProfileIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths:
+    | '/'
+    | '/admin'
+    | '/app'
+    | '/wali'
+    | '/welcome'
+    | '/admin/admins'
+    | '/admin/analytics'
+    | '/admin/calls'
+    | '/admin/chats'
+    | '/admin/cms'
+    | '/admin/login'
+    | '/admin/members'
+    | '/admin/payments'
+    | '/admin/premium'
+    | '/admin/reports'
+    | '/admin/settings'
+    | '/admin/verification'
+    | '/admin/walis'
+    | '/app/chats'
+    | '/app/discover'
+    | '/app/matches'
+    | '/app/notifications'
+    | '/app/premium'
+    | '/app/settings'
+    | '/auth/login'
+    | '/auth/register'
+    | '/onboarding/language'
+    | '/onboarding/theme'
+    | '/wali/chats'
+    | '/wali/proposals'
+    | '/wali/settings'
+    | '/admin/'
+    | '/app/'
+    | '/wali/'
+    | '/app/call/video'
+    | '/app/call/voice'
+    | '/app/chats/$id'
+    | '/app/profile/$id'
+    | '/auth/register/steps'
+    | '/wali/chats/$id'
+    | '/wali/profile/$id'
+    | '/app/profile/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to:
+    | '/'
+    | '/welcome'
+    | '/admin/admins'
+    | '/admin/analytics'
+    | '/admin/calls'
+    | '/admin/chats'
+    | '/admin/cms'
+    | '/admin/login'
+    | '/admin/members'
+    | '/admin/payments'
+    | '/admin/premium'
+    | '/admin/reports'
+    | '/admin/settings'
+    | '/admin/verification'
+    | '/admin/walis'
+    | '/app/chats'
+    | '/app/discover'
+    | '/app/matches'
+    | '/app/notifications'
+    | '/app/premium'
+    | '/app/settings'
+    | '/auth/login'
+    | '/auth/register'
+    | '/onboarding/language'
+    | '/onboarding/theme'
+    | '/wali/chats'
+    | '/wali/proposals'
+    | '/wali/settings'
+    | '/admin'
+    | '/app'
+    | '/wali'
+    | '/app/call/video'
+    | '/app/call/voice'
+    | '/app/chats/$id'
+    | '/app/profile/$id'
+    | '/auth/register/steps'
+    | '/wali/chats/$id'
+    | '/wali/profile/$id'
+    | '/app/profile'
+  id:
+    | '__root__'
+    | '/'
+    | '/admin'
+    | '/app'
+    | '/wali'
+    | '/welcome'
+    | '/admin/admins'
+    | '/admin/analytics'
+    | '/admin/calls'
+    | '/admin/chats'
+    | '/admin/cms'
+    | '/admin/login'
+    | '/admin/members'
+    | '/admin/payments'
+    | '/admin/premium'
+    | '/admin/reports'
+    | '/admin/settings'
+    | '/admin/verification'
+    | '/admin/walis'
+    | '/app/chats'
+    | '/app/discover'
+    | '/app/matches'
+    | '/app/notifications'
+    | '/app/premium'
+    | '/app/settings'
+    | '/auth/login'
+    | '/auth/register'
+    | '/onboarding/language'
+    | '/onboarding/theme'
+    | '/wali/chats'
+    | '/wali/proposals'
+    | '/wali/settings'
+    | '/admin/'
+    | '/app/'
+    | '/wali/'
+    | '/app/call/video'
+    | '/app/call/voice'
+    | '/app/chats/$id'
+    | '/app/profile/$id'
+    | '/auth/register/steps'
+    | '/wali/chats/$id'
+    | '/wali/profile/$id'
+    | '/app/profile/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AdminRoute: typeof AdminRouteWithChildren
+  AppRoute: typeof AppRouteWithChildren
+  WaliRoute: typeof WaliRouteWithChildren
+  WelcomeRoute: typeof WelcomeRoute
+  AuthLoginRoute: typeof AuthLoginRoute
+  AuthRegisterRoute: typeof AuthRegisterRouteWithChildren
+  OnboardingLanguageRoute: typeof OnboardingLanguageRoute
+  OnboardingThemeRoute: typeof OnboardingThemeRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/welcome': {
+      id: '/welcome'
+      path: '/welcome'
+      fullPath: '/welcome'
+      preLoaderRoute: typeof WelcomeRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/wali': {
+      id: '/wali'
+      path: '/wali'
+      fullPath: '/wali'
+      preLoaderRoute: typeof WaliRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/app': {
+      id: '/app'
+      path: '/app'
+      fullPath: '/app'
+      preLoaderRoute: typeof AppRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin': {
+      id: '/admin'
+      path: '/admin'
+      fullPath: '/admin'
+      preLoaderRoute: typeof AdminRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
@@ -48,22 +574,399 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/wali/': {
+      id: '/wali/'
+      path: '/'
+      fullPath: '/wali/'
+      preLoaderRoute: typeof WaliIndexRouteImport
+      parentRoute: typeof WaliRoute
+    }
+    '/app/': {
+      id: '/app/'
+      path: '/'
+      fullPath: '/app/'
+      preLoaderRoute: typeof AppIndexRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/admin/': {
+      id: '/admin/'
+      path: '/'
+      fullPath: '/admin/'
+      preLoaderRoute: typeof AdminIndexRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/wali/settings': {
+      id: '/wali/settings'
+      path: '/settings'
+      fullPath: '/wali/settings'
+      preLoaderRoute: typeof WaliSettingsRouteImport
+      parentRoute: typeof WaliRoute
+    }
+    '/wali/proposals': {
+      id: '/wali/proposals'
+      path: '/proposals'
+      fullPath: '/wali/proposals'
+      preLoaderRoute: typeof WaliProposalsRouteImport
+      parentRoute: typeof WaliRoute
+    }
+    '/wali/chats': {
+      id: '/wali/chats'
+      path: '/chats'
+      fullPath: '/wali/chats'
+      preLoaderRoute: typeof WaliChatsRouteImport
+      parentRoute: typeof WaliRoute
+    }
+    '/onboarding/theme': {
+      id: '/onboarding/theme'
+      path: '/onboarding/theme'
+      fullPath: '/onboarding/theme'
+      preLoaderRoute: typeof OnboardingThemeRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/onboarding/language': {
+      id: '/onboarding/language'
+      path: '/onboarding/language'
+      fullPath: '/onboarding/language'
+      preLoaderRoute: typeof OnboardingLanguageRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/auth/register': {
+      id: '/auth/register'
+      path: '/auth/register'
+      fullPath: '/auth/register'
+      preLoaderRoute: typeof AuthRegisterRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/auth/login': {
+      id: '/auth/login'
+      path: '/auth/login'
+      fullPath: '/auth/login'
+      preLoaderRoute: typeof AuthLoginRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/app/settings': {
+      id: '/app/settings'
+      path: '/settings'
+      fullPath: '/app/settings'
+      preLoaderRoute: typeof AppSettingsRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/app/premium': {
+      id: '/app/premium'
+      path: '/premium'
+      fullPath: '/app/premium'
+      preLoaderRoute: typeof AppPremiumRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/app/notifications': {
+      id: '/app/notifications'
+      path: '/notifications'
+      fullPath: '/app/notifications'
+      preLoaderRoute: typeof AppNotificationsRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/app/matches': {
+      id: '/app/matches'
+      path: '/matches'
+      fullPath: '/app/matches'
+      preLoaderRoute: typeof AppMatchesRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/app/discover': {
+      id: '/app/discover'
+      path: '/discover'
+      fullPath: '/app/discover'
+      preLoaderRoute: typeof AppDiscoverRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/app/chats': {
+      id: '/app/chats'
+      path: '/chats'
+      fullPath: '/app/chats'
+      preLoaderRoute: typeof AppChatsRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/admin/walis': {
+      id: '/admin/walis'
+      path: '/walis'
+      fullPath: '/admin/walis'
+      preLoaderRoute: typeof AdminWalisRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/verification': {
+      id: '/admin/verification'
+      path: '/verification'
+      fullPath: '/admin/verification'
+      preLoaderRoute: typeof AdminVerificationRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/settings': {
+      id: '/admin/settings'
+      path: '/settings'
+      fullPath: '/admin/settings'
+      preLoaderRoute: typeof AdminSettingsRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/reports': {
+      id: '/admin/reports'
+      path: '/reports'
+      fullPath: '/admin/reports'
+      preLoaderRoute: typeof AdminReportsRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/premium': {
+      id: '/admin/premium'
+      path: '/premium'
+      fullPath: '/admin/premium'
+      preLoaderRoute: typeof AdminPremiumRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/payments': {
+      id: '/admin/payments'
+      path: '/payments'
+      fullPath: '/admin/payments'
+      preLoaderRoute: typeof AdminPaymentsRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/members': {
+      id: '/admin/members'
+      path: '/members'
+      fullPath: '/admin/members'
+      preLoaderRoute: typeof AdminMembersRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/login': {
+      id: '/admin/login'
+      path: '/login'
+      fullPath: '/admin/login'
+      preLoaderRoute: typeof AdminLoginRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/cms': {
+      id: '/admin/cms'
+      path: '/cms'
+      fullPath: '/admin/cms'
+      preLoaderRoute: typeof AdminCmsRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/chats': {
+      id: '/admin/chats'
+      path: '/chats'
+      fullPath: '/admin/chats'
+      preLoaderRoute: typeof AdminChatsRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/calls': {
+      id: '/admin/calls'
+      path: '/calls'
+      fullPath: '/admin/calls'
+      preLoaderRoute: typeof AdminCallsRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/analytics': {
+      id: '/admin/analytics'
+      path: '/analytics'
+      fullPath: '/admin/analytics'
+      preLoaderRoute: typeof AdminAnalyticsRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/admins': {
+      id: '/admin/admins'
+      path: '/admins'
+      fullPath: '/admin/admins'
+      preLoaderRoute: typeof AdminAdminsRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/app/profile/': {
+      id: '/app/profile/'
+      path: '/profile'
+      fullPath: '/app/profile/'
+      preLoaderRoute: typeof AppProfileIndexRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/wali/profile/$id': {
+      id: '/wali/profile/$id'
+      path: '/profile/$id'
+      fullPath: '/wali/profile/$id'
+      preLoaderRoute: typeof WaliProfileIdRouteImport
+      parentRoute: typeof WaliRoute
+    }
+    '/wali/chats/$id': {
+      id: '/wali/chats/$id'
+      path: '/$id'
+      fullPath: '/wali/chats/$id'
+      preLoaderRoute: typeof WaliChatsIdRouteImport
+      parentRoute: typeof WaliChatsRoute
+    }
+    '/auth/register/steps': {
+      id: '/auth/register/steps'
+      path: '/steps'
+      fullPath: '/auth/register/steps'
+      preLoaderRoute: typeof AuthRegisterStepsRouteImport
+      parentRoute: typeof AuthRegisterRoute
+    }
+    '/app/profile/$id': {
+      id: '/app/profile/$id'
+      path: '/profile/$id'
+      fullPath: '/app/profile/$id'
+      preLoaderRoute: typeof AppProfileIdRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/app/chats/$id': {
+      id: '/app/chats/$id'
+      path: '/$id'
+      fullPath: '/app/chats/$id'
+      preLoaderRoute: typeof AppChatsIdRouteImport
+      parentRoute: typeof AppChatsRoute
+    }
+    '/app/call/voice': {
+      id: '/app/call/voice'
+      path: '/call/voice'
+      fullPath: '/app/call/voice'
+      preLoaderRoute: typeof AppCallVoiceRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/app/call/video': {
+      id: '/app/call/video'
+      path: '/call/video'
+      fullPath: '/app/call/video'
+      preLoaderRoute: typeof AppCallVideoRouteImport
+      parentRoute: typeof AppRoute
+    }
   }
 }
 
+interface AdminRouteChildren {
+  AdminAdminsRoute: typeof AdminAdminsRoute
+  AdminAnalyticsRoute: typeof AdminAnalyticsRoute
+  AdminCallsRoute: typeof AdminCallsRoute
+  AdminChatsRoute: typeof AdminChatsRoute
+  AdminCmsRoute: typeof AdminCmsRoute
+  AdminLoginRoute: typeof AdminLoginRoute
+  AdminMembersRoute: typeof AdminMembersRoute
+  AdminPaymentsRoute: typeof AdminPaymentsRoute
+  AdminPremiumRoute: typeof AdminPremiumRoute
+  AdminReportsRoute: typeof AdminReportsRoute
+  AdminSettingsRoute: typeof AdminSettingsRoute
+  AdminVerificationRoute: typeof AdminVerificationRoute
+  AdminWalisRoute: typeof AdminWalisRoute
+  AdminIndexRoute: typeof AdminIndexRoute
+}
+
+const AdminRouteChildren: AdminRouteChildren = {
+  AdminAdminsRoute: AdminAdminsRoute,
+  AdminAnalyticsRoute: AdminAnalyticsRoute,
+  AdminCallsRoute: AdminCallsRoute,
+  AdminChatsRoute: AdminChatsRoute,
+  AdminCmsRoute: AdminCmsRoute,
+  AdminLoginRoute: AdminLoginRoute,
+  AdminMembersRoute: AdminMembersRoute,
+  AdminPaymentsRoute: AdminPaymentsRoute,
+  AdminPremiumRoute: AdminPremiumRoute,
+  AdminReportsRoute: AdminReportsRoute,
+  AdminSettingsRoute: AdminSettingsRoute,
+  AdminVerificationRoute: AdminVerificationRoute,
+  AdminWalisRoute: AdminWalisRoute,
+  AdminIndexRoute: AdminIndexRoute,
+}
+
+const AdminRouteWithChildren = AdminRoute._addFileChildren(AdminRouteChildren)
+
+interface AppChatsRouteChildren {
+  AppChatsIdRoute: typeof AppChatsIdRoute
+}
+
+const AppChatsRouteChildren: AppChatsRouteChildren = {
+  AppChatsIdRoute: AppChatsIdRoute,
+}
+
+const AppChatsRouteWithChildren = AppChatsRoute._addFileChildren(
+  AppChatsRouteChildren,
+)
+
+interface AppRouteChildren {
+  AppChatsRoute: typeof AppChatsRouteWithChildren
+  AppDiscoverRoute: typeof AppDiscoverRoute
+  AppMatchesRoute: typeof AppMatchesRoute
+  AppNotificationsRoute: typeof AppNotificationsRoute
+  AppPremiumRoute: typeof AppPremiumRoute
+  AppSettingsRoute: typeof AppSettingsRoute
+  AppIndexRoute: typeof AppIndexRoute
+  AppCallVideoRoute: typeof AppCallVideoRoute
+  AppCallVoiceRoute: typeof AppCallVoiceRoute
+  AppProfileIdRoute: typeof AppProfileIdRoute
+  AppProfileIndexRoute: typeof AppProfileIndexRoute
+}
+
+const AppRouteChildren: AppRouteChildren = {
+  AppChatsRoute: AppChatsRouteWithChildren,
+  AppDiscoverRoute: AppDiscoverRoute,
+  AppMatchesRoute: AppMatchesRoute,
+  AppNotificationsRoute: AppNotificationsRoute,
+  AppPremiumRoute: AppPremiumRoute,
+  AppSettingsRoute: AppSettingsRoute,
+  AppIndexRoute: AppIndexRoute,
+  AppCallVideoRoute: AppCallVideoRoute,
+  AppCallVoiceRoute: AppCallVoiceRoute,
+  AppProfileIdRoute: AppProfileIdRoute,
+  AppProfileIndexRoute: AppProfileIndexRoute,
+}
+
+const AppRouteWithChildren = AppRoute._addFileChildren(AppRouteChildren)
+
+interface WaliChatsRouteChildren {
+  WaliChatsIdRoute: typeof WaliChatsIdRoute
+}
+
+const WaliChatsRouteChildren: WaliChatsRouteChildren = {
+  WaliChatsIdRoute: WaliChatsIdRoute,
+}
+
+const WaliChatsRouteWithChildren = WaliChatsRoute._addFileChildren(
+  WaliChatsRouteChildren,
+)
+
+interface WaliRouteChildren {
+  WaliChatsRoute: typeof WaliChatsRouteWithChildren
+  WaliProposalsRoute: typeof WaliProposalsRoute
+  WaliSettingsRoute: typeof WaliSettingsRoute
+  WaliIndexRoute: typeof WaliIndexRoute
+  WaliProfileIdRoute: typeof WaliProfileIdRoute
+}
+
+const WaliRouteChildren: WaliRouteChildren = {
+  WaliChatsRoute: WaliChatsRouteWithChildren,
+  WaliProposalsRoute: WaliProposalsRoute,
+  WaliSettingsRoute: WaliSettingsRoute,
+  WaliIndexRoute: WaliIndexRoute,
+  WaliProfileIdRoute: WaliProfileIdRoute,
+}
+
+const WaliRouteWithChildren = WaliRoute._addFileChildren(WaliRouteChildren)
+
+interface AuthRegisterRouteChildren {
+  AuthRegisterStepsRoute: typeof AuthRegisterStepsRoute
+}
+
+const AuthRegisterRouteChildren: AuthRegisterRouteChildren = {
+  AuthRegisterStepsRoute: AuthRegisterStepsRoute,
+}
+
+const AuthRegisterRouteWithChildren = AuthRegisterRoute._addFileChildren(
+  AuthRegisterRouteChildren,
+)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AdminRoute: AdminRouteWithChildren,
+  AppRoute: AppRouteWithChildren,
+  WaliRoute: WaliRouteWithChildren,
+  WelcomeRoute: WelcomeRoute,
+  AuthLoginRoute: AuthLoginRoute,
+  AuthRegisterRoute: AuthRegisterRouteWithChildren,
+  OnboardingLanguageRoute: OnboardingLanguageRoute,
+  OnboardingThemeRoute: OnboardingThemeRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
-
-import type { getRouter } from './router.tsx'
-import type { startInstance } from './start.ts'
-declare module '@tanstack/react-start' {
-  interface Register {
-    ssr: true
-    router: Awaited<ReturnType<typeof getRouter>>
-    config: Awaited<ReturnType<typeof startInstance.getOptions>>
-  }
-}
