@@ -21,7 +21,6 @@ import { Route as WaliSettingsRouteImport } from './routes/wali.settings'
 import { Route as WaliProposalsRouteImport } from './routes/wali.proposals'
 import { Route as OnboardingThemeRouteImport } from './routes/onboarding.theme'
 import { Route as OnboardingLanguageRouteImport } from './routes/onboarding.language'
-import { Route as AuthRegisterRouteImport } from './routes/auth.register'
 import { Route as AuthLoginRouteImport } from './routes/auth.login'
 import { Route as AppSettingsRouteImport } from './routes/app.settings'
 import { Route as AppPremiumRouteImport } from './routes/app.premium'
@@ -42,6 +41,7 @@ import { Route as AdminCallsRouteImport } from './routes/admin.calls'
 import { Route as AdminAnalyticsRouteImport } from './routes/admin.analytics'
 import { Route as AdminAdminsRouteImport } from './routes/admin.admins'
 import { Route as WaliChatsIndexRouteImport } from './routes/wali.chats.index'
+import { Route as AuthRegisterIndexRouteImport } from './routes/auth.register.index'
 import { Route as AppProfileIndexRouteImport } from './routes/app.profile.index'
 import { Route as AppChatsIndexRouteImport } from './routes/app.chats.index'
 import { Route as WaliProfileIdRouteImport } from './routes/wali.profile.$id'
@@ -110,11 +110,6 @@ const OnboardingThemeRoute = OnboardingThemeRouteImport.update({
 const OnboardingLanguageRoute = OnboardingLanguageRouteImport.update({
   id: '/onboarding/language',
   path: '/onboarding/language',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const AuthRegisterRoute = AuthRegisterRouteImport.update({
-  id: '/auth/register',
-  path: '/auth/register',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AuthLoginRoute = AuthLoginRouteImport.update({
@@ -217,6 +212,11 @@ const WaliChatsIndexRoute = WaliChatsIndexRouteImport.update({
   path: '/chats/',
   getParentRoute: () => WaliRoute,
 } as any)
+const AuthRegisterIndexRoute = AuthRegisterIndexRouteImport.update({
+  id: '/auth/register/',
+  path: '/auth/register/',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AppProfileIndexRoute = AppProfileIndexRouteImport.update({
   id: '/profile/',
   path: '/profile/',
@@ -288,7 +288,6 @@ export interface FileRoutesByFullPath {
   '/app/premium': typeof AppPremiumRoute
   '/app/settings': typeof AppSettingsRoute
   '/auth/login': typeof AuthLoginRoute
-  '/auth/register': typeof AuthRegisterRouteWithChildren
   '/onboarding/language': typeof OnboardingLanguageRoute
   '/onboarding/theme': typeof OnboardingThemeRoute
   '/wali/proposals': typeof WaliProposalsRoute
@@ -305,6 +304,7 @@ export interface FileRoutesByFullPath {
   '/wali/profile/$id': typeof WaliProfileIdRoute
   '/app/chats/': typeof AppChatsIndexRoute
   '/app/profile/': typeof AppProfileIndexRoute
+  '/auth/register/': typeof AuthRegisterIndexRoute
   '/wali/chats/': typeof WaliChatsIndexRoute
 }
 export interface FileRoutesByTo {
@@ -329,7 +329,6 @@ export interface FileRoutesByTo {
   '/app/premium': typeof AppPremiumRoute
   '/app/settings': typeof AppSettingsRoute
   '/auth/login': typeof AuthLoginRoute
-  '/auth/register': typeof AuthRegisterRouteWithChildren
   '/onboarding/language': typeof OnboardingLanguageRoute
   '/onboarding/theme': typeof OnboardingThemeRoute
   '/wali/proposals': typeof WaliProposalsRoute
@@ -346,6 +345,7 @@ export interface FileRoutesByTo {
   '/wali/profile/$id': typeof WaliProfileIdRoute
   '/app/chats': typeof AppChatsIndexRoute
   '/app/profile': typeof AppProfileIndexRoute
+  '/auth/register': typeof AuthRegisterIndexRoute
   '/wali/chats': typeof WaliChatsIndexRoute
 }
 export interface FileRoutesById {
@@ -374,7 +374,6 @@ export interface FileRoutesById {
   '/app/premium': typeof AppPremiumRoute
   '/app/settings': typeof AppSettingsRoute
   '/auth/login': typeof AuthLoginRoute
-  '/auth/register': typeof AuthRegisterRouteWithChildren
   '/onboarding/language': typeof OnboardingLanguageRoute
   '/onboarding/theme': typeof OnboardingThemeRoute
   '/wali/proposals': typeof WaliProposalsRoute
@@ -391,6 +390,7 @@ export interface FileRoutesById {
   '/wali/profile/$id': typeof WaliProfileIdRoute
   '/app/chats/': typeof AppChatsIndexRoute
   '/app/profile/': typeof AppProfileIndexRoute
+  '/auth/register/': typeof AuthRegisterIndexRoute
   '/wali/chats/': typeof WaliChatsIndexRoute
 }
 export interface FileRouteTypes {
@@ -420,7 +420,6 @@ export interface FileRouteTypes {
     | '/app/premium'
     | '/app/settings'
     | '/auth/login'
-    | '/auth/register'
     | '/onboarding/language'
     | '/onboarding/theme'
     | '/wali/proposals'
@@ -437,6 +436,7 @@ export interface FileRouteTypes {
     | '/wali/profile/$id'
     | '/app/chats/'
     | '/app/profile/'
+    | '/auth/register/'
     | '/wali/chats/'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -461,7 +461,6 @@ export interface FileRouteTypes {
     | '/app/premium'
     | '/app/settings'
     | '/auth/login'
-    | '/auth/register'
     | '/onboarding/language'
     | '/onboarding/theme'
     | '/wali/proposals'
@@ -478,6 +477,7 @@ export interface FileRouteTypes {
     | '/wali/profile/$id'
     | '/app/chats'
     | '/app/profile'
+    | '/auth/register'
     | '/wali/chats'
   id:
     | '__root__'
@@ -505,7 +505,6 @@ export interface FileRouteTypes {
     | '/app/premium'
     | '/app/settings'
     | '/auth/login'
-    | '/auth/register'
     | '/onboarding/language'
     | '/onboarding/theme'
     | '/wali/proposals'
@@ -522,6 +521,7 @@ export interface FileRouteTypes {
     | '/wali/profile/$id'
     | '/app/chats/'
     | '/app/profile/'
+    | '/auth/register/'
     | '/wali/chats/'
   fileRoutesById: FileRoutesById
 }
@@ -532,9 +532,9 @@ export interface RootRouteChildren {
   WaliRoute: typeof WaliRouteWithChildren
   WelcomeRoute: typeof WelcomeRoute
   AuthLoginRoute: typeof AuthLoginRoute
-  AuthRegisterRoute: typeof AuthRegisterRouteWithChildren
   OnboardingLanguageRoute: typeof OnboardingLanguageRoute
   OnboardingThemeRoute: typeof OnboardingThemeRoute
+  AuthRegisterIndexRoute: typeof AuthRegisterIndexRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -621,13 +621,6 @@ declare module '@tanstack/react-router' {
       path: '/onboarding/language'
       fullPath: '/onboarding/language'
       preLoaderRoute: typeof OnboardingLanguageRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/auth/register': {
-      id: '/auth/register'
-      path: '/auth/register'
-      fullPath: '/auth/register'
-      preLoaderRoute: typeof AuthRegisterRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/auth/login': {
@@ -769,6 +762,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/wali/chats/'
       preLoaderRoute: typeof WaliChatsIndexRouteImport
       parentRoute: typeof WaliRoute
+    }
+    '/auth/register/': {
+      id: '/auth/register/'
+      path: '/auth/register'
+      fullPath: '/auth/register/'
+      preLoaderRoute: typeof AuthRegisterIndexRouteImport
+      parentRoute: typeof rootRouteImport
     }
     '/app/profile/': {
       id: '/app/profile/'
@@ -924,18 +924,6 @@ const WaliRouteChildren: WaliRouteChildren = {
 
 const WaliRouteWithChildren = WaliRoute._addFileChildren(WaliRouteChildren)
 
-interface AuthRegisterRouteChildren {
-  AuthRegisterStepsRoute: typeof AuthRegisterStepsRoute
-}
-
-const AuthRegisterRouteChildren: AuthRegisterRouteChildren = {
-  AuthRegisterStepsRoute: AuthRegisterStepsRoute,
-}
-
-const AuthRegisterRouteWithChildren = AuthRegisterRoute._addFileChildren(
-  AuthRegisterRouteChildren,
-)
-
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AdminRoute: AdminRouteWithChildren,
@@ -943,10 +931,20 @@ const rootRouteChildren: RootRouteChildren = {
   WaliRoute: WaliRouteWithChildren,
   WelcomeRoute: WelcomeRoute,
   AuthLoginRoute: AuthLoginRoute,
-  AuthRegisterRoute: AuthRegisterRouteWithChildren,
   OnboardingLanguageRoute: OnboardingLanguageRoute,
   OnboardingThemeRoute: OnboardingThemeRoute,
+  AuthRegisterIndexRoute: AuthRegisterIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
+
+import type { getRouter } from './router.tsx'
+import type { startInstance } from './start.ts'
+declare module '@tanstack/react-start' {
+  interface Register {
+    ssr: true
+    router: Awaited<ReturnType<typeof getRouter>>
+    config: Awaited<ReturnType<typeof startInstance.getOptions>>
+  }
+}
