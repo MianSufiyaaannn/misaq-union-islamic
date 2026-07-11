@@ -20,7 +20,11 @@ export function TopBar({
 }) {
   const router = useRouter();
   return (
-    <header className={cn("sticky top-0 z-20 flex items-center gap-3 px-5 py-3", !transparent && "border-b border-border bg-background/90 backdrop-blur", tone === "light" && "text-white")}>
+    <header
+      style={{ paddingTop: "max(0.75rem, env(safe-area-inset-top))" }}
+      className={cn("sticky top-0 z-20 flex items-center gap-3 px-5 pb-3", !transparent && "border-b border-border bg-background/90 backdrop-blur", tone === "light" && "text-white")}
+    >
+
       {back ? (
         <button
           onClick={() => router.history.back()}
