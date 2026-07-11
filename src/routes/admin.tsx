@@ -1,14 +1,37 @@
-import { createFileRoute, Outlet, Link, useRouterState } from "@tanstack/react-router";
+import { createFileRoute, Outlet, Link, useRouterState, useNavigate } from "@tanstack/react-router";
+import { useEffect } from "react";
 import { PhoneFrame } from "@/components/misaq/phone-frame";
-import { LayoutDashboard, Users, ShieldCheck, MessageSquare, CreditCard, Sparkles, BarChart3, Settings, FileText, UserCog, Flag, Phone } from "lucide-react";
+import { LayoutDashboard, Users, ShieldCheck, MessageSquare, CreditCard, Sparkles, BarChart3, Settings, FileText, UserCog, Flag, Phone, LogOut } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useT } from "@/components/misaq/providers";
+import { isAdminAuthed, clearAdminAuth } from "@/lib/admin-auth";
 
 export const Route = createFileRoute("/admin")({ component: AdminShell });
 
 function AdminShell() {
   const path = useRouterState({ select: (s) => s.location.pathname });
+  const navigate = useNavigate();
   const t = useT();
+
+  const isLogin = path === "/admin/login";
+
+  // Mock auth guard: any /admin/* route other than /admin/login requires a session flag.
+  useEffect(() => {
+    if (!isLogin && !isAdminAuthed()) {
+      navigate({ to: "/admin/login", replace: true });
+    }
+  }, [isLogin, path, navigate]);
+
+  // Render the login page in complete isolation — no header, no nav, no dashboard chrome.
+  if (isLogin) {
+    return <Outlet />;
+  }
+
+  // Block a flash of admin content during the redirect above.
+  if (!isAdminAuthed()) {
+    return null;
+  }
+
   const nav: Array<{ to: string; label: string; icon: typeof LayoutDashboard; exact?: boolean }> = [
     { to: "/admin", label: t("admin.nav.dashboard"), icon: LayoutDashboard, exact: true },
     { to: "/admin/members", label: t("admin.nav.members"), icon: Users },
@@ -24,6 +47,12 @@ function AdminShell() {
     { to: "/admin/cms", label: t("admin.nav.cms"), icon: FileText },
     { to: "/admin/settings", label: t("admin.nav.settings"), icon: Settings },
   ];
+
+  const handleSignOut = () => {
+    clearAdminAuth();
+    navigate({ to: "/admin/login", replace: true });
+  };
+
   return (
     <PhoneFrame>
       <div className="flex min-h-full flex-col">
@@ -34,6 +63,14 @@ function AdminShell() {
             <p className="truncate text-[10px] text-muted-foreground">{t("admin.restricted")}</p>
           </div>
           <span className="shrink-0 rounded-full bg-gold/20 px-2 py-0.5 text-[10px] font-semibold text-[color:var(--color-gold-foreground)]">{t("admin.super")}</span>
+          <button
+            type="button"
+            onClick={handleSignOut}
+            aria-label="Sign out"
+            className="ms-1 flex h-8 w-8 shrink-0 items-center justify-center rounded-full border border-border text-muted-foreground hover:text-primary hover:border-primary/40"
+          >
+            <LogOut className="h-3.5 w-3.5" />
+          </button>
         </header>
         <nav className="scrollbar-none flex snap-x snap-mandatory gap-1.5 overflow-x-auto border-b border-border bg-surface px-3 py-2" style={{ scrollPaddingInline: "0.75rem" }}>
           {nav.map((n) => {
