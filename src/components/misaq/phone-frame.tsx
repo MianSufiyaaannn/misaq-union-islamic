@@ -18,8 +18,6 @@ export function PhoneFrame({ children, className }: { children: ReactNode; class
             className,
           )}
         >
-          {/* Notch on desktop only */}
-          <div className="hidden md:absolute md:left-1/2 md:top-2 md:z-50 md:block md:h-6 md:w-32 md:-translate-x-1/2 md:rounded-full md:bg-black" />
           <div className="relative flex min-h-0 flex-1 flex-col overflow-y-auto scrollbar-thin">
             {children}
           </div>
