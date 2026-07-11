@@ -10,23 +10,46 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as WelcomeRouteImport } from './routes/welcome'
+import { Route as AppRouteImport } from './routes/app'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AppIndexRouteImport } from './routes/app.index'
 import { Route as OnboardingThemeRouteImport } from './routes/onboarding.theme'
 import { Route as OnboardingLanguageRouteImport } from './routes/onboarding.language'
 import { Route as AuthRegisterRouteImport } from './routes/auth.register'
 import { Route as AuthLoginRouteImport } from './routes/auth.login'
+import { Route as AppSettingsRouteImport } from './routes/app.settings'
+import { Route as AppPremiumRouteImport } from './routes/app.premium'
+import { Route as AppNotificationsRouteImport } from './routes/app.notifications'
+import { Route as AppMatchesRouteImport } from './routes/app.matches'
+import { Route as AppDiscoverRouteImport } from './routes/app.discover'
+import { Route as AppChatsRouteImport } from './routes/app.chats'
 import { Route as AdminLoginRouteImport } from './routes/admin.login'
+import { Route as AppProfileIndexRouteImport } from './routes/app.profile.index'
 import { Route as AuthRegisterStepsRouteImport } from './routes/auth.register.steps'
+import { Route as AppProfileIdRouteImport } from './routes/app.profile.$id'
+import { Route as AppChatsIdRouteImport } from './routes/app.chats.$id'
+import { Route as AppCallVoiceRouteImport } from './routes/app.call.voice'
+import { Route as AppCallVideoRouteImport } from './routes/app.call.video'
 
 const WelcomeRoute = WelcomeRouteImport.update({
   id: '/welcome',
   path: '/welcome',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AppRoute = AppRouteImport.update({
+  id: '/app',
+  path: '/app',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
+} as any)
+const AppIndexRoute = AppIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => AppRoute,
 } as any)
 const OnboardingThemeRoute = OnboardingThemeRouteImport.update({
   id: '/onboarding/theme',
@@ -48,83 +71,215 @@ const AuthLoginRoute = AuthLoginRouteImport.update({
   path: '/auth/login',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AppSettingsRoute = AppSettingsRouteImport.update({
+  id: '/settings',
+  path: '/settings',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppPremiumRoute = AppPremiumRouteImport.update({
+  id: '/premium',
+  path: '/premium',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppNotificationsRoute = AppNotificationsRouteImport.update({
+  id: '/notifications',
+  path: '/notifications',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppMatchesRoute = AppMatchesRouteImport.update({
+  id: '/matches',
+  path: '/matches',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppDiscoverRoute = AppDiscoverRouteImport.update({
+  id: '/discover',
+  path: '/discover',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppChatsRoute = AppChatsRouteImport.update({
+  id: '/chats',
+  path: '/chats',
+  getParentRoute: () => AppRoute,
+} as any)
 const AdminLoginRoute = AdminLoginRouteImport.update({
   id: '/admin/login',
   path: '/admin/login',
   getParentRoute: () => rootRouteImport,
+} as any)
+const AppProfileIndexRoute = AppProfileIndexRouteImport.update({
+  id: '/profile/',
+  path: '/profile/',
+  getParentRoute: () => AppRoute,
 } as any)
 const AuthRegisterStepsRoute = AuthRegisterStepsRouteImport.update({
   id: '/steps',
   path: '/steps',
   getParentRoute: () => AuthRegisterRoute,
 } as any)
+const AppProfileIdRoute = AppProfileIdRouteImport.update({
+  id: '/profile/$id',
+  path: '/profile/$id',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppChatsIdRoute = AppChatsIdRouteImport.update({
+  id: '/$id',
+  path: '/$id',
+  getParentRoute: () => AppChatsRoute,
+} as any)
+const AppCallVoiceRoute = AppCallVoiceRouteImport.update({
+  id: '/call/voice',
+  path: '/call/voice',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppCallVideoRoute = AppCallVideoRouteImport.update({
+  id: '/call/video',
+  path: '/call/video',
+  getParentRoute: () => AppRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/app': typeof AppRouteWithChildren
   '/welcome': typeof WelcomeRoute
   '/admin/login': typeof AdminLoginRoute
+  '/app/chats': typeof AppChatsRouteWithChildren
+  '/app/discover': typeof AppDiscoverRoute
+  '/app/matches': typeof AppMatchesRoute
+  '/app/notifications': typeof AppNotificationsRoute
+  '/app/premium': typeof AppPremiumRoute
+  '/app/settings': typeof AppSettingsRoute
   '/auth/login': typeof AuthLoginRoute
   '/auth/register': typeof AuthRegisterRouteWithChildren
   '/onboarding/language': typeof OnboardingLanguageRoute
   '/onboarding/theme': typeof OnboardingThemeRoute
+  '/app/': typeof AppIndexRoute
+  '/app/call/video': typeof AppCallVideoRoute
+  '/app/call/voice': typeof AppCallVoiceRoute
+  '/app/chats/$id': typeof AppChatsIdRoute
+  '/app/profile/$id': typeof AppProfileIdRoute
   '/auth/register/steps': typeof AuthRegisterStepsRoute
+  '/app/profile/': typeof AppProfileIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/welcome': typeof WelcomeRoute
   '/admin/login': typeof AdminLoginRoute
+  '/app/chats': typeof AppChatsRouteWithChildren
+  '/app/discover': typeof AppDiscoverRoute
+  '/app/matches': typeof AppMatchesRoute
+  '/app/notifications': typeof AppNotificationsRoute
+  '/app/premium': typeof AppPremiumRoute
+  '/app/settings': typeof AppSettingsRoute
   '/auth/login': typeof AuthLoginRoute
   '/auth/register': typeof AuthRegisterRouteWithChildren
   '/onboarding/language': typeof OnboardingLanguageRoute
   '/onboarding/theme': typeof OnboardingThemeRoute
+  '/app': typeof AppIndexRoute
+  '/app/call/video': typeof AppCallVideoRoute
+  '/app/call/voice': typeof AppCallVoiceRoute
+  '/app/chats/$id': typeof AppChatsIdRoute
+  '/app/profile/$id': typeof AppProfileIdRoute
   '/auth/register/steps': typeof AuthRegisterStepsRoute
+  '/app/profile': typeof AppProfileIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/app': typeof AppRouteWithChildren
   '/welcome': typeof WelcomeRoute
   '/admin/login': typeof AdminLoginRoute
+  '/app/chats': typeof AppChatsRouteWithChildren
+  '/app/discover': typeof AppDiscoverRoute
+  '/app/matches': typeof AppMatchesRoute
+  '/app/notifications': typeof AppNotificationsRoute
+  '/app/premium': typeof AppPremiumRoute
+  '/app/settings': typeof AppSettingsRoute
   '/auth/login': typeof AuthLoginRoute
   '/auth/register': typeof AuthRegisterRouteWithChildren
   '/onboarding/language': typeof OnboardingLanguageRoute
   '/onboarding/theme': typeof OnboardingThemeRoute
+  '/app/': typeof AppIndexRoute
+  '/app/call/video': typeof AppCallVideoRoute
+  '/app/call/voice': typeof AppCallVoiceRoute
+  '/app/chats/$id': typeof AppChatsIdRoute
+  '/app/profile/$id': typeof AppProfileIdRoute
   '/auth/register/steps': typeof AuthRegisterStepsRoute
+  '/app/profile/': typeof AppProfileIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/app'
     | '/welcome'
     | '/admin/login'
+    | '/app/chats'
+    | '/app/discover'
+    | '/app/matches'
+    | '/app/notifications'
+    | '/app/premium'
+    | '/app/settings'
     | '/auth/login'
     | '/auth/register'
     | '/onboarding/language'
     | '/onboarding/theme'
+    | '/app/'
+    | '/app/call/video'
+    | '/app/call/voice'
+    | '/app/chats/$id'
+    | '/app/profile/$id'
     | '/auth/register/steps'
+    | '/app/profile/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
     | '/welcome'
     | '/admin/login'
+    | '/app/chats'
+    | '/app/discover'
+    | '/app/matches'
+    | '/app/notifications'
+    | '/app/premium'
+    | '/app/settings'
     | '/auth/login'
     | '/auth/register'
     | '/onboarding/language'
     | '/onboarding/theme'
+    | '/app'
+    | '/app/call/video'
+    | '/app/call/voice'
+    | '/app/chats/$id'
+    | '/app/profile/$id'
     | '/auth/register/steps'
+    | '/app/profile'
   id:
     | '__root__'
     | '/'
+    | '/app'
     | '/welcome'
     | '/admin/login'
+    | '/app/chats'
+    | '/app/discover'
+    | '/app/matches'
+    | '/app/notifications'
+    | '/app/premium'
+    | '/app/settings'
     | '/auth/login'
     | '/auth/register'
     | '/onboarding/language'
     | '/onboarding/theme'
+    | '/app/'
+    | '/app/call/video'
+    | '/app/call/voice'
+    | '/app/chats/$id'
+    | '/app/profile/$id'
     | '/auth/register/steps'
+    | '/app/profile/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AppRoute: typeof AppRouteWithChildren
   WelcomeRoute: typeof WelcomeRoute
   AdminLoginRoute: typeof AdminLoginRoute
   AuthLoginRoute: typeof AuthLoginRoute
@@ -142,12 +297,26 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof WelcomeRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/app': {
+      id: '/app'
+      path: '/app'
+      fullPath: '/app'
+      preLoaderRoute: typeof AppRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
+    }
+    '/app/': {
+      id: '/app/'
+      path: '/'
+      fullPath: '/app/'
+      preLoaderRoute: typeof AppIndexRouteImport
+      parentRoute: typeof AppRoute
     }
     '/onboarding/theme': {
       id: '/onboarding/theme'
@@ -177,12 +346,61 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthLoginRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/app/settings': {
+      id: '/app/settings'
+      path: '/settings'
+      fullPath: '/app/settings'
+      preLoaderRoute: typeof AppSettingsRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/app/premium': {
+      id: '/app/premium'
+      path: '/premium'
+      fullPath: '/app/premium'
+      preLoaderRoute: typeof AppPremiumRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/app/notifications': {
+      id: '/app/notifications'
+      path: '/notifications'
+      fullPath: '/app/notifications'
+      preLoaderRoute: typeof AppNotificationsRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/app/matches': {
+      id: '/app/matches'
+      path: '/matches'
+      fullPath: '/app/matches'
+      preLoaderRoute: typeof AppMatchesRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/app/discover': {
+      id: '/app/discover'
+      path: '/discover'
+      fullPath: '/app/discover'
+      preLoaderRoute: typeof AppDiscoverRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/app/chats': {
+      id: '/app/chats'
+      path: '/chats'
+      fullPath: '/app/chats'
+      preLoaderRoute: typeof AppChatsRouteImport
+      parentRoute: typeof AppRoute
+    }
     '/admin/login': {
       id: '/admin/login'
       path: '/admin/login'
       fullPath: '/admin/login'
       preLoaderRoute: typeof AdminLoginRouteImport
       parentRoute: typeof rootRouteImport
+    }
+    '/app/profile/': {
+      id: '/app/profile/'
+      path: '/profile'
+      fullPath: '/app/profile/'
+      preLoaderRoute: typeof AppProfileIndexRouteImport
+      parentRoute: typeof AppRoute
     }
     '/auth/register/steps': {
       id: '/auth/register/steps'
@@ -191,8 +409,78 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthRegisterStepsRouteImport
       parentRoute: typeof AuthRegisterRoute
     }
+    '/app/profile/$id': {
+      id: '/app/profile/$id'
+      path: '/profile/$id'
+      fullPath: '/app/profile/$id'
+      preLoaderRoute: typeof AppProfileIdRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/app/chats/$id': {
+      id: '/app/chats/$id'
+      path: '/$id'
+      fullPath: '/app/chats/$id'
+      preLoaderRoute: typeof AppChatsIdRouteImport
+      parentRoute: typeof AppChatsRoute
+    }
+    '/app/call/voice': {
+      id: '/app/call/voice'
+      path: '/call/voice'
+      fullPath: '/app/call/voice'
+      preLoaderRoute: typeof AppCallVoiceRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/app/call/video': {
+      id: '/app/call/video'
+      path: '/call/video'
+      fullPath: '/app/call/video'
+      preLoaderRoute: typeof AppCallVideoRouteImport
+      parentRoute: typeof AppRoute
+    }
   }
 }
+
+interface AppChatsRouteChildren {
+  AppChatsIdRoute: typeof AppChatsIdRoute
+}
+
+const AppChatsRouteChildren: AppChatsRouteChildren = {
+  AppChatsIdRoute: AppChatsIdRoute,
+}
+
+const AppChatsRouteWithChildren = AppChatsRoute._addFileChildren(
+  AppChatsRouteChildren,
+)
+
+interface AppRouteChildren {
+  AppChatsRoute: typeof AppChatsRouteWithChildren
+  AppDiscoverRoute: typeof AppDiscoverRoute
+  AppMatchesRoute: typeof AppMatchesRoute
+  AppNotificationsRoute: typeof AppNotificationsRoute
+  AppPremiumRoute: typeof AppPremiumRoute
+  AppSettingsRoute: typeof AppSettingsRoute
+  AppIndexRoute: typeof AppIndexRoute
+  AppCallVideoRoute: typeof AppCallVideoRoute
+  AppCallVoiceRoute: typeof AppCallVoiceRoute
+  AppProfileIdRoute: typeof AppProfileIdRoute
+  AppProfileIndexRoute: typeof AppProfileIndexRoute
+}
+
+const AppRouteChildren: AppRouteChildren = {
+  AppChatsRoute: AppChatsRouteWithChildren,
+  AppDiscoverRoute: AppDiscoverRoute,
+  AppMatchesRoute: AppMatchesRoute,
+  AppNotificationsRoute: AppNotificationsRoute,
+  AppPremiumRoute: AppPremiumRoute,
+  AppSettingsRoute: AppSettingsRoute,
+  AppIndexRoute: AppIndexRoute,
+  AppCallVideoRoute: AppCallVideoRoute,
+  AppCallVoiceRoute: AppCallVoiceRoute,
+  AppProfileIdRoute: AppProfileIdRoute,
+  AppProfileIndexRoute: AppProfileIndexRoute,
+}
+
+const AppRouteWithChildren = AppRoute._addFileChildren(AppRouteChildren)
 
 interface AuthRegisterRouteChildren {
   AuthRegisterStepsRoute: typeof AuthRegisterStepsRoute
@@ -208,6 +496,7 @@ const AuthRegisterRouteWithChildren = AuthRegisterRoute._addFileChildren(
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AppRoute: AppRouteWithChildren,
   WelcomeRoute: WelcomeRoute,
   AdminLoginRoute: AdminLoginRoute,
   AuthLoginRoute: AuthLoginRoute,
