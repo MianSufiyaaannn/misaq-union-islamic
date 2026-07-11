@@ -10,12 +10,13 @@ function WaliShell() {
   const path = useRouterState({ select: (s) => s.location.pathname });
   const t = useT();
   const hide = path.match(/^\/wali\/chats\/[^/]+$/);
-  const items = [
+  const items: Array<{ to: "/wali" | "/wali/proposals" | "/wali/chats" | "/wali/settings"; label: string; icon: typeof Home; exact?: boolean }> = [
     { to: "/wali", label: t("wali.overview") || t("wali.dashboard"), icon: Home, exact: true },
     { to: "/wali/proposals", label: t("wali.proposals.title"), icon: ShieldCheck },
     { to: "/wali/chats", label: t("nav.chats"), icon: MessageSquare },
     { to: "/wali/settings", label: t("settings.title"), icon: Settings },
-  ] as const;
+  ];
+
   return (
     <PhoneFrame>
       <div className="flex min-h-full flex-col">
