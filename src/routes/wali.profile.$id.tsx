@@ -1,44 +1,46 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { TopBar } from "@/components/misaq/top-bar";
 import { findPerson } from "@/lib/mock";
-import { VerifiedBadge, PremiumBadge, CompatibilityRing } from "@/components/misaq/bits";
+import { VerifiedBadge, PremiumBadge, CompatibilityRing, PhotoBg } from "@/components/misaq/bits";
+import { useT } from "@/components/misaq/providers";
 
 export const Route = createFileRoute("/wali/profile/$id")({ component: WaliProfileView });
 
 function WaliProfileView() {
   const { id } = Route.useParams();
+  const t = useT();
   const p = findPerson(id);
   return (
     <div className="pb-8">
-      <div className="relative h-64" style={{ background: p.avatar }}>
+      <PhotoBg person={p} className="relative h-64">
         <div className="absolute inset-0 bg-gradient-to-t from-black/85 to-black/10" />
         <TopBar back tone="light" transparent />
-        <div className="absolute inset-x-0 bottom-0 flex items-end justify-between p-5 text-white">
-          <div>
-            <h1 className="font-display text-3xl">{p.name}</h1>
-            <p className="text-xs text-white/80">{p.age} · {p.city} · {p.profession}</p>
-            <div className="mt-2 flex gap-2">{p.verified && <VerifiedBadge />}{p.premium && <PremiumBadge />}</div>
+        <div className="absolute inset-x-0 bottom-0 flex items-end justify-between gap-3 p-5 text-white">
+          <div className="min-w-0">
+            <h1 className="truncate font-display text-3xl">{p.name}</h1>
+            <p className="truncate text-xs text-white/80">{p.age} · {p.city} · {p.profession}</p>
+            <div className="mt-2 flex flex-wrap gap-2">{p.verified && <VerifiedBadge />}{p.premium && <PremiumBadge />}</div>
           </div>
           <CompatibilityRing value={p.compatibility} size={64} tone="light" />
         </div>
-      </div>
+      </PhotoBg>
       <div className="space-y-3 px-5 py-4 text-sm">
-        <p className="text-muted-foreground">Reviewing this profile as Wali. Contact their Wali directly through the linked details below.</p>
+        <p className="text-muted-foreground" dir="auto">{t("wali.review.subtitle")}</p>
         <div className="rounded-2xl border border-border bg-card p-4">
-          <p className="text-[10px] uppercase tracking-widest text-muted-foreground">Their Wali</p>
-          <p className="mt-1 font-medium">Ismail Rahman (Father)</p>
-          <p className="text-xs text-muted-foreground">+92 300 ••• ••• · Verified with CNIC</p>
-          <button className="mt-3 w-full rounded-full bg-primary py-2 text-xs font-medium text-primary-foreground">Message Wali directly</button>
+          <p className="text-[10px] uppercase tracking-widest text-muted-foreground">{t("wali.review.theirWali")}</p>
+          <p className="mt-1 font-medium">{t("wali.review.waliName")}</p>
+          <p className="text-xs text-muted-foreground">{t("wali.review.waliContact")}</p>
+          <button className="mt-3 w-full rounded-full bg-primary py-2 text-xs font-medium text-primary-foreground">{t("wali.review.message")}</button>
         </div>
         <div className="rounded-2xl border border-border bg-card p-4">
-          <p className="font-medium">About</p>
-          <p className="mt-1 text-xs text-muted-foreground">{p.bio}</p>
+          <p className="font-medium">{t("profile.about")}</p>
+          <p className="mt-1 text-xs text-muted-foreground" dir="auto">{p.bio}</p>
         </div>
         <div className="rounded-2xl border border-border bg-card p-4 text-xs">
-          <p className="font-medium mb-2">Religious</p>
-          <p className="text-muted-foreground">Sect: {p.sect}</p>
-          <p className="text-muted-foreground">Prayer: {p.prayer}</p>
-          <p className="text-muted-foreground">Quran: {p.quran}</p>
+          <p className="mb-2 font-medium">{t("wali.review.religious")}</p>
+          <p className="text-muted-foreground">{t("profile.sect")}: {p.sect}</p>
+          <p className="text-muted-foreground">{t("profile.prayer")}: {p.prayer}</p>
+          <p className="text-muted-foreground">{t("profile.quran")}: {p.quran}</p>
         </div>
       </div>
     </div>
