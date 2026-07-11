@@ -4,7 +4,7 @@ import { Avatar } from "@/components/misaq/bits";
 import { Search, ShieldCheck, Inbox } from "lucide-react";
 import { useT } from "@/components/misaq/providers";
 
-export const Route = createFileRoute("/app/chats")({ component: Chats });
+export const Route = createFileRoute("/app/chats/")({ component: Chats });
 
 function Chats() {
   const t = useT();

@@ -5,7 +5,7 @@ import { Avatar, CompatibilityRing } from "@/components/misaq/bits";
 import { Ban, Trash2, Flag, Eye } from "lucide-react";
 import { useT } from "@/components/misaq/providers";
 
-export const Route = createFileRoute("/wali/chats")({ component: WaliChats });
+export const Route = createFileRoute("/wali/chats/")({ component: WaliChats });
 
 function WaliChats() {
   const t = useT();
