@@ -2,6 +2,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { PhoneFrame } from "@/components/misaq/phone-frame";
 import { Logo } from "@/components/misaq/logo";
 import { ShieldCheck, Users, HeartHandshake } from "lucide-react";
+import { useT } from "@/components/misaq/providers";
 
 export const Route = createFileRoute("/welcome")({ component: Welcome });
 
@@ -12,14 +13,15 @@ const pillars = [
 ];
 
 function Welcome() {
+  const t = useT();
   return (
     <PhoneFrame>
       <div className="flex min-h-full flex-col">
         <div className="relative overflow-hidden bg-gradient-royal px-6 pb-10 pt-14 text-white">
           <div className="pointer-events-none absolute -right-16 -top-16 h-64 w-64 rounded-full bg-white/10 blur-3xl" />
           <Logo size={44} withWord tone="light" />
-          <h1 className="mt-8 font-display text-4xl leading-tight">A meeting written before the world began.</h1>
-          <p className="mt-3 max-w-[280px] text-sm text-white/75">Misaq is a covenant — a matrimonial platform built on Islamic values, dignity, and family involvement.</p>
+          <h1 className="mt-8 font-display text-4xl leading-tight">{t("welcome.title")}</h1>
+          <p className="mt-3 max-w-[280px] text-sm text-white/75">{t("welcome.subtitle")}</p>
         </div>
 
         <div className="flex-1 px-6 pt-6">
@@ -38,8 +40,8 @@ function Welcome() {
         </div>
 
         <div className="grid gap-3 px-6 pb-10 pt-4">
-          <Link to="/auth/register" className="w-full rounded-full bg-primary py-4 text-center font-medium text-primary-foreground shadow-elegant">Create account</Link>
-          <Link to="/auth/login" className="w-full rounded-full border border-border py-4 text-center font-medium">I already have an account</Link>
+          <Link to="/auth/register" className="w-full rounded-full bg-primary py-4 text-center font-medium text-primary-foreground shadow-elegant">{t("welcome.create")}</Link>
+          <Link to="/auth/login" className="w-full rounded-full border border-border py-4 text-center font-medium">{t("welcome.have")}</Link>
         </div>
       </div>
     </PhoneFrame>

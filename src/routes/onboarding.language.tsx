@@ -13,7 +13,7 @@ const langs = [
 ];
 
 function LangPick() {
-  const { lang, setLang } = useMisaq();
+  const { lang, setLang, t } = useMisaq();
   const navigate = useNavigate();
   return (
     <PhoneFrame>
@@ -21,8 +21,8 @@ function LangPick() {
         <Logo size={44} withWord />
         <div className="mt-10">
           <p className="text-xs uppercase tracking-[0.3em] text-muted-foreground">Step 2 of 2</p>
-          <h1 className="mt-2 font-display text-3xl leading-tight">Choose your language</h1>
-          <p className="mt-2 text-sm text-muted-foreground">You may switch anytime from Settings.</p>
+          <h1 className="mt-2 font-display text-3xl leading-tight">{t("lang.title")}</h1>
+          <p className="mt-2 text-sm text-muted-foreground">{t("lang.hint")}</p>
         </div>
 
         <div className="mt-8 flex flex-col gap-3">
@@ -41,7 +41,7 @@ function LangPick() {
           })}
         </div>
 
-        <button onClick={() => navigate({ to: "/welcome" })} className="mt-auto w-full rounded-full bg-primary py-4 font-medium text-primary-foreground shadow-elegant">Continue</button>
+        <button onClick={() => navigate({ to: "/welcome" })} className="mt-auto w-full rounded-full bg-primary py-4 font-medium text-primary-foreground shadow-elegant">{t("lang.continue")}</button>
       </div>
     </PhoneFrame>
   );
