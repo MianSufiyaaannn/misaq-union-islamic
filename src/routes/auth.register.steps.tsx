@@ -95,7 +95,7 @@ function MemberStep({ step }: { step: number }) {
       <TextInput label="Full name" placeholder="e.g. Ahmed Raza" />
       <div className="grid grid-cols-2 gap-3">
         <TextInput label="Date of birth" placeholder="DD / MM / YYYY" />
-        <TextInput label="Height" placeholder="5' 10\"" />
+        <TextInput label="Height" placeholder={`5' 10"`} />
       </div>
       <Chips label="Gender" options={["Male", "Female"]} />
       <div className="grid grid-cols-2 gap-3">
