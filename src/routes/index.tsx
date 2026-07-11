@@ -1,19 +1,20 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useEffect } from "react";
 import { Logo } from "@/components/misaq/logo";
+import { useT } from "@/components/misaq/providers";
 
 export const Route = createFileRoute("/")({ component: Splash });
 
 function Splash() {
   const navigate = useNavigate();
+  const t = useT();
   useEffect(() => {
-    const t = setTimeout(() => navigate({ to: "/onboarding/theme" }), 2200);
-    return () => clearTimeout(t);
+    const tm = setTimeout(() => navigate({ to: "/onboarding/theme" }), 2200);
+    return () => clearTimeout(tm);
   }, [navigate]);
 
   return (
-    <div className="relative flex min-h-screen items-center justify-center overflow-hidden bg-gradient-royal text-white">
-      {/* subtle geometric pattern */}
+    <div className="relative flex min-h-screen items-center justify-center overflow-hidden bg-gradient-royal text-white" style={{ paddingTop: "env(safe-area-inset-top)", paddingBottom: "env(safe-area-inset-bottom)" }}>
       <div className="pointer-events-none absolute inset-0 opacity-[0.08]" style={{
         backgroundImage: "radial-gradient(circle at 20% 20%, #fff 1px, transparent 1px), radial-gradient(circle at 80% 60%, #fff 1px, transparent 1px)",
         backgroundSize: "40px 40px, 60px 60px",
@@ -28,11 +29,11 @@ function Splash() {
         <div className="text-center">
           <h1 className="font-display text-5xl tracking-wide">Misaq</h1>
           <p className="mt-1 text-[11px] uppercase tracking-[0.4em] text-white/70">مِیثاق</p>
-          <p className="mt-4 max-w-[240px] font-display text-sm italic text-white/80">
-            "And of His signs is that He created for you from yourselves mates…" — Ar-Rum 30:21
+          <p className="mt-4 max-w-[280px] font-display text-sm italic text-white/80" dir="auto">
+            {t("splash.tagline")}
           </p>
         </div>
-        <Link to="/onboarding/theme" className="mt-6 text-xs uppercase tracking-[0.3em] text-white/70 underline underline-offset-4">Skip</Link>
+        <Link to="/onboarding/theme" className="mt-6 text-xs uppercase tracking-[0.3em] text-white/70 underline underline-offset-4">{t("splash.skip")}</Link>
       </div>
     </div>
   );

@@ -6,22 +6,21 @@ import { useT } from "@/components/misaq/providers";
 
 export const Route = createFileRoute("/welcome")({ component: Welcome });
 
-const pillars = [
-  { icon: ShieldCheck, title: "Verified profiles", desc: "Every member is verified with CNIC and a Wali interview." },
-  { icon: Users, title: "Family at the centre", desc: "Your Wali sees every conversation. Nothing hidden." },
-  { icon: HeartHandshake, title: "Nikah, not dating", desc: "Structured proposals — no swiping, no ambiguity." },
-];
-
 function Welcome() {
   const t = useT();
+  const pillars = [
+    { icon: ShieldCheck, title: t("welcome.pillar1.t"), desc: t("welcome.pillar1.d") },
+    { icon: Users, title: t("welcome.pillar2.t"), desc: t("welcome.pillar2.d") },
+    { icon: HeartHandshake, title: t("welcome.pillar3.t"), desc: t("welcome.pillar3.d") },
+  ];
   return (
     <PhoneFrame>
       <div className="flex min-h-full flex-col">
         <div className="relative overflow-hidden bg-gradient-royal px-6 pb-10 pt-14 text-white">
-          <div className="pointer-events-none absolute -right-16 -top-16 h-64 w-64 rounded-full bg-white/10 blur-3xl" />
+          <div className="pointer-events-none absolute -end-16 -top-16 h-64 w-64 rounded-full bg-white/10 blur-3xl" />
           <Logo size={44} withWord tone="light" />
           <h1 className="mt-8 font-display text-4xl leading-tight">{t("welcome.title")}</h1>
-          <p className="mt-3 max-w-[280px] text-sm text-white/75">{t("welcome.subtitle")}</p>
+          <p className="mt-3 max-w-[300px] text-sm text-white/75">{t("welcome.subtitle")}</p>
         </div>
 
         <div className="flex-1 px-6 pt-6">
@@ -30,8 +29,8 @@ function Welcome() {
             {pillars.map((p) => (
               <div key={p.title} className="flex gap-4 rounded-2xl border border-border bg-card p-4">
                 <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-primary/10 text-primary"><p.icon className="h-5 w-5" /></div>
-                <div>
-                  <p className="font-display text-lg leading-none">{p.title}</p>
+                <div className="min-w-0">
+                  <p className="truncate font-display text-lg leading-none">{p.title}</p>
                   <p className="mt-1 text-xs text-muted-foreground">{p.desc}</p>
                 </div>
               </div>
