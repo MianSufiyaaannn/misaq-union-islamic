@@ -12,9 +12,11 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as WelcomeRouteImport } from './routes/welcome'
 import { Route as WaliRouteImport } from './routes/wali'
 import { Route as AppRouteImport } from './routes/app'
+import { Route as AdminRouteImport } from './routes/admin'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as WaliIndexRouteImport } from './routes/wali.index'
 import { Route as AppIndexRouteImport } from './routes/app.index'
+import { Route as AdminIndexRouteImport } from './routes/admin.index'
 import { Route as WaliSettingsRouteImport } from './routes/wali.settings'
 import { Route as WaliProposalsRouteImport } from './routes/wali.proposals'
 import { Route as WaliChatsRouteImport } from './routes/wali.chats'
@@ -28,7 +30,19 @@ import { Route as AppNotificationsRouteImport } from './routes/app.notifications
 import { Route as AppMatchesRouteImport } from './routes/app.matches'
 import { Route as AppDiscoverRouteImport } from './routes/app.discover'
 import { Route as AppChatsRouteImport } from './routes/app.chats'
+import { Route as AdminWalisRouteImport } from './routes/admin.walis'
+import { Route as AdminVerificationRouteImport } from './routes/admin.verification'
+import { Route as AdminSettingsRouteImport } from './routes/admin.settings'
+import { Route as AdminReportsRouteImport } from './routes/admin.reports'
+import { Route as AdminPremiumRouteImport } from './routes/admin.premium'
+import { Route as AdminPaymentsRouteImport } from './routes/admin.payments'
+import { Route as AdminMembersRouteImport } from './routes/admin.members'
 import { Route as AdminLoginRouteImport } from './routes/admin.login'
+import { Route as AdminCmsRouteImport } from './routes/admin.cms'
+import { Route as AdminChatsRouteImport } from './routes/admin.chats'
+import { Route as AdminCallsRouteImport } from './routes/admin.calls'
+import { Route as AdminAnalyticsRouteImport } from './routes/admin.analytics'
+import { Route as AdminAdminsRouteImport } from './routes/admin.admins'
 import { Route as AppProfileIndexRouteImport } from './routes/app.profile.index'
 import { Route as WaliProfileIdRouteImport } from './routes/wali.profile.$id'
 import { Route as WaliChatsIdRouteImport } from './routes/wali.chats.$id'
@@ -53,6 +67,11 @@ const AppRoute = AppRouteImport.update({
   path: '/app',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AdminRoute = AdminRouteImport.update({
+  id: '/admin',
+  path: '/admin',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
@@ -67,6 +86,11 @@ const AppIndexRoute = AppIndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => AppRoute,
+} as any)
+const AdminIndexRoute = AdminIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => AdminRoute,
 } as any)
 const WaliSettingsRoute = WaliSettingsRouteImport.update({
   id: '/settings',
@@ -133,10 +157,70 @@ const AppChatsRoute = AppChatsRouteImport.update({
   path: '/chats',
   getParentRoute: () => AppRoute,
 } as any)
+const AdminWalisRoute = AdminWalisRouteImport.update({
+  id: '/walis',
+  path: '/walis',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminVerificationRoute = AdminVerificationRouteImport.update({
+  id: '/verification',
+  path: '/verification',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminSettingsRoute = AdminSettingsRouteImport.update({
+  id: '/settings',
+  path: '/settings',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminReportsRoute = AdminReportsRouteImport.update({
+  id: '/reports',
+  path: '/reports',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminPremiumRoute = AdminPremiumRouteImport.update({
+  id: '/premium',
+  path: '/premium',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminPaymentsRoute = AdminPaymentsRouteImport.update({
+  id: '/payments',
+  path: '/payments',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminMembersRoute = AdminMembersRouteImport.update({
+  id: '/members',
+  path: '/members',
+  getParentRoute: () => AdminRoute,
+} as any)
 const AdminLoginRoute = AdminLoginRouteImport.update({
-  id: '/admin/login',
-  path: '/admin/login',
-  getParentRoute: () => rootRouteImport,
+  id: '/login',
+  path: '/login',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminCmsRoute = AdminCmsRouteImport.update({
+  id: '/cms',
+  path: '/cms',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminChatsRoute = AdminChatsRouteImport.update({
+  id: '/chats',
+  path: '/chats',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminCallsRoute = AdminCallsRouteImport.update({
+  id: '/calls',
+  path: '/calls',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminAnalyticsRoute = AdminAnalyticsRouteImport.update({
+  id: '/analytics',
+  path: '/analytics',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminAdminsRoute = AdminAdminsRouteImport.update({
+  id: '/admins',
+  path: '/admins',
+  getParentRoute: () => AdminRoute,
 } as any)
 const AppProfileIndexRoute = AppProfileIndexRouteImport.update({
   id: '/profile/',
@@ -181,10 +265,23 @@ const AppCallVideoRoute = AppCallVideoRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/admin': typeof AdminRouteWithChildren
   '/app': typeof AppRouteWithChildren
   '/wali': typeof WaliRouteWithChildren
   '/welcome': typeof WelcomeRoute
+  '/admin/admins': typeof AdminAdminsRoute
+  '/admin/analytics': typeof AdminAnalyticsRoute
+  '/admin/calls': typeof AdminCallsRoute
+  '/admin/chats': typeof AdminChatsRoute
+  '/admin/cms': typeof AdminCmsRoute
   '/admin/login': typeof AdminLoginRoute
+  '/admin/members': typeof AdminMembersRoute
+  '/admin/payments': typeof AdminPaymentsRoute
+  '/admin/premium': typeof AdminPremiumRoute
+  '/admin/reports': typeof AdminReportsRoute
+  '/admin/settings': typeof AdminSettingsRoute
+  '/admin/verification': typeof AdminVerificationRoute
+  '/admin/walis': typeof AdminWalisRoute
   '/app/chats': typeof AppChatsRouteWithChildren
   '/app/discover': typeof AppDiscoverRoute
   '/app/matches': typeof AppMatchesRoute
@@ -198,6 +295,7 @@ export interface FileRoutesByFullPath {
   '/wali/chats': typeof WaliChatsRouteWithChildren
   '/wali/proposals': typeof WaliProposalsRoute
   '/wali/settings': typeof WaliSettingsRoute
+  '/admin/': typeof AdminIndexRoute
   '/app/': typeof AppIndexRoute
   '/wali/': typeof WaliIndexRoute
   '/app/call/video': typeof AppCallVideoRoute
@@ -212,7 +310,19 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/welcome': typeof WelcomeRoute
+  '/admin/admins': typeof AdminAdminsRoute
+  '/admin/analytics': typeof AdminAnalyticsRoute
+  '/admin/calls': typeof AdminCallsRoute
+  '/admin/chats': typeof AdminChatsRoute
+  '/admin/cms': typeof AdminCmsRoute
   '/admin/login': typeof AdminLoginRoute
+  '/admin/members': typeof AdminMembersRoute
+  '/admin/payments': typeof AdminPaymentsRoute
+  '/admin/premium': typeof AdminPremiumRoute
+  '/admin/reports': typeof AdminReportsRoute
+  '/admin/settings': typeof AdminSettingsRoute
+  '/admin/verification': typeof AdminVerificationRoute
+  '/admin/walis': typeof AdminWalisRoute
   '/app/chats': typeof AppChatsRouteWithChildren
   '/app/discover': typeof AppDiscoverRoute
   '/app/matches': typeof AppMatchesRoute
@@ -226,6 +336,7 @@ export interface FileRoutesByTo {
   '/wali/chats': typeof WaliChatsRouteWithChildren
   '/wali/proposals': typeof WaliProposalsRoute
   '/wali/settings': typeof WaliSettingsRoute
+  '/admin': typeof AdminIndexRoute
   '/app': typeof AppIndexRoute
   '/wali': typeof WaliIndexRoute
   '/app/call/video': typeof AppCallVideoRoute
@@ -240,10 +351,23 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/admin': typeof AdminRouteWithChildren
   '/app': typeof AppRouteWithChildren
   '/wali': typeof WaliRouteWithChildren
   '/welcome': typeof WelcomeRoute
+  '/admin/admins': typeof AdminAdminsRoute
+  '/admin/analytics': typeof AdminAnalyticsRoute
+  '/admin/calls': typeof AdminCallsRoute
+  '/admin/chats': typeof AdminChatsRoute
+  '/admin/cms': typeof AdminCmsRoute
   '/admin/login': typeof AdminLoginRoute
+  '/admin/members': typeof AdminMembersRoute
+  '/admin/payments': typeof AdminPaymentsRoute
+  '/admin/premium': typeof AdminPremiumRoute
+  '/admin/reports': typeof AdminReportsRoute
+  '/admin/settings': typeof AdminSettingsRoute
+  '/admin/verification': typeof AdminVerificationRoute
+  '/admin/walis': typeof AdminWalisRoute
   '/app/chats': typeof AppChatsRouteWithChildren
   '/app/discover': typeof AppDiscoverRoute
   '/app/matches': typeof AppMatchesRoute
@@ -257,6 +381,7 @@ export interface FileRoutesById {
   '/wali/chats': typeof WaliChatsRouteWithChildren
   '/wali/proposals': typeof WaliProposalsRoute
   '/wali/settings': typeof WaliSettingsRoute
+  '/admin/': typeof AdminIndexRoute
   '/app/': typeof AppIndexRoute
   '/wali/': typeof WaliIndexRoute
   '/app/call/video': typeof AppCallVideoRoute
@@ -272,10 +397,23 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/admin'
     | '/app'
     | '/wali'
     | '/welcome'
+    | '/admin/admins'
+    | '/admin/analytics'
+    | '/admin/calls'
+    | '/admin/chats'
+    | '/admin/cms'
     | '/admin/login'
+    | '/admin/members'
+    | '/admin/payments'
+    | '/admin/premium'
+    | '/admin/reports'
+    | '/admin/settings'
+    | '/admin/verification'
+    | '/admin/walis'
     | '/app/chats'
     | '/app/discover'
     | '/app/matches'
@@ -289,6 +427,7 @@ export interface FileRouteTypes {
     | '/wali/chats'
     | '/wali/proposals'
     | '/wali/settings'
+    | '/admin/'
     | '/app/'
     | '/wali/'
     | '/app/call/video'
@@ -303,7 +442,19 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/welcome'
+    | '/admin/admins'
+    | '/admin/analytics'
+    | '/admin/calls'
+    | '/admin/chats'
+    | '/admin/cms'
     | '/admin/login'
+    | '/admin/members'
+    | '/admin/payments'
+    | '/admin/premium'
+    | '/admin/reports'
+    | '/admin/settings'
+    | '/admin/verification'
+    | '/admin/walis'
     | '/app/chats'
     | '/app/discover'
     | '/app/matches'
@@ -317,6 +468,7 @@ export interface FileRouteTypes {
     | '/wali/chats'
     | '/wali/proposals'
     | '/wali/settings'
+    | '/admin'
     | '/app'
     | '/wali'
     | '/app/call/video'
@@ -330,10 +482,23 @@ export interface FileRouteTypes {
   id:
     | '__root__'
     | '/'
+    | '/admin'
     | '/app'
     | '/wali'
     | '/welcome'
+    | '/admin/admins'
+    | '/admin/analytics'
+    | '/admin/calls'
+    | '/admin/chats'
+    | '/admin/cms'
     | '/admin/login'
+    | '/admin/members'
+    | '/admin/payments'
+    | '/admin/premium'
+    | '/admin/reports'
+    | '/admin/settings'
+    | '/admin/verification'
+    | '/admin/walis'
     | '/app/chats'
     | '/app/discover'
     | '/app/matches'
@@ -347,6 +512,7 @@ export interface FileRouteTypes {
     | '/wali/chats'
     | '/wali/proposals'
     | '/wali/settings'
+    | '/admin/'
     | '/app/'
     | '/wali/'
     | '/app/call/video'
@@ -361,10 +527,10 @@ export interface FileRouteTypes {
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AdminRoute: typeof AdminRouteWithChildren
   AppRoute: typeof AppRouteWithChildren
   WaliRoute: typeof WaliRouteWithChildren
   WelcomeRoute: typeof WelcomeRoute
-  AdminLoginRoute: typeof AdminLoginRoute
   AuthLoginRoute: typeof AuthLoginRoute
   AuthRegisterRoute: typeof AuthRegisterRouteWithChildren
   OnboardingLanguageRoute: typeof OnboardingLanguageRoute
@@ -394,6 +560,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/admin': {
+      id: '/admin'
+      path: '/admin'
+      fullPath: '/admin'
+      preLoaderRoute: typeof AdminRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
@@ -414,6 +587,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/app/'
       preLoaderRoute: typeof AppIndexRouteImport
       parentRoute: typeof AppRoute
+    }
+    '/admin/': {
+      id: '/admin/'
+      path: '/'
+      fullPath: '/admin/'
+      preLoaderRoute: typeof AdminIndexRouteImport
+      parentRoute: typeof AdminRoute
     }
     '/wali/settings': {
       id: '/wali/settings'
@@ -506,12 +686,96 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppChatsRouteImport
       parentRoute: typeof AppRoute
     }
+    '/admin/walis': {
+      id: '/admin/walis'
+      path: '/walis'
+      fullPath: '/admin/walis'
+      preLoaderRoute: typeof AdminWalisRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/verification': {
+      id: '/admin/verification'
+      path: '/verification'
+      fullPath: '/admin/verification'
+      preLoaderRoute: typeof AdminVerificationRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/settings': {
+      id: '/admin/settings'
+      path: '/settings'
+      fullPath: '/admin/settings'
+      preLoaderRoute: typeof AdminSettingsRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/reports': {
+      id: '/admin/reports'
+      path: '/reports'
+      fullPath: '/admin/reports'
+      preLoaderRoute: typeof AdminReportsRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/premium': {
+      id: '/admin/premium'
+      path: '/premium'
+      fullPath: '/admin/premium'
+      preLoaderRoute: typeof AdminPremiumRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/payments': {
+      id: '/admin/payments'
+      path: '/payments'
+      fullPath: '/admin/payments'
+      preLoaderRoute: typeof AdminPaymentsRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/members': {
+      id: '/admin/members'
+      path: '/members'
+      fullPath: '/admin/members'
+      preLoaderRoute: typeof AdminMembersRouteImport
+      parentRoute: typeof AdminRoute
+    }
     '/admin/login': {
       id: '/admin/login'
-      path: '/admin/login'
+      path: '/login'
       fullPath: '/admin/login'
       preLoaderRoute: typeof AdminLoginRouteImport
-      parentRoute: typeof rootRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/cms': {
+      id: '/admin/cms'
+      path: '/cms'
+      fullPath: '/admin/cms'
+      preLoaderRoute: typeof AdminCmsRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/chats': {
+      id: '/admin/chats'
+      path: '/chats'
+      fullPath: '/admin/chats'
+      preLoaderRoute: typeof AdminChatsRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/calls': {
+      id: '/admin/calls'
+      path: '/calls'
+      fullPath: '/admin/calls'
+      preLoaderRoute: typeof AdminCallsRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/analytics': {
+      id: '/admin/analytics'
+      path: '/analytics'
+      fullPath: '/admin/analytics'
+      preLoaderRoute: typeof AdminAnalyticsRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/admins': {
+      id: '/admin/admins'
+      path: '/admins'
+      fullPath: '/admin/admins'
+      preLoaderRoute: typeof AdminAdminsRouteImport
+      parentRoute: typeof AdminRoute
     }
     '/app/profile/': {
       id: '/app/profile/'
@@ -571,6 +835,42 @@ declare module '@tanstack/react-router' {
     }
   }
 }
+
+interface AdminRouteChildren {
+  AdminAdminsRoute: typeof AdminAdminsRoute
+  AdminAnalyticsRoute: typeof AdminAnalyticsRoute
+  AdminCallsRoute: typeof AdminCallsRoute
+  AdminChatsRoute: typeof AdminChatsRoute
+  AdminCmsRoute: typeof AdminCmsRoute
+  AdminLoginRoute: typeof AdminLoginRoute
+  AdminMembersRoute: typeof AdminMembersRoute
+  AdminPaymentsRoute: typeof AdminPaymentsRoute
+  AdminPremiumRoute: typeof AdminPremiumRoute
+  AdminReportsRoute: typeof AdminReportsRoute
+  AdminSettingsRoute: typeof AdminSettingsRoute
+  AdminVerificationRoute: typeof AdminVerificationRoute
+  AdminWalisRoute: typeof AdminWalisRoute
+  AdminIndexRoute: typeof AdminIndexRoute
+}
+
+const AdminRouteChildren: AdminRouteChildren = {
+  AdminAdminsRoute: AdminAdminsRoute,
+  AdminAnalyticsRoute: AdminAnalyticsRoute,
+  AdminCallsRoute: AdminCallsRoute,
+  AdminChatsRoute: AdminChatsRoute,
+  AdminCmsRoute: AdminCmsRoute,
+  AdminLoginRoute: AdminLoginRoute,
+  AdminMembersRoute: AdminMembersRoute,
+  AdminPaymentsRoute: AdminPaymentsRoute,
+  AdminPremiumRoute: AdminPremiumRoute,
+  AdminReportsRoute: AdminReportsRoute,
+  AdminSettingsRoute: AdminSettingsRoute,
+  AdminVerificationRoute: AdminVerificationRoute,
+  AdminWalisRoute: AdminWalisRoute,
+  AdminIndexRoute: AdminIndexRoute,
+}
+
+const AdminRouteWithChildren = AdminRoute._addFileChildren(AdminRouteChildren)
 
 interface AppChatsRouteChildren {
   AppChatsIdRoute: typeof AppChatsIdRoute
@@ -658,10 +958,10 @@ const AuthRegisterRouteWithChildren = AuthRegisterRoute._addFileChildren(
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AdminRoute: AdminRouteWithChildren,
   AppRoute: AppRouteWithChildren,
   WaliRoute: WaliRouteWithChildren,
   WelcomeRoute: WelcomeRoute,
-  AdminLoginRoute: AdminLoginRoute,
   AuthLoginRoute: AuthLoginRoute,
   AuthRegisterRoute: AuthRegisterRouteWithChildren,
   OnboardingLanguageRoute: OnboardingLanguageRoute,
