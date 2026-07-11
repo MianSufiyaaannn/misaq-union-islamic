@@ -12,6 +12,7 @@ import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
 import logo from "../assets/misaq-logo.png.asset.json";
 import { MisaqProviders } from "@/components/misaq/providers";
+import { PreviewNav } from "@/components/misaq/preview-nav";
 
 function NotFoundComponent() {
   return (
@@ -85,7 +86,10 @@ function RootComponent() {
   return (
     <QueryClientProvider client={queryClient}>
       <MisaqProviders>
-        <Outlet />
+        <div className="md:pr-72">
+          <Outlet />
+        </div>
+        <PreviewNav />
       </MisaqProviders>
     </QueryClientProvider>
   );
