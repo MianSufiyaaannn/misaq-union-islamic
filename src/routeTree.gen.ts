@@ -238,9 +238,9 @@ const WaliChatsIdRoute = WaliChatsIdRouteImport.update({
   getParentRoute: () => WaliRoute,
 } as any)
 const AuthRegisterStepsRoute = AuthRegisterStepsRouteImport.update({
-  id: '/steps',
-  path: '/steps',
-  getParentRoute: () => AuthRegisterRoute,
+  id: '/auth/register/steps',
+  path: '/auth/register/steps',
+  getParentRoute: () => rootRouteImport,
 } as any)
 const AppProfileIdRoute = AppProfileIdRouteImport.update({
   id: '/profile/$id',
@@ -534,6 +534,7 @@ export interface RootRouteChildren {
   AuthLoginRoute: typeof AuthLoginRoute
   OnboardingLanguageRoute: typeof OnboardingLanguageRoute
   OnboardingThemeRoute: typeof OnboardingThemeRoute
+  AuthRegisterStepsRoute: typeof AuthRegisterStepsRoute
   AuthRegisterIndexRoute: typeof AuthRegisterIndexRoute
 }
 
@@ -800,10 +801,10 @@ declare module '@tanstack/react-router' {
     }
     '/auth/register/steps': {
       id: '/auth/register/steps'
-      path: '/steps'
+      path: '/auth/register/steps'
       fullPath: '/auth/register/steps'
       preLoaderRoute: typeof AuthRegisterStepsRouteImport
-      parentRoute: typeof AuthRegisterRoute
+      parentRoute: typeof rootRouteImport
     }
     '/app/profile/$id': {
       id: '/app/profile/$id'
@@ -933,18 +934,9 @@ const rootRouteChildren: RootRouteChildren = {
   AuthLoginRoute: AuthLoginRoute,
   OnboardingLanguageRoute: OnboardingLanguageRoute,
   OnboardingThemeRoute: OnboardingThemeRoute,
+  AuthRegisterStepsRoute: AuthRegisterStepsRoute,
   AuthRegisterIndexRoute: AuthRegisterIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
-
-import type { getRouter } from './router.tsx'
-import type { startInstance } from './start.ts'
-declare module '@tanstack/react-start' {
-  interface Register {
-    ssr: true
-    router: Awaited<ReturnType<typeof getRouter>>
-    config: Awaited<ReturnType<typeof startInstance.getOptions>>
-  }
-}
