@@ -9,7 +9,7 @@ export const Route = createFileRoute("/onboarding/language")({ component: LangPi
 const langs = [
   { code: "en" as const, name: "English", native: "English", sample: "Marriage in the light of the Sunnah." },
   { code: "ur" as const, name: "Urdu", native: "اُردُو", sample: "سنّت کی روشنی میں نکاح۔" },
-  { code: "ru" as const, name: "Roman Urdu", native: "Roman Urdu", sample: "Sunnah ki roshni mein nikah." },
+  { code: "ru" as const, name: "Roman Urdu", native: "Roman", sample: "Sunnah ki roshni mein nikah." },
 ];
 
 function LangPick() {
@@ -20,7 +20,7 @@ function LangPick() {
       <div className="flex min-h-full flex-col px-6 pb-10 pt-14">
         <Logo size={44} withWord />
         <div className="mt-10">
-          <p className="text-xs uppercase tracking-[0.3em] text-muted-foreground">Step 2 of 2</p>
+          <p className="text-xs uppercase tracking-[0.3em] text-muted-foreground">{t("lang.step")}</p>
           <h1 className="mt-2 font-display text-3xl leading-tight">{t("lang.title")}</h1>
           <p className="mt-2 text-sm text-muted-foreground">{t("lang.hint")}</p>
         </div>
@@ -29,13 +29,13 @@ function LangPick() {
           {langs.map((l) => {
             const active = lang === l.code;
             return (
-              <button key={l.code} onClick={() => setLang(l.code)} className={cn("flex items-center gap-4 rounded-2xl border p-4 text-left transition-all", active ? "border-primary bg-primary/5 shadow-soft" : "border-border hover:border-primary/40")}>
-                <div className={cn("flex h-12 w-12 items-center justify-center rounded-full font-display text-lg", active ? "bg-primary text-primary-foreground" : "bg-muted")}>{l.native.slice(0, 2)}</div>
-                <div className="flex-1">
-                  <p className="font-display text-lg leading-none">{l.name}</p>
-                  <p className="mt-1 text-xs text-muted-foreground">{l.sample}</p>
+              <button key={l.code} onClick={() => setLang(l.code)} className={cn("flex items-center gap-4 rounded-2xl border p-4 text-start transition-all", active ? "border-primary bg-primary/5 shadow-soft" : "border-border hover:border-primary/40")}>
+                <div className={cn("flex h-12 w-12 shrink-0 items-center justify-center rounded-full font-display text-lg", active ? "bg-primary text-primary-foreground" : "bg-muted")} dir="auto">{l.native.slice(0, 2)}</div>
+                <div className="min-w-0 flex-1">
+                  <p className="truncate font-display text-lg leading-none">{l.name}</p>
+                  <p className="mt-1 text-xs text-muted-foreground" dir="auto">{l.sample}</p>
                 </div>
-                <div className={cn("h-4 w-4 rounded-full border-2", active ? "border-primary bg-primary" : "border-border")} />
+                <div className={cn("h-4 w-4 shrink-0 rounded-full border-2", active ? "border-primary bg-primary" : "border-border")} />
               </button>
             );
           })}
