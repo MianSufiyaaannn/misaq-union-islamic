@@ -10,9 +10,14 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as WelcomeRouteImport } from './routes/welcome'
+import { Route as WaliRouteImport } from './routes/wali'
 import { Route as AppRouteImport } from './routes/app'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as WaliIndexRouteImport } from './routes/wali.index'
 import { Route as AppIndexRouteImport } from './routes/app.index'
+import { Route as WaliSettingsRouteImport } from './routes/wali.settings'
+import { Route as WaliProposalsRouteImport } from './routes/wali.proposals'
+import { Route as WaliChatsRouteImport } from './routes/wali.chats'
 import { Route as OnboardingThemeRouteImport } from './routes/onboarding.theme'
 import { Route as OnboardingLanguageRouteImport } from './routes/onboarding.language'
 import { Route as AuthRegisterRouteImport } from './routes/auth.register'
@@ -25,6 +30,8 @@ import { Route as AppDiscoverRouteImport } from './routes/app.discover'
 import { Route as AppChatsRouteImport } from './routes/app.chats'
 import { Route as AdminLoginRouteImport } from './routes/admin.login'
 import { Route as AppProfileIndexRouteImport } from './routes/app.profile.index'
+import { Route as WaliProfileIdRouteImport } from './routes/wali.profile.$id'
+import { Route as WaliChatsIdRouteImport } from './routes/wali.chats.$id'
 import { Route as AuthRegisterStepsRouteImport } from './routes/auth.register.steps'
 import { Route as AppProfileIdRouteImport } from './routes/app.profile.$id'
 import { Route as AppChatsIdRouteImport } from './routes/app.chats.$id'
@@ -34,6 +41,11 @@ import { Route as AppCallVideoRouteImport } from './routes/app.call.video'
 const WelcomeRoute = WelcomeRouteImport.update({
   id: '/welcome',
   path: '/welcome',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const WaliRoute = WaliRouteImport.update({
+  id: '/wali',
+  path: '/wali',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AppRoute = AppRouteImport.update({
@@ -46,10 +58,30 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const WaliIndexRoute = WaliIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => WaliRoute,
+} as any)
 const AppIndexRoute = AppIndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => AppRoute,
+} as any)
+const WaliSettingsRoute = WaliSettingsRouteImport.update({
+  id: '/settings',
+  path: '/settings',
+  getParentRoute: () => WaliRoute,
+} as any)
+const WaliProposalsRoute = WaliProposalsRouteImport.update({
+  id: '/proposals',
+  path: '/proposals',
+  getParentRoute: () => WaliRoute,
+} as any)
+const WaliChatsRoute = WaliChatsRouteImport.update({
+  id: '/chats',
+  path: '/chats',
+  getParentRoute: () => WaliRoute,
 } as any)
 const OnboardingThemeRoute = OnboardingThemeRouteImport.update({
   id: '/onboarding/theme',
@@ -111,6 +143,16 @@ const AppProfileIndexRoute = AppProfileIndexRouteImport.update({
   path: '/profile/',
   getParentRoute: () => AppRoute,
 } as any)
+const WaliProfileIdRoute = WaliProfileIdRouteImport.update({
+  id: '/profile/$id',
+  path: '/profile/$id',
+  getParentRoute: () => WaliRoute,
+} as any)
+const WaliChatsIdRoute = WaliChatsIdRouteImport.update({
+  id: '/$id',
+  path: '/$id',
+  getParentRoute: () => WaliChatsRoute,
+} as any)
 const AuthRegisterStepsRoute = AuthRegisterStepsRouteImport.update({
   id: '/steps',
   path: '/steps',
@@ -140,6 +182,7 @@ const AppCallVideoRoute = AppCallVideoRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/app': typeof AppRouteWithChildren
+  '/wali': typeof WaliRouteWithChildren
   '/welcome': typeof WelcomeRoute
   '/admin/login': typeof AdminLoginRoute
   '/app/chats': typeof AppChatsRouteWithChildren
@@ -152,12 +195,18 @@ export interface FileRoutesByFullPath {
   '/auth/register': typeof AuthRegisterRouteWithChildren
   '/onboarding/language': typeof OnboardingLanguageRoute
   '/onboarding/theme': typeof OnboardingThemeRoute
+  '/wali/chats': typeof WaliChatsRouteWithChildren
+  '/wali/proposals': typeof WaliProposalsRoute
+  '/wali/settings': typeof WaliSettingsRoute
   '/app/': typeof AppIndexRoute
+  '/wali/': typeof WaliIndexRoute
   '/app/call/video': typeof AppCallVideoRoute
   '/app/call/voice': typeof AppCallVoiceRoute
   '/app/chats/$id': typeof AppChatsIdRoute
   '/app/profile/$id': typeof AppProfileIdRoute
   '/auth/register/steps': typeof AuthRegisterStepsRoute
+  '/wali/chats/$id': typeof WaliChatsIdRoute
+  '/wali/profile/$id': typeof WaliProfileIdRoute
   '/app/profile/': typeof AppProfileIndexRoute
 }
 export interface FileRoutesByTo {
@@ -174,18 +223,25 @@ export interface FileRoutesByTo {
   '/auth/register': typeof AuthRegisterRouteWithChildren
   '/onboarding/language': typeof OnboardingLanguageRoute
   '/onboarding/theme': typeof OnboardingThemeRoute
+  '/wali/chats': typeof WaliChatsRouteWithChildren
+  '/wali/proposals': typeof WaliProposalsRoute
+  '/wali/settings': typeof WaliSettingsRoute
   '/app': typeof AppIndexRoute
+  '/wali': typeof WaliIndexRoute
   '/app/call/video': typeof AppCallVideoRoute
   '/app/call/voice': typeof AppCallVoiceRoute
   '/app/chats/$id': typeof AppChatsIdRoute
   '/app/profile/$id': typeof AppProfileIdRoute
   '/auth/register/steps': typeof AuthRegisterStepsRoute
+  '/wali/chats/$id': typeof WaliChatsIdRoute
+  '/wali/profile/$id': typeof WaliProfileIdRoute
   '/app/profile': typeof AppProfileIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/app': typeof AppRouteWithChildren
+  '/wali': typeof WaliRouteWithChildren
   '/welcome': typeof WelcomeRoute
   '/admin/login': typeof AdminLoginRoute
   '/app/chats': typeof AppChatsRouteWithChildren
@@ -198,12 +254,18 @@ export interface FileRoutesById {
   '/auth/register': typeof AuthRegisterRouteWithChildren
   '/onboarding/language': typeof OnboardingLanguageRoute
   '/onboarding/theme': typeof OnboardingThemeRoute
+  '/wali/chats': typeof WaliChatsRouteWithChildren
+  '/wali/proposals': typeof WaliProposalsRoute
+  '/wali/settings': typeof WaliSettingsRoute
   '/app/': typeof AppIndexRoute
+  '/wali/': typeof WaliIndexRoute
   '/app/call/video': typeof AppCallVideoRoute
   '/app/call/voice': typeof AppCallVoiceRoute
   '/app/chats/$id': typeof AppChatsIdRoute
   '/app/profile/$id': typeof AppProfileIdRoute
   '/auth/register/steps': typeof AuthRegisterStepsRoute
+  '/wali/chats/$id': typeof WaliChatsIdRoute
+  '/wali/profile/$id': typeof WaliProfileIdRoute
   '/app/profile/': typeof AppProfileIndexRoute
 }
 export interface FileRouteTypes {
@@ -211,6 +273,7 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/app'
+    | '/wali'
     | '/welcome'
     | '/admin/login'
     | '/app/chats'
@@ -223,12 +286,18 @@ export interface FileRouteTypes {
     | '/auth/register'
     | '/onboarding/language'
     | '/onboarding/theme'
+    | '/wali/chats'
+    | '/wali/proposals'
+    | '/wali/settings'
     | '/app/'
+    | '/wali/'
     | '/app/call/video'
     | '/app/call/voice'
     | '/app/chats/$id'
     | '/app/profile/$id'
     | '/auth/register/steps'
+    | '/wali/chats/$id'
+    | '/wali/profile/$id'
     | '/app/profile/'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -245,17 +314,24 @@ export interface FileRouteTypes {
     | '/auth/register'
     | '/onboarding/language'
     | '/onboarding/theme'
+    | '/wali/chats'
+    | '/wali/proposals'
+    | '/wali/settings'
     | '/app'
+    | '/wali'
     | '/app/call/video'
     | '/app/call/voice'
     | '/app/chats/$id'
     | '/app/profile/$id'
     | '/auth/register/steps'
+    | '/wali/chats/$id'
+    | '/wali/profile/$id'
     | '/app/profile'
   id:
     | '__root__'
     | '/'
     | '/app'
+    | '/wali'
     | '/welcome'
     | '/admin/login'
     | '/app/chats'
@@ -268,18 +344,25 @@ export interface FileRouteTypes {
     | '/auth/register'
     | '/onboarding/language'
     | '/onboarding/theme'
+    | '/wali/chats'
+    | '/wali/proposals'
+    | '/wali/settings'
     | '/app/'
+    | '/wali/'
     | '/app/call/video'
     | '/app/call/voice'
     | '/app/chats/$id'
     | '/app/profile/$id'
     | '/auth/register/steps'
+    | '/wali/chats/$id'
+    | '/wali/profile/$id'
     | '/app/profile/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AppRoute: typeof AppRouteWithChildren
+  WaliRoute: typeof WaliRouteWithChildren
   WelcomeRoute: typeof WelcomeRoute
   AdminLoginRoute: typeof AdminLoginRoute
   AuthLoginRoute: typeof AuthLoginRoute
@@ -297,6 +380,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof WelcomeRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/wali': {
+      id: '/wali'
+      path: '/wali'
+      fullPath: '/wali'
+      preLoaderRoute: typeof WaliRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/app': {
       id: '/app'
       path: '/app'
@@ -311,12 +401,40 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/wali/': {
+      id: '/wali/'
+      path: '/'
+      fullPath: '/wali/'
+      preLoaderRoute: typeof WaliIndexRouteImport
+      parentRoute: typeof WaliRoute
+    }
     '/app/': {
       id: '/app/'
       path: '/'
       fullPath: '/app/'
       preLoaderRoute: typeof AppIndexRouteImport
       parentRoute: typeof AppRoute
+    }
+    '/wali/settings': {
+      id: '/wali/settings'
+      path: '/settings'
+      fullPath: '/wali/settings'
+      preLoaderRoute: typeof WaliSettingsRouteImport
+      parentRoute: typeof WaliRoute
+    }
+    '/wali/proposals': {
+      id: '/wali/proposals'
+      path: '/proposals'
+      fullPath: '/wali/proposals'
+      preLoaderRoute: typeof WaliProposalsRouteImport
+      parentRoute: typeof WaliRoute
+    }
+    '/wali/chats': {
+      id: '/wali/chats'
+      path: '/chats'
+      fullPath: '/wali/chats'
+      preLoaderRoute: typeof WaliChatsRouteImport
+      parentRoute: typeof WaliRoute
     }
     '/onboarding/theme': {
       id: '/onboarding/theme'
@@ -402,6 +520,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppProfileIndexRouteImport
       parentRoute: typeof AppRoute
     }
+    '/wali/profile/$id': {
+      id: '/wali/profile/$id'
+      path: '/profile/$id'
+      fullPath: '/wali/profile/$id'
+      preLoaderRoute: typeof WaliProfileIdRouteImport
+      parentRoute: typeof WaliRoute
+    }
+    '/wali/chats/$id': {
+      id: '/wali/chats/$id'
+      path: '/$id'
+      fullPath: '/wali/chats/$id'
+      preLoaderRoute: typeof WaliChatsIdRouteImport
+      parentRoute: typeof WaliChatsRoute
+    }
     '/auth/register/steps': {
       id: '/auth/register/steps'
       path: '/steps'
@@ -482,6 +614,36 @@ const AppRouteChildren: AppRouteChildren = {
 
 const AppRouteWithChildren = AppRoute._addFileChildren(AppRouteChildren)
 
+interface WaliChatsRouteChildren {
+  WaliChatsIdRoute: typeof WaliChatsIdRoute
+}
+
+const WaliChatsRouteChildren: WaliChatsRouteChildren = {
+  WaliChatsIdRoute: WaliChatsIdRoute,
+}
+
+const WaliChatsRouteWithChildren = WaliChatsRoute._addFileChildren(
+  WaliChatsRouteChildren,
+)
+
+interface WaliRouteChildren {
+  WaliChatsRoute: typeof WaliChatsRouteWithChildren
+  WaliProposalsRoute: typeof WaliProposalsRoute
+  WaliSettingsRoute: typeof WaliSettingsRoute
+  WaliIndexRoute: typeof WaliIndexRoute
+  WaliProfileIdRoute: typeof WaliProfileIdRoute
+}
+
+const WaliRouteChildren: WaliRouteChildren = {
+  WaliChatsRoute: WaliChatsRouteWithChildren,
+  WaliProposalsRoute: WaliProposalsRoute,
+  WaliSettingsRoute: WaliSettingsRoute,
+  WaliIndexRoute: WaliIndexRoute,
+  WaliProfileIdRoute: WaliProfileIdRoute,
+}
+
+const WaliRouteWithChildren = WaliRoute._addFileChildren(WaliRouteChildren)
+
 interface AuthRegisterRouteChildren {
   AuthRegisterStepsRoute: typeof AuthRegisterStepsRoute
 }
@@ -497,6 +659,7 @@ const AuthRegisterRouteWithChildren = AuthRegisterRoute._addFileChildren(
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AppRoute: AppRouteWithChildren,
+  WaliRoute: WaliRouteWithChildren,
   WelcomeRoute: WelcomeRoute,
   AdminLoginRoute: AdminLoginRoute,
   AuthLoginRoute: AuthLoginRoute,
