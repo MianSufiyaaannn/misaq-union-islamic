@@ -4,7 +4,7 @@ import { TopBar } from "@/components/misaq/top-bar";
 import { Heart, ShieldCheck } from "lucide-react";
 import { useT } from "@/components/misaq/providers";
 
-export const Route = createFileRoute("/auth/register")({ component: Register });
+export const Route = createFileRoute("/auth/register/")({ component: Register });
 
 function Register() {
   const t = useT();
