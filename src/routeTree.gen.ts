@@ -9,38 +9,139 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as WelcomeRouteImport } from './routes/welcome'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as OnboardingThemeRouteImport } from './routes/onboarding.theme'
+import { Route as OnboardingLanguageRouteImport } from './routes/onboarding.language'
+import { Route as AuthRegisterRouteImport } from './routes/auth.register'
+import { Route as AuthLoginRouteImport } from './routes/auth.login'
+import { Route as AdminLoginRouteImport } from './routes/admin.login'
+import { Route as AuthRegisterStepsRouteImport } from './routes/auth.register.steps'
 
+const WelcomeRoute = WelcomeRouteImport.update({
+  id: '/welcome',
+  path: '/welcome',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const OnboardingThemeRoute = OnboardingThemeRouteImport.update({
+  id: '/onboarding/theme',
+  path: '/onboarding/theme',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const OnboardingLanguageRoute = OnboardingLanguageRouteImport.update({
+  id: '/onboarding/language',
+  path: '/onboarding/language',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AuthRegisterRoute = AuthRegisterRouteImport.update({
+  id: '/auth/register',
+  path: '/auth/register',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AuthLoginRoute = AuthLoginRouteImport.update({
+  id: '/auth/login',
+  path: '/auth/login',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminLoginRoute = AdminLoginRouteImport.update({
+  id: '/admin/login',
+  path: '/admin/login',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AuthRegisterStepsRoute = AuthRegisterStepsRouteImport.update({
+  id: '/steps',
+  path: '/steps',
+  getParentRoute: () => AuthRegisterRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/welcome': typeof WelcomeRoute
+  '/admin/login': typeof AdminLoginRoute
+  '/auth/login': typeof AuthLoginRoute
+  '/auth/register': typeof AuthRegisterRouteWithChildren
+  '/onboarding/language': typeof OnboardingLanguageRoute
+  '/onboarding/theme': typeof OnboardingThemeRoute
+  '/auth/register/steps': typeof AuthRegisterStepsRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/welcome': typeof WelcomeRoute
+  '/admin/login': typeof AdminLoginRoute
+  '/auth/login': typeof AuthLoginRoute
+  '/auth/register': typeof AuthRegisterRouteWithChildren
+  '/onboarding/language': typeof OnboardingLanguageRoute
+  '/onboarding/theme': typeof OnboardingThemeRoute
+  '/auth/register/steps': typeof AuthRegisterStepsRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/welcome': typeof WelcomeRoute
+  '/admin/login': typeof AdminLoginRoute
+  '/auth/login': typeof AuthLoginRoute
+  '/auth/register': typeof AuthRegisterRouteWithChildren
+  '/onboarding/language': typeof OnboardingLanguageRoute
+  '/onboarding/theme': typeof OnboardingThemeRoute
+  '/auth/register/steps': typeof AuthRegisterStepsRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths:
+    | '/'
+    | '/welcome'
+    | '/admin/login'
+    | '/auth/login'
+    | '/auth/register'
+    | '/onboarding/language'
+    | '/onboarding/theme'
+    | '/auth/register/steps'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to:
+    | '/'
+    | '/welcome'
+    | '/admin/login'
+    | '/auth/login'
+    | '/auth/register'
+    | '/onboarding/language'
+    | '/onboarding/theme'
+    | '/auth/register/steps'
+  id:
+    | '__root__'
+    | '/'
+    | '/welcome'
+    | '/admin/login'
+    | '/auth/login'
+    | '/auth/register'
+    | '/onboarding/language'
+    | '/onboarding/theme'
+    | '/auth/register/steps'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  WelcomeRoute: typeof WelcomeRoute
+  AdminLoginRoute: typeof AdminLoginRoute
+  AuthLoginRoute: typeof AuthLoginRoute
+  AuthRegisterRoute: typeof AuthRegisterRouteWithChildren
+  OnboardingLanguageRoute: typeof OnboardingLanguageRoute
+  OnboardingThemeRoute: typeof OnboardingThemeRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/welcome': {
+      id: '/welcome'
+      path: '/welcome'
+      fullPath: '/welcome'
+      preLoaderRoute: typeof WelcomeRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
@@ -48,11 +149,71 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/onboarding/theme': {
+      id: '/onboarding/theme'
+      path: '/onboarding/theme'
+      fullPath: '/onboarding/theme'
+      preLoaderRoute: typeof OnboardingThemeRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/onboarding/language': {
+      id: '/onboarding/language'
+      path: '/onboarding/language'
+      fullPath: '/onboarding/language'
+      preLoaderRoute: typeof OnboardingLanguageRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/auth/register': {
+      id: '/auth/register'
+      path: '/auth/register'
+      fullPath: '/auth/register'
+      preLoaderRoute: typeof AuthRegisterRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/auth/login': {
+      id: '/auth/login'
+      path: '/auth/login'
+      fullPath: '/auth/login'
+      preLoaderRoute: typeof AuthLoginRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin/login': {
+      id: '/admin/login'
+      path: '/admin/login'
+      fullPath: '/admin/login'
+      preLoaderRoute: typeof AdminLoginRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/auth/register/steps': {
+      id: '/auth/register/steps'
+      path: '/steps'
+      fullPath: '/auth/register/steps'
+      preLoaderRoute: typeof AuthRegisterStepsRouteImport
+      parentRoute: typeof AuthRegisterRoute
+    }
   }
 }
 
+interface AuthRegisterRouteChildren {
+  AuthRegisterStepsRoute: typeof AuthRegisterStepsRoute
+}
+
+const AuthRegisterRouteChildren: AuthRegisterRouteChildren = {
+  AuthRegisterStepsRoute: AuthRegisterStepsRoute,
+}
+
+const AuthRegisterRouteWithChildren = AuthRegisterRoute._addFileChildren(
+  AuthRegisterRouteChildren,
+)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  WelcomeRoute: WelcomeRoute,
+  AdminLoginRoute: AdminLoginRoute,
+  AuthLoginRoute: AuthLoginRoute,
+  AuthRegisterRoute: AuthRegisterRouteWithChildren,
+  OnboardingLanguageRoute: OnboardingLanguageRoute,
+  OnboardingThemeRoute: OnboardingThemeRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
