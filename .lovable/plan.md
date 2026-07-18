@@ -1,4 +1,3 @@
-
 # Misaq — Premium Islamic Matrimonial App (UI/UX Only)
 
 A mobile-first, design-only prototype rendered inside a phone-frame preview on desktop. No backend, no auth logic, no DB — all data is static/mock so every screen is fully browsable.
@@ -27,6 +26,7 @@ Since Misaq is a **mobile app**, the desktop preview renders each route inside a
 Each is a fully designed static screen with mock data.
 
 **Onboarding & Auth**
+
 - `/` — Splash (logo animation → auto-advances visually)
 - `/onboarding/theme` — Light / Dark chooser
 - `/onboarding/language` — English / Urdu / Roman Urdu
@@ -36,6 +36,7 @@ Each is a fully designed static screen with mock data.
 - `/auth/register/steps` — Multi-step wizard (Personal → Education → Religious → Dowry → Family → Wali Info) with progress bar, all predefined chips/selects
 
 **Member App (bottom nav: Home, Discover, Matches, Chats, Profile)**
+
 - `/app` — Home: greeting, prayer time strip, featured matches, proposals summary
 - `/app/discover` — Swipe-free premium card stack + filters bottom sheet
 - `/app/matches` — Received / Sent / Accepted tabs
@@ -50,6 +51,7 @@ Each is a fully designed static screen with mock data.
 - `/app/settings` — Account, Privacy, Security, Notifications, Language, Theme, Premium, Help, About, Terms, Privacy, Logout
 
 **Wali Dashboard**
+
 - `/wali` — Linked member overview
 - `/wali/proposals`
 - `/wali/chats` — Monitoring list with Block / Delete / Report
@@ -58,6 +60,7 @@ Each is a fully designed static screen with mock data.
 - `/wali/settings`
 
 **Admin**
+
 - `/admin/login` — dedicated
 - `/admin` — Dashboard (KPIs, charts)
 - `/admin/members`, `/admin/walis`, `/admin/verification`, `/admin/reports`, `/admin/chats`, `/admin/calls`, `/admin/payments`, `/admin/premium`, `/admin/analytics`, `/admin/admins`, `/admin/cms`, `/admin/settings`

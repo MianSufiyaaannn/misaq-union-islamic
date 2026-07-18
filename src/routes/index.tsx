@@ -14,11 +14,21 @@ function Splash() {
   }, [navigate]);
 
   return (
-    <div className="relative flex min-h-screen items-center justify-center overflow-hidden bg-gradient-royal text-white" style={{ paddingTop: "env(safe-area-inset-top)", paddingBottom: "env(safe-area-inset-bottom)" }}>
-      <div className="pointer-events-none absolute inset-0 opacity-[0.08]" style={{
-        backgroundImage: "radial-gradient(circle at 20% 20%, #fff 1px, transparent 1px), radial-gradient(circle at 80% 60%, #fff 1px, transparent 1px)",
-        backgroundSize: "40px 40px, 60px 60px",
-      }} />
+    <div
+      className="relative flex min-h-screen items-center justify-center overflow-hidden bg-gradient-royal text-white"
+      style={{
+        paddingTop: "env(safe-area-inset-top)",
+        paddingBottom: "env(safe-area-inset-bottom)",
+      }}
+    >
+      <div
+        className="pointer-events-none absolute inset-0 opacity-[0.08]"
+        style={{
+          backgroundImage:
+            "radial-gradient(circle at 20% 20%, #fff 1px, transparent 1px), radial-gradient(circle at 80% 60%, #fff 1px, transparent 1px)",
+          backgroundSize: "40px 40px, 60px 60px",
+        }}
+      />
       <div className="relative flex flex-col items-center gap-8 animate-fade-up">
         <div className="relative">
           <div className="absolute inset-0 rounded-full animate-pulse-ring" />
@@ -33,7 +43,12 @@ function Splash() {
             {t("splash.tagline")}
           </p>
         </div>
-        <Link to="/onboarding/theme" className="mt-6 text-xs uppercase tracking-[0.3em] text-white/70 underline underline-offset-4">{t("splash.skip")}</Link>
+        <Link
+          to="/onboarding/theme"
+          className="mt-6 text-xs uppercase tracking-[0.3em] text-white/70 underline underline-offset-4"
+        >
+          {t("splash.skip")}
+        </Link>
       </div>
     </div>
   );

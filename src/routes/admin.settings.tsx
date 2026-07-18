@@ -7,15 +7,36 @@ export const Route = createFileRoute("/admin/settings")({ component: AdminSettin
 function AdminSettings() {
   const t = useT();
   const groups = [
-    { t: t("admin.set.platform"), i: ["admin.set.p.branding", "admin.set.p.onboarding", "admin.set.p.algo", "admin.set.p.langs"] },
-    { t: t("admin.set.security"), i: ["admin.set.s.pw", "admin.set.s.2fa", "admin.set.s.sess", "admin.set.s.audit"] },
-    { t: t("admin.set.compliance"), i: ["admin.set.c.retention", "admin.set.c.forgotten", "admin.set.c.export", "admin.set.c.laws"] },
+    {
+      t: t("admin.set.platform"),
+      i: [
+        "admin.set.p.branding",
+        "admin.set.p.onboarding",
+        "admin.set.p.algo",
+        "admin.set.p.langs",
+      ],
+    },
+    {
+      t: t("admin.set.security"),
+      i: ["admin.set.s.pw", "admin.set.s.2fa", "admin.set.s.sess", "admin.set.s.audit"],
+    },
+    {
+      t: t("admin.set.compliance"),
+      i: [
+        "admin.set.c.retention",
+        "admin.set.c.forgotten",
+        "admin.set.c.export",
+        "admin.set.c.laws",
+      ],
+    },
   ];
   return (
     <div className="p-4 pb-8 space-y-4">
       {groups.map((g) => (
         <div key={g.t}>
-          <p className="mb-2 px-2 text-[10px] uppercase tracking-widest text-muted-foreground">{g.t}</p>
+          <p className="mb-2 px-2 text-[10px] uppercase tracking-widest text-muted-foreground">
+            {g.t}
+          </p>
           <ul className="divide-y divide-border overflow-hidden rounded-2xl border border-border bg-card">
             {g.i.map((k) => (
               <li key={k} className="flex items-center px-4 py-3 text-sm">

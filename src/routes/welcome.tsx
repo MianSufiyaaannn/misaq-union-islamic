@@ -24,11 +24,18 @@ function Welcome() {
         </div>
 
         <div className="flex-1 px-6 pt-6">
-          <div className="ornament mb-4 text-[11px] uppercase tracking-[0.25em]"><span>بِسْمِ ٱللَّٰهِ</span></div>
+          <div className="ornament mb-4 text-[11px] uppercase tracking-[0.25em]">
+            <span>بِسْمِ ٱللَّٰهِ</span>
+          </div>
           <div className="grid gap-3">
             {pillars.map((p) => (
-              <div key={p.title} className="flex gap-4 rounded-2xl border border-border bg-card p-4">
-                <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-primary/10 text-primary"><p.icon className="h-5 w-5" /></div>
+              <div
+                key={p.title}
+                className="flex gap-4 rounded-2xl border border-border bg-card p-4"
+              >
+                <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-primary/10 text-primary">
+                  <p.icon className="h-5 w-5" />
+                </div>
                 <div className="min-w-0">
                   <p className="truncate font-display text-lg leading-none">{p.title}</p>
                   <p className="mt-1 text-xs text-muted-foreground">{p.desc}</p>
@@ -39,8 +46,18 @@ function Welcome() {
         </div>
 
         <div className="grid gap-3 px-6 pb-10 pt-4">
-          <Link to="/auth/register" className="w-full rounded-full bg-primary py-4 text-center font-medium text-primary-foreground shadow-elegant">{t("welcome.create")}</Link>
-          <Link to="/auth/login" className="w-full rounded-full border border-border py-4 text-center font-medium">{t("welcome.have")}</Link>
+          <Link
+            to="/auth/register"
+            className="w-full rounded-full bg-primary py-4 text-center font-medium text-primary-foreground shadow-elegant"
+          >
+            {t("welcome.create")}
+          </Link>
+          <Link
+            to="/auth/login"
+            className="w-full rounded-full border border-border py-4 text-center font-medium"
+          >
+            {t("welcome.have")}
+          </Link>
         </div>
       </div>
     </PhoneFrame>

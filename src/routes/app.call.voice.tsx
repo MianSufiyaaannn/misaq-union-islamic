@@ -13,7 +13,9 @@ function VoiceCall() {
   return (
     <div className="flex min-h-full flex-col bg-gradient-royal text-white">
       <div className="flex flex-1 flex-col items-center justify-center gap-6 px-6 text-center">
-        <p className="text-xs uppercase tracking-[0.3em] text-white/60">{t("call.voice")} · {t("chats.online")}</p>
+        <p className="text-xs uppercase tracking-[0.3em] text-white/60">
+          {t("call.voice")} · {t("chats.online")}
+        </p>
         <div className="relative">
           <span className="absolute inset-0 rounded-full animate-pulse-ring" />
           <Avatar person={p} size={160} />
@@ -28,17 +30,31 @@ function VoiceCall() {
         <CallBtn icon={<Volume2 className="h-5 w-5" />} label={t("call.speaker")} active />
         <CallBtn icon={<Video className="h-5 w-5" />} label={t("call.video")} />
         <button onClick={() => router.history.back()} className="flex flex-col items-center gap-2">
-          <span className="flex h-14 w-14 items-center justify-center rounded-full bg-destructive text-destructive-foreground shadow-luxury"><PhoneOff className="h-5 w-5" /></span>
+          <span className="flex h-14 w-14 items-center justify-center rounded-full bg-destructive text-destructive-foreground shadow-luxury">
+            <PhoneOff className="h-5 w-5" />
+          </span>
           <span className="text-[10px]">{t("call.end")}</span>
         </button>
       </div>
     </div>
   );
 }
-function CallBtn({ icon, label, active }: { icon: React.ReactNode; label: string; active?: boolean }) {
+function CallBtn({
+  icon,
+  label,
+  active,
+}: {
+  icon: React.ReactNode;
+  label: string;
+  active?: boolean;
+}) {
   return (
     <button className="flex flex-col items-center gap-2">
-      <span className={`flex h-14 w-14 items-center justify-center rounded-full ${active ? "bg-white text-primary" : "bg-white/10 text-white"}`}>{icon}</span>
+      <span
+        className={`flex h-14 w-14 items-center justify-center rounded-full ${active ? "bg-white text-primary" : "bg-white/10 text-white"}`}
+      >
+        {icon}
+      </span>
       <span className="text-[10px]">{label}</span>
     </button>
   );

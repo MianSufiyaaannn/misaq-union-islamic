@@ -18,8 +18,13 @@ function VideoCall() {
           <ShieldCheck className="h-3.5 w-3.5 text-[color:var(--color-gold)]" /> {t("chats.online")}
         </div>
 
-        <div className="absolute end-5 top-16 h-40 w-28 overflow-hidden rounded-2xl border border-white/30 shadow-luxury" style={{ background: meMember.avatar }}>
-          <div className="flex h-full items-center justify-center"><Avatar person={meMember} size={54} /></div>
+        <div
+          className="absolute end-5 top-16 h-40 w-28 overflow-hidden rounded-2xl border border-white/30 shadow-luxury"
+          style={{ background: meMember.avatar }}
+        >
+          <div className="flex h-full items-center justify-center">
+            <Avatar person={meMember} size={54} />
+          </div>
         </div>
 
         <div className="mt-auto text-center">
@@ -28,14 +33,25 @@ function VideoCall() {
         </div>
 
         <div className="mt-6 grid grid-cols-4 gap-3">
-          {[{ i: MicOff, l: t("call.mute") }, { i: VideoOff, l: t("call.video") }, { i: SwitchCamera, l: t("call.flip") }].map((b) => (
+          {[
+            { i: MicOff, l: t("call.mute") },
+            { i: VideoOff, l: t("call.video") },
+            { i: SwitchCamera, l: t("call.flip") },
+          ].map((b) => (
             <button key={b.l} className="flex flex-col items-center gap-2">
-              <span className="flex h-14 w-14 items-center justify-center rounded-full bg-white/10 backdrop-blur"><b.i className="h-5 w-5" /></span>
+              <span className="flex h-14 w-14 items-center justify-center rounded-full bg-white/10 backdrop-blur">
+                <b.i className="h-5 w-5" />
+              </span>
               <span className="text-[10px]">{b.l}</span>
             </button>
           ))}
-          <button onClick={() => router.history.back()} className="flex flex-col items-center gap-2">
-            <span className="flex h-14 w-14 items-center justify-center rounded-full bg-destructive shadow-luxury"><PhoneOff className="h-5 w-5" /></span>
+          <button
+            onClick={() => router.history.back()}
+            className="flex flex-col items-center gap-2"
+          >
+            <span className="flex h-14 w-14 items-center justify-center rounded-full bg-destructive shadow-luxury">
+              <PhoneOff className="h-5 w-5" />
+            </span>
             <span className="text-[10px]">{t("call.end")}</span>
           </button>
         </div>

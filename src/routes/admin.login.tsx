@@ -4,7 +4,7 @@ import { PhoneFrame } from "@/components/misaq/phone-frame";
 import { ShieldAlert, Lock, Mail, ArrowLeft, Loader2 } from "lucide-react";
 import { useT } from "@/components/misaq/providers";
 import { Logo } from "@/components/misaq/logo";
-import { setAdminAuth, isAdminAuthed } from "@/lib/admin-auth";
+import { setAdminAuth, isAdminAuthed, clearAdminAuth } from "@/lib/admin-auth";
 
 export const Route = createFileRoute("/admin/login")({ component: AdminLogin });
 
@@ -99,7 +99,9 @@ function AdminLogin() {
             />
 
             {error && (
-              <p className="rounded-xl bg-destructive/10 px-3 py-2 text-xs text-destructive">{error}</p>
+              <p className="rounded-xl bg-destructive/10 px-3 py-2 text-xs text-destructive">
+                {error}
+              </p>
             )}
 
             <div className="flex items-center justify-end">
@@ -118,22 +120,36 @@ function AdminLogin() {
             </button>
           </form>
 
-          <Link to="/auth/login" className="mt-auto pt-10 text-center text-xs text-muted-foreground">
+          <button
+            type="button"
+            onClick={() => {
+              clearAdminAuth();
+              navigate({ to: "/auth/login" });
+            }}
+            className="mt-auto pt-10 text-center text-xs text-muted-foreground hover:text-primary focus:text-primary active:text-primary/80 transition-colors focus:outline-none cursor-pointer"
+          >
             {t("admin.login.back")}
-          </Link>
+          </button>
         </div>
       </div>
     </PhoneFrame>
   );
 }
 
-function Field({ label, icon, ...rest }: { label: string; icon: React.ReactNode } & React.InputHTMLAttributes<HTMLInputElement>) {
+function Field({
+  label,
+  icon,
+  ...rest
+}: { label: string; icon: React.ReactNode } & React.InputHTMLAttributes<HTMLInputElement>) {
   return (
     <label className="block">
       <span className="mb-1.5 block text-xs font-medium text-muted-foreground">{label}</span>
       <span className="flex items-center gap-3 rounded-2xl border border-input bg-surface px-4 py-3 focus-within:border-primary">
         <span className="shrink-0 text-muted-foreground">{icon}</span>
-        <input {...rest} className="min-w-0 flex-1 bg-transparent text-sm outline-none placeholder:text-muted-foreground/60" />
+        <input
+          {...rest}
+          className="min-w-0 flex-1 bg-transparent text-sm outline-none placeholder:text-muted-foreground/60"
+        />
       </span>
     </label>
   );

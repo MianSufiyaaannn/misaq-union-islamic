@@ -29,7 +29,12 @@ export function BottomNav() {
                   active ? "text-primary" : "text-muted-foreground hover:text-foreground",
                 )}
               >
-                <span className={cn("flex h-8 w-8 items-center justify-center rounded-full transition-all", active && "bg-primary/10")}>
+                <span
+                  className={cn(
+                    "flex h-8 w-8 items-center justify-center rounded-full transition-all",
+                    active && "bg-primary/10",
+                  )}
+                >
                   <Icon className="h-[18px] w-[18px]" strokeWidth={active ? 2.4 : 1.8} />
                 </span>
                 {t(it.key)}

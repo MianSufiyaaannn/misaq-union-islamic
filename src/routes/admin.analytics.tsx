@@ -27,9 +27,12 @@ function AdminAnalytics() {
           {countries.map((r) => (
             <li key={r.c}>
               <div className="flex justify-between text-xs">
-                <span className="truncate">{r.c}</span><span className="font-medium shrink-0">{r.n}</span>
+                <span className="truncate">{r.c}</span>
+                <span className="font-medium shrink-0">{r.n}</span>
               </div>
-              <div className="mt-1 h-1.5 rounded-full bg-muted"><div className="h-full rounded-full bg-primary" style={{ width: `${r.p}%` }} /></div>
+              <div className="mt-1 h-1.5 rounded-full bg-muted">
+                <div className="h-full rounded-full bg-primary" style={{ width: `${r.p}%` }} />
+              </div>
             </li>
           ))}
         </ul>
@@ -38,5 +41,11 @@ function AdminAnalytics() {
   );
 }
 function Card({ l, v, d }: { l: string; v: string; d: string }) {
-  return <div className="rounded-2xl border border-border bg-card p-3"><p className="truncate text-[10px] uppercase text-muted-foreground">{l}</p><p className="font-display text-xl">{v}</p><p className="text-[10px] text-primary">{d}</p></div>;
+  return (
+    <div className="rounded-2xl border border-border bg-card p-3">
+      <p className="truncate text-[10px] uppercase text-muted-foreground">{l}</p>
+      <p className="font-display text-xl">{v}</p>
+      <p className="text-[10px] text-primary">{d}</p>
+    </div>
+  );
 }
