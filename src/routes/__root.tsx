@@ -136,6 +136,30 @@ function RootShell({ children }: { children: ReactNode }) {
     }
   }, []);
 
+  useEffect(() => {
+    // Programmatically prevent double-tap zoom
+    let lastTouch = 0;
+    const handleTouchStart = (e: TouchEvent) => {
+      const now = Date.now();
+      if (now - lastTouch <= 300) {
+        e.preventDefault();
+      }
+      lastTouch = now;
+    };
+    document.addEventListener("touchstart", handleTouchStart, { passive: false });
+
+    // Programmatically prevent pinch-to-zoom
+    const handleGestureStart = (e: Event) => {
+      e.preventDefault();
+    };
+    document.addEventListener("gesturestart", handleGestureStart);
+
+    return () => {
+      document.removeEventListener("touchstart", handleTouchStart);
+      document.removeEventListener("gesturestart", handleGestureStart);
+    };
+  }, []);
+
   return (
     <html lang="en">
       <head>
