@@ -13,6 +13,31 @@ import { reportLovableError } from "../lib/lovable-error-reporting";
 import logo from "../assets/misaq-logo.png.asset.json";
 import { MisaqProviders } from "@/components/misaq/providers";
 import { Toaster } from "@/components/ui/sonner";
+import { useCmsConfig } from "@/lib/cms-config";
+
+function CmsStyleInjector() {
+  const [config] = useCmsConfig();
+  
+  useEffect(() => {
+    let styleEl = document.getElementById("cms-theme-colors") as HTMLStyleElement;
+    if (!styleEl) {
+      styleEl = document.createElement("style");
+      styleEl.id = "cms-theme-colors";
+      document.head.appendChild(styleEl);
+    }
+    
+    styleEl.innerHTML = `
+      :root {
+        --primary: ${config.primaryColor} !important;
+        --secondary: ${config.secondaryColor} !important;
+        --accent: ${config.accentColor} !important;
+        --ring: ${config.primaryColor} !important;
+      }
+    `;
+  }, [config.primaryColor, config.secondaryColor, config.accentColor]);
+
+  return null;
+}
 
 function NotFoundComponent() {
   return (
@@ -129,6 +154,7 @@ function RootComponent() {
   return (
     <QueryClientProvider client={queryClient}>
       <MisaqProviders>
+        <CmsStyleInjector />
         <Outlet />
         <Toaster />
       </MisaqProviders>

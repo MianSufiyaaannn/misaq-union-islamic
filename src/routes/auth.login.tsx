@@ -5,10 +5,13 @@ import { TopBar } from "@/components/misaq/top-bar";
 import { Mail, Lock } from "lucide-react";
 import { useT } from "@/components/misaq/providers";
 
+import { useCmsConfig } from "@/lib/cms-config";
+
 export const Route = createFileRoute("/auth/login")({ component: Login });
 
 function Login() {
   const t = useT();
+  const [config] = useCmsConfig();
   return (
     <PhoneFrame>
       <TopBar back={false} />
@@ -19,7 +22,7 @@ function Login() {
         <Logo size={40} withWord />
         <div className="mt-10">
           <h1 className="font-display text-3xl">{t("auth.login.title")}</h1>
-          <p className="mt-2 text-sm text-muted-foreground">{t("auth.login.subtitle")}</p>
+          <p className="mt-2 text-sm text-muted-foreground">{config.loginScreenText || t("auth.login.subtitle")}</p>
         </div>
 
         <form className="mt-8 space-y-4" onSubmit={(e) => e.preventDefault()}>

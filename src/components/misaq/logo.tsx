@@ -2,6 +2,7 @@ import logo from "@/assets/misaq-logo.png.asset.json";
 import { cn } from "@/lib/utils";
 import { useState } from "react";
 import { toast } from "sonner";
+import { useCmsConfig } from "@/lib/cms-config";
 
 export function Logo({
   size = 48,
@@ -12,6 +13,7 @@ export function Logo({
   withWord?: boolean;
   tone?: "default" | "light";
 }) {
+  const [config] = useCmsConfig();
   const [clicks, setClicks] = useState(0);
 
   const handleClick = () => {
@@ -33,8 +35,8 @@ export function Logo({
   return (
     <div className="flex items-center gap-3 cursor-pointer" onClick={handleClick}>
       <img
-        src={logo.url}
-        alt="Misaq"
+        src={config.logoUrl || logo.url}
+        alt={config.appName}
         width={size}
         height={size}
         className="rounded-full object-cover"
@@ -48,7 +50,7 @@ export function Logo({
               tone === "light" ? "text-white" : "text-primary",
             )}
           >
-            Misaq
+            {config.appName}
           </span>
           <span
             className={cn(
@@ -56,7 +58,7 @@ export function Logo({
               tone === "light" ? "text-white/70" : "text-muted-foreground",
             )}
           >
-            مِیثاق
+            {config.appNameArabic}
           </span>
         </div>
       )}

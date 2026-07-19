@@ -16,6 +16,7 @@ import {
   calculateCompatibility,
 } from "@/lib/mock";
 import { CompatibilityRing, VerifiedBadge, PremiumBadge, PhotoBg } from "@/components/misaq/bits";
+import { useCmsConfig } from "@/lib/cms-config";
 import {
   SlidersHorizontal,
   MapPin,
@@ -190,6 +191,7 @@ function Discover() {
   const [peopleList] = usePeople();
   const [proposals, updateProposals] = useProposals();
   const [me] = useMe();
+  const [config] = useCmsConfig();
   const [chats] = useChats();
   const [photoRequests, setPhotoRequests] = useState(() => getPhotoRequests());
 
@@ -226,7 +228,7 @@ function Discover() {
   const [nextMatchAvailableAt, setNextMatchAvailableAt] = useNextMatchAvailableAt();
   const [tempProcessedIds, setTempProcessedIds] = useState<string[]>([]);
 
-  const COUNTDOWN_SECONDS = 20;
+  const COUNTDOWN_SECONDS = config.matchDelay;
   const [countdown, setCountdown] = useState<number>(() =>
     nextMatchAvailableAt ? Math.max(0, Math.ceil((nextMatchAvailableAt - Date.now()) / 1000)) : 0,
   );

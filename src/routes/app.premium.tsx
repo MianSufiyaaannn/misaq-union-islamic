@@ -4,6 +4,7 @@ import { cn } from "@/lib/utils";
 import { Check, ShieldAlert, Sparkles, CreditCard, Lock } from "lucide-react";
 import { useT } from "@/components/misaq/providers";
 import { useMe, useChats } from "@/lib/mock";
+import { useCmsConfig } from "@/lib/cms-config";
 import { useState, useEffect } from "react";
 import { toast } from "sonner";
 import {
@@ -28,6 +29,7 @@ function Premium() {
   const navigate = useNavigate();
   const [me, updateMe] = useMe();
   const [chats, updateChats] = useChats();
+  const [config] = useCmsConfig();
   const [payOpen, setPayOpen] = useState(false);
   const [cardNumber, setCardNumber] = useState("");
   const [cardExpiry, setCardExpiry] = useState("");
@@ -50,6 +52,11 @@ function Premium() {
 
   // Rule: Hide subscription page and redirect if not eligible or if female
   useEffect(() => {
+    if (!config.premiumEnabled) {
+      navigate({ to: "/app" });
+      toast.error("Premium options are currently disabled by the administration.");
+      return;
+    }
     if (me.gender === "female") {
       navigate({ to: "/app" });
       toast.error("Access Restricted: Subscription options are only available for the groom.");
@@ -61,7 +68,7 @@ function Premium() {
         "Misaq Premium is not accessible until your match's Wali approves your Final Proposal.",
       );
     }
-  }, [isEligible, me.gender, isPremiumUnlockedForThisChat, navigate]);
+  }, [isEligible, me.gender, isPremiumUnlockedForThisChat, navigate, config.premiumEnabled]);
 
   const handlePurchaseSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -114,7 +121,9 @@ function Premium() {
           <p className="text-[11px] uppercase tracking-[0.35em] text-[color:var(--color-gold)]">
             Premium Matrimonial Upgrade
           </p>
-          <h1 className="mt-2 font-display text-3xl leading-tight">Unlock Matrimonial Success</h1>
+          <h1 className="mt-2 font-display text-3xl leading-tight">
+            {config.premiumDescription || "Unlock Matrimonial Success"}
+          </h1>
           <p className="mt-2 max-w-[320px] text-sm text-white/75">
             Upgrade your connection to unlock full contact details and start calls with Wali
             visibility.
@@ -129,18 +138,23 @@ function Premium() {
           </span>
           <p className="font-display text-2xl text-primary">Misaq Premium Plan</p>
           <div className="mt-2 flex items-baseline gap-1">
-            <span className="font-display text-4xl">₨ 5,000</span>
+            <span className="font-display text-4xl">
+              {config.currency} {config.premiumPrice.toLocaleString()}
+            </span>
             <span className="text-xs text-muted-foreground">One-time Upgrade fee</span>
           </div>
 
           <ul className="mt-5 space-y-3">
-            {[
-              "Unlimited voice, video, and audio calls with match",
-              "Share photos and document attachments in chat",
-              "Reveal phone, email, and address on profile page",
-              "Direct exchange of contact details in chat thread",
-              "Family involvement under Wali verification checks",
-            ].map((f) => (
+            {(config.premiumFeatures && config.premiumFeatures.length > 0
+              ? config.premiumFeatures
+              : [
+                  "Unlimited voice, video, and audio calls with match",
+                  "Share photos and document attachments in chat",
+                  "Reveal phone, email, and address on profile page",
+                  "Direct exchange of contact details in chat thread",
+                  "Family involvement under Wali verification checks",
+                ]
+            ).map((f) => (
               <li key={f} className="flex items-start gap-2.5 text-sm">
                 <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-gradient-gold text-[color:var(--color-gold-foreground)] mt-0.5">
                   <Check className="h-3 w-3" />
@@ -154,7 +168,7 @@ function Premium() {
             onClick={() => setPayOpen(true)}
             className="mt-6 w-full rounded-full bg-gradient-primary py-3.5 text-sm font-semibold text-white shadow-elegant cursor-pointer"
           >
-            Upgrade to Premium (₨ 5,000)
+            Upgrade to Premium ({config.currency} {config.premiumPrice.toLocaleString()})
           </button>
         </div>
       </div>
@@ -171,7 +185,7 @@ function Premium() {
             </div>
             <DialogTitle className="font-display text-lg text-primary">Halal Checkout</DialogTitle>
             <DialogDescription className="text-xs text-muted-foreground mt-1">
-              Enter your credit card to pay Rs. 5,000 one-time fee securely.
+              Enter your credit card to pay {config.currency} {config.premiumPrice.toLocaleString()} one-time fee securely.
             </DialogDescription>
           </DialogHeader>
           <form onSubmit={handlePurchaseSubmit} className="space-y-4 text-left mt-2">
@@ -220,7 +234,7 @@ function Premium() {
               type="submit"
               className="w-full rounded-full bg-primary py-3 font-semibold text-primary-foreground shadow-soft cursor-pointer mt-2"
             >
-              Complete Payment (Rs. 5,000)
+              Complete Payment ({config.currency} {config.premiumPrice.toLocaleString()})
             </button>
           </form>
         </DialogContent>

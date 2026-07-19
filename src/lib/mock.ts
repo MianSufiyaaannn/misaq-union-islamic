@@ -1,4 +1,4 @@
-// Realistic mock data for Misaq — UI/UX demo only, no backend.
+import { getCmsConfig } from "./cms-config";
 
 export type ProfileStatus =
   "Draft" | "Submitted" | "Under Review" | "Verified" | "Rejected" | "Suspended" | "Banned";
@@ -69,67 +69,68 @@ export function calculateCompatibility(
 ): { score: number; reasons: string[] } {
   if (!u1 || !u2) return { score: 0, reasons: [] };
 
+  const config = getCmsConfig();
   let score = 0;
   const reasons: string[] = [];
 
-  // 1. Sect Alignment (20%)
+  // 1. Sect Alignment
   if (u1.sect && u2.sect && u1.sect.toLowerCase() === u2.sect.toLowerCase()) {
-    score += 20;
+    score += config.sectWeight;
     reasons.push("Same Sect");
   }
 
-  // 2. Religious Practice (15%)
+  // 2. Religious Practice
   if (u1.religiousPractice && u2.religiousPractice) {
     const p1 = u1.religiousPractice.toLowerCase();
     const p2 = u2.religiousPractice.toLowerCase();
     if (p1 === p2) {
-      score += 15;
+      score += config.practiceWeight;
       reasons.push("Same Religious Practice");
     } else if (
       (p1.includes("practising") && p2.includes("practising")) ||
       (p1.includes("intermediate") && p2.includes("practising")) ||
       (p1.includes("practising") && p2.includes("intermediate"))
     ) {
-      score += 8;
+      score += Math.round(config.practiceWeight * 0.5);
       reasons.push("Similar Islamic Goals");
     }
   } else {
-    score += 10;
+    score += Math.round(config.practiceWeight * 0.6);
   }
 
-  // 3. Prayer Level (15%)
+  // 3. Prayer Level
   if (u1.prayer && u2.prayer) {
     const pr1 = u1.prayer.toLowerCase();
     const pr2 = u2.prayer.toLowerCase();
     if (pr1 === pr2) {
-      score += 15;
+      score += config.prayerWeight;
       reasons.push("Similar Prayer Level");
     } else if (
       (pr1.includes("5 times") && pr2.includes("usually")) ||
       (pr1.includes("usually") && pr2.includes("5 times"))
     ) {
-      score += 8;
+      score += Math.round(config.prayerWeight * 0.5);
       reasons.push("High Prayer Commitment");
     }
   } else {
-    score += 10;
+    score += Math.round(config.prayerWeight * 0.6);
   }
 
-  // 4. City / Location (15%)
+  // 4. City / Location
   if (u1.city && u2.city && u1.city.toLowerCase() === u2.city.toLowerCase()) {
-    score += 15;
+    score += config.cityWeight;
     reasons.push("Same City");
   } else if (u1.country && u2.country && u1.country.toLowerCase() === u2.country.toLowerCase()) {
-    score += 8;
+    score += Math.round(config.cityWeight * 0.5);
     reasons.push("Same Country");
   }
 
-  // 5. Education Level (10%)
+  // 5. Education Level
   if (u1.education && u2.education) {
     const ed1 = u1.education.toLowerCase();
     const ed2 = u2.education.toLowerCase();
     if (ed1 === ed2) {
-      score += 10;
+      score += config.educationWeight;
       reasons.push("Same Education Level");
     } else if (
       ed1.includes("bachelor") || ed2.includes("bachelor") ||
@@ -137,30 +138,30 @@ export function calculateCompatibility(
       ed1.includes("bs") || ed2.includes("bs") ||
       ed1.includes("mbbs") || ed2.includes("mbbs")
     ) {
-      score += 6;
+      score += Math.round(config.educationWeight * 0.6);
       reasons.push("Higher Education Alignment");
     }
   } else {
-    score += 5;
+    score += Math.round(config.educationWeight * 0.5);
   }
 
-  // 6. Age Compatibility (10%)
+  // 6. Age Compatibility
   if (u1.age && u2.age) {
     const diff = Math.abs(u1.age - u2.age);
     if (diff <= 3) {
-      score += 10;
+      score += config.ageWeight;
       reasons.push("Similar Age");
     } else if (diff <= 6) {
-      score += 6;
+      score += Math.round(config.ageWeight * 0.6);
       reasons.push("Compatible Age Gap");
     } else if (diff <= 10) {
-      score += 3;
+      score += Math.round(config.ageWeight * 0.3);
     }
   } else {
-    score += 5;
+    score += Math.round(config.ageWeight * 0.5);
   }
 
-  // 7. Shared Hobbies / Interests (10%)
+  // 7. Shared Hobbies / Interests
   const h1 = u1.hobbies || [];
   const h2 = u2.hobbies || [];
   const int1 = u1.interests || [];
@@ -169,16 +170,16 @@ export function calculateCompatibility(
   const commonInterests = int1.filter(i => int2.some(x => x.toLowerCase() === i.toLowerCase()));
   const totalCommon = commonHobbies.length + commonInterests.length;
   if (totalCommon >= 2) {
-    score += 10;
+    score += config.interestsWeight;
     reasons.push("Common Interests");
   } else if (totalCommon >= 1) {
-    score += 5;
+    score += Math.round(config.interestsWeight * 0.5);
     reasons.push("Shared Hobbies");
   }
 
-  // 8. Marital Status & Family values (5%)
+  // 8. Marital Status & Family values
   if (u1.maritalStatus && u2.maritalStatus && u1.maritalStatus.toLowerCase() === u2.maritalStatus.toLowerCase()) {
-    score += 5;
+    score += config.maritalWeight;
     reasons.push("Family Values Match");
   }
 

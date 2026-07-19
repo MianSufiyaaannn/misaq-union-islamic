@@ -22,6 +22,8 @@ import {
 } from "lucide-react";
 import { useT } from "@/components/misaq/providers";
 import { cn } from "@/lib/utils";
+import { useCmsConfig } from "@/lib/cms-config";
+import { Megaphone } from "lucide-react";
 
 export const Route = createFileRoute("/app/")({ component: Home });
 
@@ -62,11 +64,25 @@ function Home() {
   const [chats] = useChats();
   const [proposals] = useProposals();
   const [peopleList] = usePeople();
+  const [config] = useCmsConfig();
   const featured = peopleList.slice(0, 6);
   const recent = peopleList.slice(6, 10);
 
-  const dayIdx = new Date().getDate() % reminders.length;
-  const dailyReminder = reminders[dayIdx];
+  const dayIdx = new Date().getDate();
+  
+  const activeVerses = config.quranVerses && config.quranVerses.length > 0 ? config.quranVerses : [
+    "And of His signs is that He created for you from yourselves mates that you may find tranquility in them; and He placed between you affection and mercy. Surah Ar-Rum (30:21)",
+  ];
+  const activeReminders = config.dailyReminders && config.dailyReminders.length > 0 ? config.dailyReminders : [
+    "Always ensure Wali involvement during all matrimonial conversations.",
+  ];
+  const activeHadiths = config.dailyHadiths && config.dailyHadiths.length > 0 ? config.dailyHadiths : [
+    "The best among you are those who are best to their wives.",
+  ];
+
+  const currentVerse = activeVerses[dayIdx % activeVerses.length];
+  const currentReminder = activeReminders[dayIdx % activeReminders.length];
+  const currentHadith = activeHadiths[dayIdx % activeHadiths.length];
 
   const journeySteps = [
     { label: "Profile Completed", completed: true },
@@ -79,6 +95,12 @@ function Home() {
 
   return (
     <div className="relative h-full overflow-y-auto pb-24 bg-surface/30">
+      {config.announcementBanner && (
+        <div className="bg-primary text-primary-foreground text-center text-xs font-semibold py-2.5 px-4 shadow-soft relative z-20 flex items-center justify-center gap-2">
+          <Megaphone className="h-3.5 w-3.5 animate-bounce" />
+          <span>{config.announcementBanner}</span>
+        </div>
+      )}
       {/* Custom Styles for Floating Lanterns and Smooth Transitions */}
       <style>{`
         @keyframes float-lantern-slow {
@@ -207,16 +229,10 @@ function Home() {
           <div className="absolute bottom-4 left-4 w-4 h-4 border-b border-l border-[color:var(--color-gold)]/40 rounded-bl-sm pointer-events-none" />
           <div className="absolute bottom-4 right-4 w-4 h-4 border-b border-r border-[color:var(--color-gold)]/40 rounded-br-sm pointer-events-none" />
 
-          <p className="text-[9px] uppercase tracking-[0.25em] text-white/50 mb-3.5 font-sans font-medium">Verse of the Day</p>
+          <p className="text-[9px] uppercase tracking-[0.25em] text-white/50 mb-3.5 font-sans font-medium">Daily Quran Reflection</p>
           
-          {/* Large Centered Arabic Verse */}
-          <p className="font-arabic text-2xl md:text-3xl text-[color:var(--color-gold)] leading-loose mb-4 text-center select-none drop-shadow-[0_2px_10px_rgba(212,175,55,0.25)]" dir="rtl">
-            وَأَنْكِحُوا الْأَيَامَىٰ مِنْكُمْ وَالصَّالِحِينَ مِنْ عِبَادِكُمْ وَإِمَائِكُمْ ۚ إِن يَكُونُوا فُقَرَاءَ يُغْنِهِمُ اللَّهُ مِن فَضْلِهِ ۗ وَاللَّهُ وَاسِعٌ عَلِيمٌ
-          </p>
-
-          {/* Urdu Translation */}
-          <p className="text-xs md:text-sm text-white/90 leading-relaxed mb-4 font-urdu px-3 max-w-md mx-auto text-center" dir="rtl">
-            "اور تم میں سے جو غیر شادی شدہ ہوں ان کے نکاح کر دو، اور اگر وہ غریب ہوں گے تو اللہ اپنے فضل سے انہیں غنی کر دے گا۔"
+          <p className="text-sm md:text-base text-white/90 leading-relaxed mb-4 px-3 max-w-md mx-auto text-center font-serif italic">
+            "{currentVerse}"
           </p>
 
           {/* Reference with Quran Icon */}
@@ -224,14 +240,14 @@ function Home() {
             <svg className="h-3.5 w-3.5 fill-none stroke-current" viewBox="0 0 24 24" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
               <path d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
             </svg>
-            <span className="font-display font-medium tracking-wide">Surah An-Nur (24:32)</span>
+            <span className="font-display font-medium tracking-wide">{config.homeBanner || "Misaq Matrimonial"}</span>
           </div>
 
           {/* Halal Journey Subtitle */}
           <div className="mt-5 pt-4 border-t border-white/10 flex items-center justify-center gap-2">
             <span className="text-sm select-none">🌙</span>
             <p className="text-xs font-semibold tracking-wide text-white/80 uppercase">
-              Begin your halal journey toward marriage
+              {config.welcomeText || "Begin your halal journey toward marriage"}
             </p>
           </div>
         </div>
@@ -345,29 +361,42 @@ function Home() {
       </section>
 
       {/* TODAY'S REMINDER */}
-      <section className="mt-8 px-6 text-left">
-        <h2 className="mb-4 text-center font-display text-lg font-medium text-foreground ornament">Today's Reminder</h2>
-        <div className="relative rounded-3xl border border-[color:var(--color-gold)]/20 bg-gradient-to-br from-card to-[color:var(--color-gold)]/5 p-6 shadow-soft text-center overflow-hidden">
-          {/* Subtle Decorative Inner Border */}
-          <div className="absolute inset-2 border border-[color:var(--color-gold)]/10 rounded-[22px] pointer-events-none" />
-          
-          <div className="absolute top-0 end-0 p-4 opacity-[0.03] pointer-events-none">
-            <svg className="w-20 h-20 text-primary" viewBox="0 0 24 24" fill="currentColor">
-              <path d="M12 2A10 10 0 0 0 2 12c0 3.9 2.2 7.2 5.5 8.7L6.5 22h11l-1-1.3c3.3-1.5 5.5-4.8 5.5-8.7A10 10 0 0 0 12 2zm0 18c-4.4 0-8-3.6-8-8s3.6-8 8-8 8 3.6 8 8-3.6 8-8 8z" />
-            </svg>
-          </div>
+      <section className="mt-8 px-6 text-left space-y-4">
+        <div>
+          <h2 className="mb-4 text-center font-display text-lg font-medium text-foreground ornament">Hadith of the Day</h2>
+          <div className="relative rounded-3xl border border-[color:var(--color-gold)]/20 bg-gradient-to-br from-card to-[color:var(--color-gold)]/5 p-6 shadow-soft text-center overflow-hidden">
+            {/* Subtle Decorative Inner Border */}
+            <div className="absolute inset-2 border border-[color:var(--color-gold)]/10 rounded-[22px] pointer-events-none" />
+            
+            <div className="absolute top-0 end-0 p-4 opacity-[0.03] pointer-events-none">
+              <svg className="w-20 h-20 text-primary" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M12 2A10 10 0 0 0 2 12c0 3.9 2.2 7.2 5.5 8.7L6.5 22h11l-1-1.3c3.3-1.5 5.5-4.8 5.5-8.7A10 10 0 0 0 12 2zm0 18c-4.4 0-8-3.6-8-8s3.6-8 8-8 8 3.6 8 8-3.6 8-8 8z" />
+              </svg>
+            </div>
 
-          <div className="flex justify-center mb-1 select-none pointer-events-none">
-            <span className="text-4xl text-[color:var(--color-gold)] font-serif leading-none">“</span>
+            <div className="flex justify-center mb-1 select-none pointer-events-none">
+              <span className="text-4xl text-[color:var(--color-gold)] font-serif leading-none">“</span>
+            </div>
+            
+            <p className="font-serif italic text-sm md:text-base text-foreground/90 leading-relaxed px-3">
+              "{currentHadith}"
+            </p>
+            
+            <p className="mt-4 text-[10px] font-semibold text-primary uppercase tracking-widest block text-center">
+              — Daily Hadith
+            </p>
           </div>
-          
-          <p className="font-serif italic text-sm md:text-base text-foreground/90 leading-relaxed px-3">
-            "{dailyReminder.text}"
-          </p>
-          
-          <p className="mt-4 text-[10px] font-semibold text-primary uppercase tracking-widest block text-center">
-            — {dailyReminder.ref}
-          </p>
+        </div>
+
+        {/* Islamic Reminder (from CMS) */}
+        <div>
+          <div className="relative rounded-3xl border border-primary/10 bg-primary/[0.02] p-5 shadow-soft text-center overflow-hidden">
+            <div className="absolute inset-2 border border-primary/5 rounded-[22px] pointer-events-none" />
+            <p className="text-[9px] uppercase tracking-[0.25em] text-primary/60 mb-2 font-sans font-semibold">Matrimonial Adab Reminder</p>
+            <p className="text-xs text-muted-foreground leading-normal px-2">
+              "{currentReminder}"
+            </p>
+          </div>
         </div>
       </section>
 

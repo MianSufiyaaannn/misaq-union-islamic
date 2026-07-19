@@ -4,10 +4,13 @@ import { Logo } from "@/components/misaq/logo";
 import { ShieldCheck, Users, HeartHandshake } from "lucide-react";
 import { useT } from "@/components/misaq/providers";
 
+import { useCmsConfig } from "@/lib/cms-config";
+
 export const Route = createFileRoute("/welcome")({ component: Welcome });
 
 function Welcome() {
   const t = useT();
+  const [config] = useCmsConfig();
   const pillars = [
     { icon: ShieldCheck, title: t("welcome.pillar1.t"), desc: t("welcome.pillar1.d") },
     { icon: Users, title: t("welcome.pillar2.t"), desc: t("welcome.pillar2.d") },
@@ -16,11 +19,22 @@ function Welcome() {
   return (
     <PhoneFrame>
       <div className="flex h-full flex-col overflow-y-auto scrollbar-none">
-        <div className="relative overflow-hidden bg-gradient-royal px-6 pb-8 pt-[calc(1.5rem+env(safe-area-inset-top))] text-white shrink-0">
-          <div className="pointer-events-none absolute -end-16 -top-16 h-64 w-64 rounded-full bg-white/10 blur-3xl" />
-          <Logo size={44} withWord tone="light" />
-          <h1 className="mt-8 font-display text-4xl leading-tight">{t("welcome.title")}</h1>
-          <p className="mt-3 max-w-[300px] text-sm text-white/75">{t("welcome.subtitle")}</p>
+        <div
+          style={{
+            backgroundImage: config.heroBgImage ? `url(${config.heroBgImage})` : undefined,
+          }}
+          className="relative overflow-hidden bg-gradient-royal px-6 pb-8 pt-[calc(1.5rem+env(safe-area-inset-top))] text-white shrink-0 bg-cover bg-center"
+        >
+          <div className="absolute inset-0 bg-gradient-royal/85" />
+          <div className="relative z-10">
+            <Logo size={44} withWord tone="light" />
+            <h1 className="mt-8 font-display text-4xl leading-tight">
+              {config.welcomeScreenText || t("welcome.title")}
+            </h1>
+            <p className="mt-3 max-w-[300px] text-sm text-white/75">
+              {config.appTagline || t("welcome.subtitle")}
+            </p>
+          </div>
         </div>
 
         <div className="flex-1 px-6 pt-6">

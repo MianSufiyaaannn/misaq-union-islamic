@@ -18,7 +18,7 @@ import {
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useT } from "@/components/misaq/providers";
-import { isAdminAuthed, clearAdminAuth } from "@/lib/admin-auth";
+import { isAdminAuthed, clearAdminAuth, isSuperAdmin } from "@/lib/admin-auth";
 
 export const Route = createFileRoute("/admin")({ component: AdminShell });
 
@@ -67,6 +67,8 @@ function AdminShell() {
     navigate({ to: "/auth/login" });
   };
 
+  const isSuper = isSuperAdmin();
+
   return (
     <PhoneFrame>
       <div className="flex h-full w-full flex-col overflow-hidden">
@@ -79,7 +81,7 @@ function AdminShell() {
             <p className="truncate text-[10px] text-muted-foreground">{t("admin.restricted")}</p>
           </div>
           <span className="shrink-0 rounded-full bg-gold/20 px-2 py-0.5 text-[10px] font-semibold text-[color:var(--color-gold-foreground)]">
-            {t("admin.super")}
+            {isSuper ? t("admin.super") : "Admin"}
           </span>
           <button
             type="button"

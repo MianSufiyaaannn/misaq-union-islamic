@@ -30,11 +30,11 @@ function AdminLogin() {
       setError(t("admin.login.error") || "Please enter your email and password.");
       return;
     }
-    setError(null);
     setLoading(true);
     // Simulated authentication delay
     window.setTimeout(() => {
-      setAdminAuth();
+      const role = email.toLowerCase().includes("super") ? "super" : "normal";
+      setAdminAuth(role);
       setLoading(false);
       navigate({ to: "/admin", replace: true });
     }, 700);
