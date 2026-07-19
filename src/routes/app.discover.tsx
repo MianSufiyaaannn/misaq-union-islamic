@@ -13,6 +13,7 @@ import {
   getMatchId,
   hasPhotoAccess,
   addNotification,
+  calculateCompatibility,
 } from "@/lib/mock";
 import { CompatibilityRing, VerifiedBadge, PremiumBadge, PhotoBg } from "@/components/misaq/bits";
 import {
@@ -314,7 +315,7 @@ function Discover() {
   }, [peopleList]);
 
   const results = useMemo(() => {
-    return peopleList.filter((p) => {
+    const filtered = peopleList.filter((p) => {
       // Exclude same gender profiles
       if (p.gender === me.gender) return false;
 
@@ -364,6 +365,8 @@ function Discover() {
       if (filters.recentlyActive && !d.recentlyActive) return false;
       return true;
     });
+
+    return [...filtered].sort((a, b) => b.compatibility - a.compatibility);
   }, [
     filters,
     derivedById,
@@ -555,6 +558,7 @@ function Discover() {
       ) : (
         (() => {
           const currentProfile = results[0];
+          const { reasons } = calculateCompatibility(me, currentProfile);
           const hasAccess = hasPhotoAccess(me, currentProfile, chats, proposals, "member");
           const matchId = getMatchId(me.id, currentProfile.id);
           const reqStatus = photoRequests[matchId];
@@ -655,6 +659,25 @@ function Discover() {
                     </div>
                   </PhotoBg>
                 </Link>
+              </div>
+
+              {/* Match Reasons & Compatibility Score */}
+              <div className="mt-3 px-4 w-full max-w-[420px] flex flex-col items-center gap-2 shrink-0 animate-fade-in">
+                <div className="flex items-center gap-1.5 rounded-full bg-rose-500/10 px-3 py-1 text-[11px] font-semibold text-rose-600 border border-rose-500/20 shadow-soft">
+                  <span>❤️ Compatibility: {currentProfile.compatibility}%</span>
+                </div>
+                {reasons.length > 0 && (
+                  <div className="flex flex-wrap gap-1.5 justify-center mt-1">
+                    {reasons.slice(0, 4).map((r) => (
+                      <span
+                        key={r}
+                        className="inline-flex items-center gap-1 rounded-full bg-emerald-500/10 px-2.5 py-0.5 text-[10px] font-medium text-emerald-600 border border-emerald-500/20"
+                      >
+                        ✓ {r}
+                      </span>
+                    ))}
+                  </div>
+                )}
               </div>
 
               {/* Action Buttons Row */}

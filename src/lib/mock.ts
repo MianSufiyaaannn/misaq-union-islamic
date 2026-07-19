@@ -63,6 +63,139 @@ export type Person = {
   interests?: string[];
 };
 
+export function calculateCompatibility(
+  u1: Person | null | undefined,
+  u2: Person | null | undefined,
+): { score: number; reasons: string[] } {
+  if (!u1 || !u2) return { score: 0, reasons: [] };
+
+  let score = 0;
+  const reasons: string[] = [];
+
+  // 1. Sect Alignment (20%)
+  if (u1.sect && u2.sect && u1.sect.toLowerCase() === u2.sect.toLowerCase()) {
+    score += 20;
+    reasons.push("Same Sect");
+  }
+
+  // 2. Religious Practice (15%)
+  if (u1.religiousPractice && u2.religiousPractice) {
+    const p1 = u1.religiousPractice.toLowerCase();
+    const p2 = u2.religiousPractice.toLowerCase();
+    if (p1 === p2) {
+      score += 15;
+      reasons.push("Same Religious Practice");
+    } else if (
+      (p1.includes("practising") && p2.includes("practising")) ||
+      (p1.includes("intermediate") && p2.includes("practising")) ||
+      (p1.includes("practising") && p2.includes("intermediate"))
+    ) {
+      score += 8;
+      reasons.push("Similar Islamic Goals");
+    }
+  } else {
+    score += 10;
+  }
+
+  // 3. Prayer Level (15%)
+  if (u1.prayer && u2.prayer) {
+    const pr1 = u1.prayer.toLowerCase();
+    const pr2 = u2.prayer.toLowerCase();
+    if (pr1 === pr2) {
+      score += 15;
+      reasons.push("Similar Prayer Level");
+    } else if (
+      (pr1.includes("5 times") && pr2.includes("usually")) ||
+      (pr1.includes("usually") && pr2.includes("5 times"))
+    ) {
+      score += 8;
+      reasons.push("High Prayer Commitment");
+    }
+  } else {
+    score += 10;
+  }
+
+  // 4. City / Location (15%)
+  if (u1.city && u2.city && u1.city.toLowerCase() === u2.city.toLowerCase()) {
+    score += 15;
+    reasons.push("Same City");
+  } else if (u1.country && u2.country && u1.country.toLowerCase() === u2.country.toLowerCase()) {
+    score += 8;
+    reasons.push("Same Country");
+  }
+
+  // 5. Education Level (10%)
+  if (u1.education && u2.education) {
+    const ed1 = u1.education.toLowerCase();
+    const ed2 = u2.education.toLowerCase();
+    if (ed1 === ed2) {
+      score += 10;
+      reasons.push("Same Education Level");
+    } else if (
+      ed1.includes("bachelor") || ed2.includes("bachelor") ||
+      ed1.includes("master") || ed2.includes("master") ||
+      ed1.includes("bs") || ed2.includes("bs") ||
+      ed1.includes("mbbs") || ed2.includes("mbbs")
+    ) {
+      score += 6;
+      reasons.push("Higher Education Alignment");
+    }
+  } else {
+    score += 5;
+  }
+
+  // 6. Age Compatibility (10%)
+  if (u1.age && u2.age) {
+    const diff = Math.abs(u1.age - u2.age);
+    if (diff <= 3) {
+      score += 10;
+      reasons.push("Similar Age");
+    } else if (diff <= 6) {
+      score += 6;
+      reasons.push("Compatible Age Gap");
+    } else if (diff <= 10) {
+      score += 3;
+    }
+  } else {
+    score += 5;
+  }
+
+  // 7. Shared Hobbies / Interests (10%)
+  const h1 = u1.hobbies || [];
+  const h2 = u2.hobbies || [];
+  const int1 = u1.interests || [];
+  const int2 = u2.interests || [];
+  const commonHobbies = h1.filter(h => h2.some(x => x.toLowerCase() === h.toLowerCase()));
+  const commonInterests = int1.filter(i => int2.some(x => x.toLowerCase() === i.toLowerCase()));
+  const totalCommon = commonHobbies.length + commonInterests.length;
+  if (totalCommon >= 2) {
+    score += 10;
+    reasons.push("Common Interests");
+  } else if (totalCommon >= 1) {
+    score += 5;
+    reasons.push("Shared Hobbies");
+  }
+
+  // 8. Marital Status & Family values (5%)
+  if (u1.maritalStatus && u2.maritalStatus && u1.maritalStatus.toLowerCase() === u2.maritalStatus.toLowerCase()) {
+    score += 5;
+    reasons.push("Family Values Match");
+  }
+
+  const finalScore = Math.max(45, Math.min(99, score));
+  return { score: finalScore, reasons };
+}
+
+export function recalculateCompatibilities(me: Person, list: Person[]): Person[] {
+  return list.map((p) => {
+    if (p.gender === me.gender) {
+      return { ...p, compatibility: 0 };
+    }
+    const { score } = calculateCompatibility(me, p);
+    return { ...p, compatibility: score };
+  });
+}
+
 const grads = [
   "linear-gradient(135deg,#8A1A2B,#C9A24C)",
   "linear-gradient(135deg,#4A2C40,#8A1A2B)",
@@ -269,6 +402,56 @@ const malePhoto = (i: number) => `https://randomuser.me/api/portraits/men/${(i *
 
 const slug = (name: string) => name.toLowerCase().split(" ")[0];
 
+export const meMember: Person = {
+  id: "me",
+  name: "Ahmed Raza",
+  age: 27,
+  city: "Lahore",
+  country: "Pakistan",
+  profession: "Software Engineer",
+  education: "BS Computer Science",
+  height: "5'10\"",
+  sect: "Barelvi",
+  religion: "Islam",
+  religiousEnvironment: "Moderate",
+  compatibility: 100,
+  verified: true,
+  verificationStatus: "Verified",
+  premium: false,
+  photo: "https://randomuser.me/api/portraits/men/32.jpg",
+  avatar: grads[1],
+  bio: "Trying to walk the middle path. Seeking a companion for Jannah.",
+  prayer: "5 Times Daily",
+  quran: "Daily",
+  beard: "Sunnah Beard",
+  gender: "male",
+  phone: "+92 300 9876543",
+  email: "ahmed.raza@gmail.com",
+  address: "House 12-A, Block K, Gulberg III, Lahore, Pakistan",
+  photoPrivacy: "Public",
+  cnicNumber: "35201-9876543-1",
+  cnicFront:
+    "https://images.unsplash.com/photo-1554774853-aae0a22c8aa4?auto=format&fit=crop&q=80&w=300",
+  cnicBack:
+    "https://images.unsplash.com/photo-1554774853-aae0a22c8aa4?auto=format&fit=crop&q=80&w=300",
+  selfie: "https://randomuser.me/api/portraits/men/32.jpg",
+  waliPhoto:
+    "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&q=80&w=150",
+  waliName: "Abdullah Raza",
+  waliRelationship: "Father",
+  waliPhone: "+92 300 1234567",
+  waliEmail: "wali@gmail.com",
+  registrationDate: "2026-07-01",
+  monthlyIncome: "150k – 300k",
+  religiousPractice: "Regular",
+  maritalStatus: "Never Married",
+  children: "No Children",
+  familyType: "Nuclear",
+  hobbies: ["Reading", "Hiking"],
+  interests: ["Islamic History", "Charity"],
+  gallery: ["https://randomuser.me/api/portraits/men/32.jpg"],
+};
+
 function buildFemale(i: number): Person {
   const name = femaleNames[i];
   const [city, country] = pick(cities, i + 1);
@@ -306,7 +489,7 @@ function buildFemale(i: number): Person {
     education: pick(educationsF, i),
     height: pick(heightsF, i),
     sect: pick(sects, i),
-    compatibility: 78 + ((i * 13) % 21),
+    compatibility: 0,
     verified,
     verificationStatus,
     rejectionReason,
@@ -381,7 +564,7 @@ function buildMale(i: number): Person {
     education: pick(educationsM, i),
     height: pick(heightsM, i),
     sect: pick(sects, i),
-    compatibility: 76 + ((i * 11) % 23),
+    compatibility: 0,
     verified,
     verificationStatus,
     rejectionReason,
@@ -448,56 +631,6 @@ const extraMale: Person[] = Array.from({ length: 5 }).map((_, i) => ({
 }));
 
 export const people: Person[] = [...females, ...males, ...extraFemale, ...extraMale];
-
-export const meMember: Person = {
-  id: "me",
-  name: "Ahmed Raza",
-  age: 27,
-  city: "Lahore",
-  country: "Pakistan",
-  profession: "Software Engineer",
-  education: "BS Computer Science",
-  height: "5'10\"",
-  sect: "Barelvi",
-  religion: "Islam",
-  religiousEnvironment: "Moderate",
-  compatibility: 100,
-  verified: true,
-  verificationStatus: "Verified",
-  premium: false,
-  photo: "https://randomuser.me/api/portraits/men/32.jpg",
-  avatar: grads[1],
-  bio: "Trying to walk the middle path. Seeking a companion for Jannah.",
-  prayer: "5 Times Daily",
-  quran: "Daily",
-  beard: "Sunnah Beard",
-  gender: "male",
-  phone: "+92 300 9876543",
-  email: "ahmed.raza@gmail.com",
-  address: "House 12-A, Block K, Gulberg III, Lahore, Pakistan",
-  photoPrivacy: "Public",
-  cnicNumber: "35201-9876543-1",
-  cnicFront:
-    "https://images.unsplash.com/photo-1554774853-aae0a22c8aa4?auto=format&fit=crop&q=80&w=300",
-  cnicBack:
-    "https://images.unsplash.com/photo-1554774853-aae0a22c8aa4?auto=format&fit=crop&q=80&w=300",
-  selfie: "https://randomuser.me/api/portraits/men/32.jpg",
-  waliPhoto:
-    "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&q=80&w=150",
-  waliName: "Abdullah Raza",
-  waliRelationship: "Father",
-  waliPhone: "+92 300 1234567",
-  waliEmail: "wali@gmail.com",
-  registrationDate: "2026-07-01",
-  monthlyIncome: "150k – 300k",
-  religiousPractice: "Regular",
-  maritalStatus: "Never Married",
-  children: "No Children",
-  familyType: "Nuclear",
-  hobbies: ["Reading", "Hiking"],
-  interests: ["Islamic History", "Charity"],
-  gallery: ["https://randomuser.me/api/portraits/men/32.jpg"],
-};
 
 export type ChatMessage = {
   id: string;
@@ -745,6 +878,9 @@ if (isClient) {
   }
 }
 
+// Always recalculate on startup to ensure consistency across logins/sessions
+peopleData = recalculateCompatibilities(meMemberData, peopleData);
+
 const persist = (key: string, data: unknown) => {
   if (isClient) {
     try {
@@ -767,6 +903,11 @@ export function useMe() {
     const next = typeof updater === "function" ? updater(meMemberData) : updater;
     meMemberData = next;
     persist("misaq_me", next);
+
+    // Dynamically recalculate all compatibilities when current user's profile/preferences change
+    peopleData = recalculateCompatibilities(next, peopleData);
+    persist("misaq_people", peopleData);
+
     notify();
   };
 
@@ -781,8 +922,17 @@ export function usePeople() {
 
   const updatePeople = (updater: Person[] | ((prev: Person[]) => Person[])) => {
     const next = typeof updater === "function" ? updater(peopleData) : updater;
-    peopleData = next;
-    persist("misaq_people", next);
+    // Cache compatibility scores on the modified or newly added candidates
+    const nextWithCompat = next.map((p) => {
+      const old = peopleData.find((o) => o.id === p.id);
+      if (!old || JSON.stringify(old) !== JSON.stringify(p)) {
+        const { score } = calculateCompatibility(meMemberData, p);
+        return { ...p, compatibility: score };
+      }
+      return p;
+    });
+    peopleData = nextWithCompat;
+    persist("misaq_people", nextWithCompat);
     notify();
   };
 
@@ -893,6 +1043,8 @@ export function switchRole(role: "boy" | "girl") {
     peopleData = peopleData.map((p) => (p.id === "f-aisha-0" ? aisha : p));
     meMemberData = { ...ahmed, id: "me" };
   }
+  // Recalculate compatibility scores for the new persona
+  peopleData = recalculateCompatibilities(meMemberData, peopleData);
   persist("misaq_me", meMemberData);
   persist("misaq_people", peopleData);
   notify();
