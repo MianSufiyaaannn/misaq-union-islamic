@@ -30,6 +30,7 @@ import { Route as AppDiscoverRouteImport } from './routes/app.discover'
 import { Route as AdminWalisRouteImport } from './routes/admin.walis'
 import { Route as AdminVerificationRouteImport } from './routes/admin.verification'
 import { Route as AdminSettingsRouteImport } from './routes/admin.settings'
+import { Route as AdminSafetyRouteImport } from './routes/admin.safety'
 import { Route as AdminReportsRouteImport } from './routes/admin.reports'
 import { Route as AdminPremiumRouteImport } from './routes/admin.premium'
 import { Route as AdminPaymentsRouteImport } from './routes/admin.payments'
@@ -157,6 +158,11 @@ const AdminSettingsRoute = AdminSettingsRouteImport.update({
   path: '/settings',
   getParentRoute: () => AdminRoute,
 } as any)
+const AdminSafetyRoute = AdminSafetyRouteImport.update({
+  id: '/safety',
+  path: '/safety',
+  getParentRoute: () => AdminRoute,
+} as any)
 const AdminReportsRoute = AdminReportsRouteImport.update({
   id: '/reports',
   path: '/reports',
@@ -279,6 +285,7 @@ export interface FileRoutesByFullPath {
   '/admin/payments': typeof AdminPaymentsRoute
   '/admin/premium': typeof AdminPremiumRoute
   '/admin/reports': typeof AdminReportsRoute
+  '/admin/safety': typeof AdminSafetyRoute
   '/admin/settings': typeof AdminSettingsRoute
   '/admin/verification': typeof AdminVerificationRoute
   '/admin/walis': typeof AdminWalisRoute
@@ -320,6 +327,7 @@ export interface FileRoutesByTo {
   '/admin/payments': typeof AdminPaymentsRoute
   '/admin/premium': typeof AdminPremiumRoute
   '/admin/reports': typeof AdminReportsRoute
+  '/admin/safety': typeof AdminSafetyRoute
   '/admin/settings': typeof AdminSettingsRoute
   '/admin/verification': typeof AdminVerificationRoute
   '/admin/walis': typeof AdminWalisRoute
@@ -365,6 +373,7 @@ export interface FileRoutesById {
   '/admin/payments': typeof AdminPaymentsRoute
   '/admin/premium': typeof AdminPremiumRoute
   '/admin/reports': typeof AdminReportsRoute
+  '/admin/safety': typeof AdminSafetyRoute
   '/admin/settings': typeof AdminSettingsRoute
   '/admin/verification': typeof AdminVerificationRoute
   '/admin/walis': typeof AdminWalisRoute
@@ -411,6 +420,7 @@ export interface FileRouteTypes {
     | '/admin/payments'
     | '/admin/premium'
     | '/admin/reports'
+    | '/admin/safety'
     | '/admin/settings'
     | '/admin/verification'
     | '/admin/walis'
@@ -452,6 +462,7 @@ export interface FileRouteTypes {
     | '/admin/payments'
     | '/admin/premium'
     | '/admin/reports'
+    | '/admin/safety'
     | '/admin/settings'
     | '/admin/verification'
     | '/admin/walis'
@@ -496,6 +507,7 @@ export interface FileRouteTypes {
     | '/admin/payments'
     | '/admin/premium'
     | '/admin/reports'
+    | '/admin/safety'
     | '/admin/settings'
     | '/admin/verification'
     | '/admin/walis'
@@ -687,6 +699,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminSettingsRouteImport
       parentRoute: typeof AdminRoute
     }
+    '/admin/safety': {
+      id: '/admin/safety'
+      path: '/safety'
+      fullPath: '/admin/safety'
+      preLoaderRoute: typeof AdminSafetyRouteImport
+      parentRoute: typeof AdminRoute
+    }
     '/admin/reports': {
       id: '/admin/reports'
       path: '/reports'
@@ -848,6 +867,7 @@ interface AdminRouteChildren {
   AdminPaymentsRoute: typeof AdminPaymentsRoute
   AdminPremiumRoute: typeof AdminPremiumRoute
   AdminReportsRoute: typeof AdminReportsRoute
+  AdminSafetyRoute: typeof AdminSafetyRoute
   AdminSettingsRoute: typeof AdminSettingsRoute
   AdminVerificationRoute: typeof AdminVerificationRoute
   AdminWalisRoute: typeof AdminWalisRoute
@@ -865,6 +885,7 @@ const AdminRouteChildren: AdminRouteChildren = {
   AdminPaymentsRoute: AdminPaymentsRoute,
   AdminPremiumRoute: AdminPremiumRoute,
   AdminReportsRoute: AdminReportsRoute,
+  AdminSafetyRoute: AdminSafetyRoute,
   AdminSettingsRoute: AdminSettingsRoute,
   AdminVerificationRoute: AdminVerificationRoute,
   AdminWalisRoute: AdminWalisRoute,

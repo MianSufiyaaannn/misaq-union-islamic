@@ -15,6 +15,7 @@ import {
   Flag,
   Phone,
   LogOut,
+  ShieldAlert,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useT } from "@/components/misaq/providers";
@@ -52,6 +53,7 @@ function AdminShell() {
     { to: "/admin/walis", label: t("admin.nav.walis"), icon: ShieldCheck },
     { to: "/admin/verification", label: t("admin.nav.verify"), icon: ShieldCheck },
     { to: "/admin/reports", label: t("admin.nav.reports"), icon: Flag },
+    { to: "/admin/safety", label: t("admin.nav.safety"), icon: ShieldAlert },
     { to: "/admin/chats", label: t("admin.nav.chats"), icon: MessageSquare },
     { to: "/admin/calls", label: t("admin.nav.calls"), icon: Phone },
     { to: "/admin/payments", label: t("admin.nav.payments"), icon: CreditCard },

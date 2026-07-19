@@ -11,6 +11,7 @@ import {
   setMatchBlocked,
 } from "@/lib/mock";
 import { Avatar } from "@/components/misaq/bits";
+import { validateMessageContent, addSafetyEvent } from "@/lib/safety";
 import { TopBar } from "@/components/misaq/top-bar";
 import {
   Phone,
@@ -312,6 +313,46 @@ function Thread() {
   const handleSend = (e?: React.FormEvent) => {
     if (e) e.preventDefault();
     if (!text.trim()) return;
+
+    // Perform community guideline validation
+    const safetyValidation = validateMessageContent(text);
+    if (!safetyValidation.isValid) {
+      addSafetyEvent({
+        userId: me.id,
+        userName: me.name,
+        userRole: me.gender === "male" ? "Groom" : "Bride",
+        matchId: matchId || "",
+        chatId: chat.id,
+        time: new Date().toISOString(),
+        blockedMessage: text.trim(),
+        reasonCategory: safetyValidation.category || "Community Guidelines Violation",
+        reviewStatus: "Pending",
+        severityLevel: safetyValidation.severity,
+      });
+
+      const warnMsg: ChatMessage = {
+        id: `sys_warn_safety_${Date.now()}`,
+        from: "them",
+        text: `Your message could not be delivered because it does not follow Misaq Community Guidelines.`,
+        time: new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }),
+      };
+
+      updateChats(
+        chats.map((c) => {
+          if (c.id === chat.id) {
+            return {
+              ...c,
+              messages: [...c.messages, warnMsg],
+            };
+          }
+          return c;
+        }),
+      );
+
+      // Note: We deliberately do NOT run setText("") to allow the user to edit and resend the message.
+      toast.error("Message blocked: does not follow community guidelines.");
+      return;
+    }
 
     // Rule: Text chat ends after 7 days
     if (isChatExpired && !isChatUnlocked && isMatchCouple) {
