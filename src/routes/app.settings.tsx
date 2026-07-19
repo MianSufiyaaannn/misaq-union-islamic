@@ -385,7 +385,7 @@ function SettingsPage() {
   };
 
   return (
-    <div className="pb-8">
+    <div className="h-full overflow-y-auto pb-24">
       <TopBar title={t("settings.title")} back={false} />
       <div className="px-4 py-4 space-y-6">
         <div className="rounded-3xl border border-border bg-card p-4">

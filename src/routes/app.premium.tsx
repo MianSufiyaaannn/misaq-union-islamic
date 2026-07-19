@@ -106,7 +106,7 @@ function Premium() {
 
   // Eligible Boy: Show the single plan
   return (
-    <div className="pb-24">
+    <div className="h-full overflow-y-auto pb-24">
       <div className="relative overflow-hidden bg-gradient-royal px-6 pb-14 pt-14 text-white">
         <div className="pointer-events-none absolute -end-20 -top-20 h-64 w-64 rounded-full bg-[color:var(--color-gold)]/30 blur-3xl" />
         <TopBar back tone="light" transparent />

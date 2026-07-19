@@ -12,7 +12,7 @@ function WaliChats() {
   const t = useT();
   const [chats] = useChats();
   return (
-    <div className="pb-8">
+    <div className="h-full overflow-y-auto pb-24">
       <TopBar
         title={t("wali.chats.title")}
         subtitle={`${meMember.name} · ${chats.length} ${t("wali.chats.for")}`}

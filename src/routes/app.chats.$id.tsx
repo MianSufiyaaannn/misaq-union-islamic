@@ -497,7 +497,7 @@ function Thread() {
   };
 
   return (
-    <div className="flex min-h-full flex-col bg-gradient-cream">
+    <div className="h-full flex flex-col overflow-hidden bg-gradient-cream">
       <TopBar
         title={
           <div className="flex items-center gap-2">
@@ -837,7 +837,7 @@ function Thread() {
       )}
 
       {/* Messages View */}
-      <div className="flex-1 overflow-y-auto flex flex-col gap-3 px-4 py-4 max-h-[60vh]">
+      <div className="flex-1 min-h-0 overflow-y-auto flex flex-col gap-3 px-4 py-4">
         <div className="flex justify-center">
           <span className="rounded-full bg-muted px-3 py-1 text-[10px] text-muted-foreground">
             {t("chats.startOfDay")}
@@ -956,7 +956,8 @@ function Thread() {
       ) : (
         <form
           onSubmit={handleSend}
-          className="sticky bottom-0 border-t border-border bg-background/95 px-3 py-3 backdrop-blur mt-auto"
+          style={{ paddingBottom: "calc(0.75rem + env(safe-area-inset-bottom))" }}
+          className="sticky bottom-0 border-t border-border bg-background/95 px-3 pt-3 pb-3 backdrop-blur mt-auto shrink-0"
         >
           <div className="flex items-center gap-1.5">
             <button

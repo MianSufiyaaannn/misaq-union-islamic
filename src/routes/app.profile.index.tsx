@@ -153,7 +153,7 @@ function MyProfile() {
   };
 
   return (
-    <div className="pb-8">
+    <div className="h-full overflow-y-auto pb-24">
       <div
         className="relative overflow-hidden bg-gradient-royal px-6 pb-16 text-white"
         style={{ paddingTop: "max(3.5rem, calc(env(safe-area-inset-top) + 1rem))" }}

@@ -125,7 +125,7 @@ function WaliProposals() {
   };
 
   return (
-    <div className="pb-8">
+    <div className="h-full overflow-y-auto pb-24">
       <TopBar
         title={t("wali.proposals.title")}
         subtitle={`${t("wali.proposals.for")} Aisha Rahman`}

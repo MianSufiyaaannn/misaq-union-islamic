@@ -7,7 +7,7 @@ import { cn } from "@/lib/utils";
  */
 export function PhoneFrame({ children, className }: { children: ReactNode; className?: string }) {
   return (
-    <div className={cn("min-h-screen w-full bg-background text-foreground", className)}>
+    <div className={cn("h-[100dvh] w-full bg-background text-foreground flex flex-col overflow-hidden", className)}>
       {children}
     </div>
   );

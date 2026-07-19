@@ -485,8 +485,11 @@ function Discover() {
   }
 
   return (
-    <div className="pb-8">
-      <header className="sticky top-0 z-10 border-b border-border bg-background/90 px-6 pb-3 pt-14 backdrop-blur">
+    <div className="h-full flex flex-col overflow-hidden pb-4">
+      <header
+        style={{ paddingTop: "max(0.75rem, env(safe-area-inset-top))" }}
+        className="sticky top-0 z-10 border-b border-border bg-background/90 px-6 pb-3 backdrop-blur shrink-0"
+      >
         <div className="flex items-center justify-between gap-3">
           <div className="min-w-0">
             <h1 className="font-display text-2xl truncate">{t("discover.title")}</h1>
@@ -534,7 +537,7 @@ function Discover() {
       </header>
 
       {totalUnfilteredRemaining === 0 ? (
-        <div className="flex flex-col items-center justify-center px-8 pt-24 text-center">
+        <div className="flex-1 flex flex-col items-center justify-center px-8 text-center">
           <div className="flex h-20 w-20 items-center justify-center rounded-full bg-primary/10">
             <SearchX className="h-8 w-8 text-primary" />
           </div>
@@ -546,7 +549,9 @@ function Discover() {
           </p>
         </div>
       ) : results.length === 0 ? (
-        <EmptyState onClear={clearAll} />
+        <div className="flex-1 overflow-y-auto">
+          <EmptyState onClear={clearAll} />
+        </div>
       ) : (
         (() => {
           const currentProfile = results[0];
@@ -554,11 +559,11 @@ function Discover() {
           const matchId = getMatchId(me.id, currentProfile.id);
           const reqStatus = photoRequests[matchId];
           return (
-            <div className="mx-4 mt-6 flex flex-col items-center">
+            <div className="flex-1 min-h-0 mx-4 my-3 flex flex-col items-center justify-between">
               {/* Card Container */}
-              <div className="w-full overflow-hidden rounded-3xl border border-border bg-card shadow-soft">
-                <Link to="/app/profile/$id" params={{ id: currentProfile.id }} className="block">
-                  <PhotoBg person={currentProfile} className="h-96 w-full relative">
+              <div className="flex-1 min-h-0 w-full max-w-[420px] overflow-hidden rounded-3xl border border-border bg-card shadow-soft flex flex-col">
+                <Link to="/app/profile/$id" params={{ id: currentProfile.id }} className="block flex-1 min-h-0 relative">
+                  <PhotoBg person={currentProfile} className="h-full w-full relative">
                     <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent" />
 
                     {!hasAccess && (
@@ -653,7 +658,7 @@ function Discover() {
               </div>
 
               {/* Action Buttons Row */}
-              <div className="mt-6 flex items-center justify-center gap-6 w-full px-4">
+              <div className="mt-4 flex items-center justify-center gap-6 w-full px-4 shrink-0">
                 {/* Reject */}
                 <button
                   onClick={() => handleReject(currentProfile.id)}

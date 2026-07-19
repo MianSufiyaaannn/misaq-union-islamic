@@ -12,7 +12,10 @@ function Login() {
   return (
     <PhoneFrame>
       <TopBar back={false} />
-      <div className="flex flex-1 flex-col px-6 pb-10">
+      <div
+        style={{ paddingBottom: "calc(2rem + env(safe-area-inset-bottom))" }}
+        className="flex-1 overflow-y-auto px-6 flex flex-col justify-between"
+      >
         <Logo size={40} withWord />
         <div className="mt-10">
           <h1 className="font-display text-3xl">{t("auth.login.title")}</h1>

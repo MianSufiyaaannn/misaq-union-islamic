@@ -56,7 +56,7 @@ function WaliSettings() {
   const activeItem = items.find((it) => it.l === selectedSetting);
 
   return (
-    <div className="pb-8">
+    <div className="h-full overflow-y-auto pb-24">
       <TopBar title={t("wali.settings.title")} back={false} />
       <div className="p-4 text-left">
         <ul className="divide-y divide-border rounded-3xl border border-border bg-card">

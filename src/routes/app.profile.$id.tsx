@@ -232,7 +232,7 @@ function ProfileView() {
   };
 
   return (
-    <div className="pb-28">
+    <div className="h-full overflow-y-auto pb-28">
       <PhotoBg person={p} className="relative h-80">
         <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/25 to-black/40" />
 

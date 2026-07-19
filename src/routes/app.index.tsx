@@ -78,7 +78,7 @@ function Home() {
   ];
 
   return (
-    <div className="relative pb-8 bg-surface/30 min-h-screen overflow-hidden">
+    <div className="relative h-full overflow-y-auto pb-24 bg-surface/30">
       {/* Custom Styles for Floating Lanterns and Smooth Transitions */}
       <style>{`
         @keyframes float-lantern-slow {

@@ -12,7 +12,10 @@ function Register() {
   return (
     <PhoneFrame>
       <TopBar back={false} />
-      <div className="flex flex-1 flex-col gap-4 px-6 pb-10">
+      <div
+        style={{ paddingBottom: "calc(2rem + env(safe-area-inset-bottom))" }}
+        className="flex-1 overflow-y-auto px-6 flex flex-col gap-4"
+      >
         <Logo size={40} withWord />
         <div className="mt-6">
           <p className="text-sm text-muted-foreground">{t("auth.reg.hint")}</p>

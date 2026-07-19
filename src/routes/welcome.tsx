@@ -15,8 +15,8 @@ function Welcome() {
   ];
   return (
     <PhoneFrame>
-      <div className="flex min-h-full flex-col">
-        <div className="relative overflow-hidden bg-gradient-royal px-6 pb-10 pt-14 text-white">
+      <div className="flex h-full flex-col overflow-y-auto scrollbar-none">
+        <div className="relative overflow-hidden bg-gradient-royal px-6 pb-8 pt-[calc(1.5rem+env(safe-area-inset-top))] text-white shrink-0">
           <div className="pointer-events-none absolute -end-16 -top-16 h-64 w-64 rounded-full bg-white/10 blur-3xl" />
           <Logo size={44} withWord tone="light" />
           <h1 className="mt-8 font-display text-4xl leading-tight">{t("welcome.title")}</h1>
@@ -45,7 +45,10 @@ function Welcome() {
           </div>
         </div>
 
-        <div className="grid gap-3 px-6 pb-10 pt-4">
+        <div
+          style={{ paddingBottom: "calc(1.5rem + env(safe-area-inset-bottom))" }}
+          className="grid gap-3 px-6 pt-6 shrink-0"
+        >
           <Link
             to="/auth/register"
             className="w-full rounded-full bg-primary py-4 text-center font-medium text-primary-foreground shadow-elegant"
@@ -54,7 +57,7 @@ function Welcome() {
           </Link>
           <Link
             to="/auth/login"
-            className="w-full rounded-full border border-border py-4 text-center font-medium"
+            className="w-full rounded-full border border-border bg-card py-4 text-center font-medium text-foreground"
           >
             {t("welcome.have")}
           </Link>

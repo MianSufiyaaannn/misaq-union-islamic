@@ -69,7 +69,7 @@ function AdminShell() {
 
   return (
     <PhoneFrame>
-      <div className="flex min-h-full flex-col">
+      <div className="flex h-full w-full flex-col overflow-hidden">
         <header className="sticky top-0 z-20 flex items-center gap-2 border-b border-border bg-background/95 px-4 py-3 backdrop-blur">
           <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-gradient-royal text-white font-display">
             M

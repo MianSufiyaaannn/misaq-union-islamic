@@ -319,7 +319,10 @@ function Wizard() {
           </p>
         )}
       </div>
-      <div className="sticky bottom-0 flex gap-3 border-t border-border bg-background/95 px-6 py-4 backdrop-blur">
+      <div
+        style={{ paddingBottom: "calc(1rem + env(safe-area-inset-bottom))" }}
+        className="sticky bottom-0 flex gap-3 border-t border-border bg-background/95 px-6 pt-4 backdrop-blur shrink-0"
+      >
         {i > 0 && (
           <button
             type="button"

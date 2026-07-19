@@ -12,7 +12,7 @@ function WaliProfileView() {
   const t = useT();
   const p = findPerson(id);
   return (
-    <div className="pb-8">
+    <div className="h-full overflow-y-auto pb-24">
       <PhotoBg person={p} className="relative h-64">
         <div className="absolute inset-0 bg-gradient-to-t from-black/85 to-black/10" />
         <TopBar back tone="light" transparent />

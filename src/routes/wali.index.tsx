@@ -17,8 +17,8 @@ function WaliHome() {
   const pendingFinalChat = chats.find((c) => c.finalProposalStatus === "accepted");
 
   return (
-    <div className="pb-8">
-      <header className="relative overflow-hidden bg-gradient-royal px-6 pb-10 pt-14 text-white">
+    <div className="h-full overflow-y-auto pb-24">
+      <header className="relative overflow-hidden bg-gradient-royal px-6 pb-10 pt-[calc(1rem+env(safe-area-inset-top))] text-white">
         <div className="pointer-events-none absolute -end-10 -top-10 h-56 w-56 rounded-full bg-white/10 blur-3xl" />
         <div className="relative flex items-center justify-between gap-3">
           <div className="flex min-w-0 items-center gap-2">

@@ -10,8 +10,11 @@ function Chats() {
   const t = useT();
   const [chats] = useChats();
   return (
-    <div className="pb-8">
-      <header className="sticky top-0 z-10 border-b border-border bg-background/90 px-6 pb-3 pt-14 backdrop-blur">
+    <div className="h-full overflow-y-auto pb-24">
+      <header
+        style={{ paddingTop: "max(0.75rem, env(safe-area-inset-top))" }}
+        className="sticky top-0 z-10 border-b border-border bg-background/90 px-6 pb-3 backdrop-blur"
+      >
         <div className="flex items-center justify-between gap-3">
           <h1 className="font-display text-2xl truncate">{t("chats.title")}</h1>
           <button

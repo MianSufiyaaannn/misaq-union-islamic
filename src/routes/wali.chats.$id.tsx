@@ -16,7 +16,7 @@ function WaliThread() {
   const chat = chats.find((c) => c.id === id) || chats[0];
   const other = findPerson(chat.personId);
   return (
-    <div className="flex min-h-full flex-col bg-gradient-cream">
+    <div className="h-full flex flex-col overflow-hidden bg-gradient-cream">
       <TopBar
         title={`${meMember.name.split(" ")[0]} ↔ ${other.name.split(" ")[0]}`}
         subtitle={t("wali.thread.readOnly")}
@@ -46,11 +46,11 @@ function WaliThread() {
           </div>
         }
       />
-      <div className="mx-4 mt-3 flex items-center gap-2 rounded-2xl border border-gold/40 bg-gold/10 p-3 text-[11px] text-[color:var(--color-gold-foreground)]">
+      <div className="mx-4 mt-3 flex items-center gap-2 rounded-2xl border border-gold/40 bg-gold/10 p-3 text-[11px] text-[color:var(--color-gold-foreground)] shrink-0">
         <ShieldCheck className="h-4 w-4 shrink-0 text-gold" />{" "}
         <span className="min-w-0">{t("wali.thread.notice")}</span>
       </div>
-      <div className="flex flex-1 flex-col gap-3 px-4 py-4">
+      <div className="flex-1 min-h-0 overflow-y-auto flex flex-col gap-3 px-4 py-4">
         {chat.messages.map((m) => {
           const speaker = m.from === "me" ? meMember : other;
           return (

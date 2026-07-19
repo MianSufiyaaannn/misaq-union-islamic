@@ -27,7 +27,7 @@ function LangPick() {
   const navigate = useNavigate();
   return (
     <PhoneFrame>
-      <div className="flex min-h-full flex-col px-6 pb-10 pt-14">
+      <div className="flex h-full flex-col px-6 pb-10 pt-[calc(1.5rem+env(safe-area-inset-top))] overflow-y-auto">
         <Logo size={44} withWord />
         <div className="mt-10">
           <p className="text-xs uppercase tracking-[0.3em] text-muted-foreground">

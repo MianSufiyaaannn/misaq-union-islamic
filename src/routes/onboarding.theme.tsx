@@ -35,7 +35,7 @@ function ThemePick() {
           color: theme === "light" ? "#2E1416" : "#FDFBF7",
         }}
         transition={{ duration: 0.8, ease: "easeInOut" }}
-        className="relative flex min-h-screen flex-col px-6 pb-10 pt-4 overflow-hidden"
+        className="relative flex h-full flex-col px-6 pb-10 pt-4 overflow-y-auto"
       >
         {/* Background radial glow when Lamp is ON */}
         <AnimatePresence>
@@ -56,12 +56,12 @@ function ThemePick() {
         </AnimatePresence>
 
         {/* 1. Animated Hanging Lamp */}
-        <div className="relative flex flex-col items-center justify-start h-[280px] z-10">
+        <div className="relative flex flex-col items-center justify-start h-[200px] z-10">
           {/* Hanging Cord */}
-          <div className="absolute top-0 w-[2px] h-[70px] bg-[#C9A24C] origin-top" />
+          <div className="absolute top-0 w-[2px] h-[20px] bg-[#C9A24C] origin-top" />
 
           {/* Lamp Body Container */}
-          <div className="pt-[70px]">
+          <div className="pt-[20px]">
             <motion.div
               onClick={toggleTheme}
               animate={

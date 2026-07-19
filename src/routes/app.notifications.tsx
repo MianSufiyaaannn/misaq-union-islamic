@@ -105,7 +105,7 @@ function Notifications() {
   };
 
   return (
-    <div className="pb-8">
+    <div className="h-full overflow-y-auto pb-24">
       <TopBar
         title={t("notif.title")}
         right={

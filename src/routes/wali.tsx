@@ -24,12 +24,15 @@ function WaliShell() {
 
   return (
     <PhoneFrame>
-      <div className="flex min-h-full flex-col">
-        <div className="flex-1">
+      <div className="flex h-full w-full flex-col overflow-hidden">
+        <div className="flex-1 min-h-0 overflow-hidden">
           <Outlet />
         </div>
         {!hide && (
-          <nav className="sticky bottom-0 z-30 border-t border-border bg-background/95 px-2 pb-3 pt-2 backdrop-blur">
+          <nav
+            style={{ paddingBottom: "calc(0.5rem + env(safe-area-inset-bottom))" }}
+            className="sticky bottom-0 z-30 border-t border-border bg-background/95 px-2 pt-2 backdrop-blur"
+          >
             <ul className="flex items-center justify-between">
               {items.map((it) => {
                 const active = it.exact ? path === it.to : path.startsWith(it.to);
