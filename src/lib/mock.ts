@@ -1,4 +1,7 @@
 import { getCmsConfig } from "./cms-config";
+import { getReadOnlyUserId, isReadOnlySession } from "./admin-auth";
+import { toast } from "sonner";
+
 
 export type ProfileStatus =
   "Draft" | "Submitted" | "Under Review" | "Verified" | "Rejected" | "Suspended" | "Banned";
@@ -61,6 +64,19 @@ export type Person = {
   familyType?: string;
   hobbies?: string[];
   interests?: string[];
+  
+  // Extra registration fields
+  fatherName?: string;
+  dateOfBirth?: string;
+  weight?: string;
+  nationality?: string;
+  company?: string;
+  islamicKnowledge?: string;
+  islamicGoals?: string;
+  dowryPreference?: string;
+  waliCnicFront?: string;
+  waliCnicBack?: string;
+  profileVisibility?: string;
 };
 
 export function calculateCompatibility(
@@ -534,6 +550,19 @@ function buildFemale(i: number): Person {
       femalePhoto(i),
       "https://images.unsplash.com/photo-1517841905240-472988babdf9?auto=format&fit=crop&q=80&w=200",
     ],
+    
+    // Augmented fields
+    fatherName: `${name.split(" ")[1] || "Wali"} Senior`,
+    dateOfBirth: `${1995 + (i % 10)}-06-${10 + (i % 18)}`,
+    weight: `${50 + (i % 15)} kg`,
+    nationality: "Pakistani",
+    company: "Islamic Academy / Private Sector",
+    islamicKnowledge: "Advanced (Tafseer & Hadith)",
+    islamicGoals: "Build a pious family and raise children on Sunnah",
+    dowryPreference: "No dowry / As per Sunnah",
+    waliCnicFront: "https://images.unsplash.com/photo-1554774853-aae0a22c8aa4?auto=format&fit=crop&q=80&w=300",
+    waliCnicBack: "https://images.unsplash.com/photo-1554774853-aae0a22c8aa4?auto=format&fit=crop&q=80&w=300",
+    profileVisibility: "VerifiedOnly",
   };
 }
 
@@ -609,6 +638,19 @@ function buildMale(i: number): Person {
       malePhoto(i),
       "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&q=80&w=200",
     ],
+    
+    // Augmented fields
+    fatherName: `${name.split(" ")[1] || "Wali"} Senior`,
+    dateOfBirth: `${1992 + (i % 10)}-04-${12 + (i % 17)}`,
+    weight: `${65 + (i % 20)} kg`,
+    nationality: "Pakistani",
+    company: "Islamic Academy / Private Sector",
+    islamicKnowledge: "Advanced (Tafseer & Hadith)",
+    islamicGoals: "Build a pious family and raise children on Sunnah",
+    dowryPreference: "No dowry / As per Sunnah",
+    waliCnicFront: "https://images.unsplash.com/photo-1554774853-aae0a22c8aa4?auto=format&fit=crop&q=80&w=300",
+    waliCnicBack: "https://images.unsplash.com/photo-1554774853-aae0a22c8aa4?auto=format&fit=crop&q=80&w=300",
+    profileVisibility: "VerifiedOnly",
   };
 }
 
@@ -895,12 +937,28 @@ const persist = (key: string, data: unknown) => {
 import { useState, useEffect } from "react";
 
 export function useMe() {
-  const [me, setMe] = useState(meMemberData);
+  const getActiveUser = () => {
+    if (isReadOnlySession()) {
+      const readOnlyId = getReadOnlyUserId();
+      if (readOnlyId) {
+        const target = peopleData.find((p) => p.id === readOnlyId);
+        if (target) return target;
+      }
+    }
+    return meMemberData;
+  };
+
+  const [me, setMe] = useState(getActiveUser);
+
   useEffect(() => {
-    return subscribe(() => setMe(meMemberData));
+    return subscribe(() => setMe(getActiveUser()));
   }, []);
 
   const updateMe = (updater: Person | ((prev: Person) => Person)) => {
+    if (isReadOnlySession()) {
+      toast.error("Action restricted: Read-Only Admin Session");
+      return;
+    }
     const next = typeof updater === "function" ? updater(meMemberData) : updater;
     meMemberData = next;
     persist("misaq_me", next);
@@ -914,6 +972,7 @@ export function useMe() {
 
   return [me, updateMe] as const;
 }
+
 
 export function usePeople() {
   const [currentPeople, setCurrentPeople] = useState(peopleData);

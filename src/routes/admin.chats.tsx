@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useChats, findPerson, meMember, type ChatThread } from "@/lib/mock";
+import { useChats, findPerson, meMember, type ChatThread, type Person } from "@/lib/mock";
 import { Avatar } from "@/components/misaq/bits";
 import { Eye, Flag, ShieldCheck } from "lucide-react";
 import { useT } from "@/components/misaq/providers";
@@ -13,6 +13,7 @@ import {
   DialogDescription,
 } from "@/components/ui/dialog";
 import { cn } from "@/lib/utils";
+import { AdminProfileModal } from "@/components/misaq/admin-profile-modal";
 
 export const Route = createFileRoute("/admin/chats")({ component: AdminChats });
 
@@ -20,6 +21,8 @@ function AdminChats() {
   const t = useT();
   const [chats, updateChats] = useChats();
   const [activeAuditChat, setActiveAuditChat] = useState<ChatThread | null>(null);
+  const [selectedPerson, setSelectedPerson] = useState<Person | null>(null);
+
 
   // Track flagged chats locally
   const [flaggedIds, setFlaggedIds] = useState<string[]>(() => {
@@ -134,15 +137,35 @@ function AdminChats() {
               ))}
             </div>
 
-            <button
-              onClick={() => setActiveAuditChat(null)}
-              className="w-full rounded-full bg-primary py-2.5 text-xs font-semibold text-primary-foreground mt-4 shadow-soft"
-            >
-              Close Audit
-            </button>
+            <div className="mt-4 flex gap-2">
+              <button
+                onClick={() => {
+                  const target = findPerson(activeAuditChat.personId);
+                  setActiveAuditChat(null);
+                  setSelectedPerson(target);
+                }}
+                className="flex-1 rounded-full border border-primary text-primary py-2.5 text-xs font-semibold hover:bg-primary/10 transition-all cursor-pointer"
+              >
+                Inspect Profile
+              </button>
+              <button
+                onClick={() => setActiveAuditChat(null)}
+                className="flex-1 rounded-full bg-primary py-2.5 text-xs font-semibold text-primary-foreground shadow-soft cursor-pointer"
+              >
+                Close Audit
+              </button>
+            </div>
           </DialogContent>
         )}
       </Dialog>
+
+      <AdminProfileModal
+        person={selectedPerson}
+        open={!!selectedPerson}
+        onOpenChange={(open) => !open && setSelectedPerson(null)}
+        initialTab="chats"
+      />
+
     </div>
   );
 }

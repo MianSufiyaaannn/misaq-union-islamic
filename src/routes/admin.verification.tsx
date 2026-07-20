@@ -24,6 +24,7 @@ import {
   DialogTitle,
   DialogDescription,
 } from "@/components/ui/dialog";
+import { AdminProfileModal } from "@/components/misaq/admin-profile-modal";
 
 export const Route = createFileRoute("/admin/verification")({ component: AdminVerify });
 
@@ -32,6 +33,8 @@ function AdminVerify() {
   const [people, updatePeople] = usePeople();
   const [me, updateMe] = useMe();
   const [selectedPerson, setSelectedPerson] = useState<Person | null>(null);
+  const [fullProfilePerson, setFullProfilePerson] = useState<Person | null>(null);
+
 
   // States for review actions
   const [zoomImage, setZoomImage] = useState<string | null>(null);
@@ -267,10 +270,17 @@ function AdminVerify() {
             <h2 className="font-display font-semibold text-sm truncate">Reviewing {p.name}</h2>
             <p className="text-[10px] text-muted-foreground">ID: {p.id}</p>
           </div>
+          <button
+            onClick={() => setFullProfilePerson(p)}
+            className="flex items-center gap-1 rounded-full bg-primary text-primary-foreground px-3 py-1 text-[11px] font-bold shadow hover:bg-primary/95 cursor-pointer shrink-0"
+          >
+            <Eye className="h-3.5 w-3.5" /> Full Profile Modal
+          </button>
           <span className="rounded-full bg-primary/10 px-2.5 py-0.5 text-[10px] font-semibold text-primary uppercase">
             {p.verificationStatus || "Submitted"}
           </span>
         </header>
+
 
         <div className="flex-1 p-4 grid grid-cols-1 md:grid-cols-2 gap-4">
           {/* COLUMN 1: Visual Document Comparison */}
@@ -772,6 +782,14 @@ function AdminVerify() {
           ))}
         </div>
       )}
+
+      {/* Full Profile & Admin Management Modal */}
+      <AdminProfileModal
+        person={fullProfilePerson}
+        open={!!fullProfilePerson}
+        onOpenChange={(open) => !open && setFullProfilePerson(null)}
+      />
     </div>
   );
 }
+

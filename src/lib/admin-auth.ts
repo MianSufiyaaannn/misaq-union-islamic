@@ -35,7 +35,42 @@ export function clearAdminAuth(): void {
   try {
     window.sessionStorage.removeItem(KEY);
     window.sessionStorage.removeItem(ROLE_KEY);
+    window.sessionStorage.removeItem(READ_ONLY_KEY);
   } catch {
     /* ignore */
   }
 }
+
+const READ_ONLY_KEY = "misaq.admin.read_only_user_id";
+
+export function setReadOnlySession(userId: string): void {
+  if (typeof window === "undefined") return;
+  try {
+    window.sessionStorage.setItem(READ_ONLY_KEY, userId);
+  } catch {
+    /* ignore */
+  }
+}
+
+export function clearReadOnlySession(): void {
+  if (typeof window === "undefined") return;
+  try {
+    window.sessionStorage.removeItem(READ_ONLY_KEY);
+  } catch {
+    /* ignore */
+  }
+}
+
+export function getReadOnlyUserId(): string | null {
+  if (typeof window === "undefined") return null;
+  try {
+    return window.sessionStorage.getItem(READ_ONLY_KEY);
+  } catch {
+    return null;
+  }
+}
+
+export function isReadOnlySession(): boolean {
+  return !!getReadOnlyUserId();
+}
+

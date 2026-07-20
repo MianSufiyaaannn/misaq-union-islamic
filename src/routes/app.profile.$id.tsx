@@ -318,74 +318,51 @@ function ProfileView() {
         {/* Contact Details (conditional revealing) */}
         <Section title="Contact Information" icon={<ShieldCheck className="h-4 w-4" />}>
           <Row
-            label="Phone Number"
-            value={
-              isMatchedPartner && isPremiumUnlocked ? p.phone || "+92 321 4455667" : "••••••••••"
-            }
-            icon={
-              !isMatchedPartner || !isPremiumUnlocked ? (
-                <Lock className="h-3.5 w-3.5 text-gold shrink-0" />
-              ) : undefined
-            }
+            label="Full Name"
+            value={isMatchedPartner && isPremiumUnlocked ? p.name : "••••••••••"}
+            icon={!isMatchedPartner || !isPremiumUnlocked ? <Lock className="h-3.5 w-3.5 text-gold shrink-0" /> : undefined}
             onClick={!isMatchedPartner || !isPremiumUnlocked ? handleLockedFieldClick : undefined}
           />
           <Row
-            label="WhatsApp Number"
-            value={
-              isMatchedPartner && isPremiumUnlocked ? p.phone || "+92 321 4455667" : "••••••••••"
-            }
-            icon={
-              !isMatchedPartner || !isPremiumUnlocked ? (
-                <Lock className="h-3.5 w-3.5 text-gold shrink-0" />
-              ) : undefined
-            }
+            label="Father Name"
+            value={isMatchedPartner && isPremiumUnlocked ? (p.fatherName || `${p.name.split(" ")[1] || "Wali"} Senior`) : "••••••••••"}
+            icon={!isMatchedPartner || !isPremiumUnlocked ? <Lock className="h-3.5 w-3.5 text-gold shrink-0" /> : undefined}
+            onClick={!isMatchedPartner || !isPremiumUnlocked ? handleLockedFieldClick : undefined}
+          />
+          <Row
+            label="Phone Number"
+            value={isMatchedPartner && isPremiumUnlocked ? (p.phone || "+92 321 4455667") : "••••••••••"}
+            icon={!isMatchedPartner || !isPremiumUnlocked ? <Lock className="h-3.5 w-3.5 text-gold shrink-0" /> : undefined}
             onClick={!isMatchedPartner || !isPremiumUnlocked ? handleLockedFieldClick : undefined}
           />
           <Row
             label="Email Address"
-            value={
-              isMatchedPartner && isPremiumUnlocked
-                ? p.email || "aisha.rahman@gmail.com"
-                : "••••••••••"
-            }
-            icon={
-              !isMatchedPartner || !isPremiumUnlocked ? (
-                <Lock className="h-3.5 w-3.5 text-gold shrink-0" />
-              ) : undefined
-            }
+            value={isMatchedPartner && isPremiumUnlocked ? (p.email || `${p.name.toLowerCase().replace(/\s+/g, ".")}@gmail.com`) : "••••••••••"}
+            icon={!isMatchedPartner || !isPremiumUnlocked ? <Lock className="h-3.5 w-3.5 text-gold shrink-0" /> : undefined}
             onClick={!isMatchedPartner || !isPremiumUnlocked ? handleLockedFieldClick : undefined}
           />
           <Row
-            label="Exact Address"
-            value={
-              isMatchedPartner && isPremiumUnlocked
-                ? p.address || "12-A Block H, DHA Phase 5, Lahore"
-                : "••••••••••"
-            }
-            icon={
-              !isMatchedPartner || !isPremiumUnlocked ? (
-                <Lock className="h-3.5 w-3.5 text-gold shrink-0" />
-              ) : undefined
-            }
+            label="Complete Address"
+            value={isMatchedPartner && isPremiumUnlocked ? (p.address || `House 12, Block K, DHA, ${p.city}`) : "••••••••••"}
+            icon={!isMatchedPartner || !isPremiumUnlocked ? <Lock className="h-3.5 w-3.5 text-gold shrink-0" /> : undefined}
             onClick={!isMatchedPartner || !isPremiumUnlocked ? handleLockedFieldClick : undefined}
           />
         </Section>
 
         <Section title={t("profile.eduProf")} icon={<GraduationCap className="h-4 w-4" />}>
           <Row label={t("profile.education")} value={p.education} />
-          <Row
-            label={t("profile.profession")}
-            value={p.profession}
-            icon={<Briefcase className="h-3.5 w-3.5" />}
-          />
+          <Row label={t("profile.profession")} value={p.profession} icon={<Briefcase className="h-3.5 w-3.5" />} />
+          <Row label="Company" value={isMatchedPartner && isPremiumUnlocked ? (p.company || "Islamic Academy / Private Sector") : p.company || "Private Sector"} />
+          <Row label="Monthly Income" value={isMatchedPartner && isPremiumUnlocked ? (p.monthlyIncome || "150k – 300k") : (p.monthlyIncome || "150k – 300k")} />
           <Row label={t("profile.height")} value={p.height} />
         </Section>
 
         <Section title={t("profile.religion")} icon={<BookOpen className="h-4 w-4" />}>
-          <Row label="Religion" value="Islam" />
+          <Row label="Religion" value={p.religion || "Islam"} />
           <Row label="Maslak / Sect" value={p.sect} />
           <Row label={p.gender === "male" ? "Prayer in Masjid" : "Prayer"} value={p.prayer} />
           <Row label={t("profile.quran")} value={p.quran} />
+          <Row label="Islamic Knowledge" value={p.islamicKnowledge || "Advanced (Tafseer & Hadith)"} />
           {p.religiousPractice && <Row label="Religious Practice" value={p.religiousPractice} />}
           {p.religiousEnvironment && <Row label="Religious Environment" value={p.religiousEnvironment} />}
           {p.hijab && <Row label="Hijab / Niqab" value={p.hijab} />}
@@ -395,81 +372,67 @@ function ProfileView() {
         <Section title={t("profile.family")} icon={<HomeIcon className="h-4 w-4" />}>
           <Row
             label={t("profile.father")}
-            value={isMatchedPartner && isPremiumUnlocked ? "Alive · Retired teacher" : "••••••••••"}
-            icon={
-              !isMatchedPartner || !isPremiumUnlocked ? (
-                <Lock className="h-3.5 w-3.5 text-gold shrink-0" />
-              ) : undefined
-            }
+            value={isMatchedPartner && isPremiumUnlocked ? (p.fatherName || `${p.name.split(" ")[1] || "Wali"} Senior (Alive)`) : "••••••••••"}
+            icon={!isMatchedPartner || !isPremiumUnlocked ? <Lock className="h-3.5 w-3.5 text-gold shrink-0" /> : undefined}
             onClick={!isMatchedPartner || !isPremiumUnlocked ? handleLockedFieldClick : undefined}
           />
           <Row
             label={t("profile.mother")}
-            value={isMatchedPartner && isPremiumUnlocked ? "Alive · Homemaker" : "••••••••••"}
-            icon={
-              !isMatchedPartner || !isPremiumUnlocked ? (
-                <Lock className="h-3.5 w-3.5 text-gold shrink-0" />
-              ) : undefined
-            }
+            value={isMatchedPartner && isPremiumUnlocked ? "Homemaker (Alive)" : "••••••••••"}
+            icon={!isMatchedPartner || !isPremiumUnlocked ? <Lock className="h-3.5 w-3.5 text-gold shrink-0" /> : undefined}
             onClick={!isMatchedPartner || !isPremiumUnlocked ? handleLockedFieldClick : undefined}
           />
           <Row
             label={t("profile.siblings")}
             value={isMatchedPartner && isPremiumUnlocked ? "2 brothers · 1 sister" : "••••••••••"}
-            icon={
-              !isMatchedPartner || !isPremiumUnlocked ? (
-                <Lock className="h-3.5 w-3.5 text-gold shrink-0" />
-              ) : undefined
-            }
+            icon={!isMatchedPartner || !isPremiumUnlocked ? <Lock className="h-3.5 w-3.5 text-gold shrink-0" /> : undefined}
             onClick={!isMatchedPartner || !isPremiumUnlocked ? handleLockedFieldClick : undefined}
           />
           <Row
             label={t("profile.familyType")}
-            value={isMatchedPartner && isPremiumUnlocked ? "Separate" : "••••••••••"}
-            icon={
-              !isMatchedPartner || !isPremiumUnlocked ? (
-                <Lock className="h-3.5 w-3.5 text-gold shrink-0" />
-              ) : undefined
-            }
+            value={p.familyType || "Nuclear"}
+          />
+        </Section>
+
+        <Section title="Hidden Gallery" icon={<Lock className="h-4 w-4" />}>
+          {isMatchedPartner && isPremiumUnlocked ? (
+            <div className="grid grid-cols-3 gap-2 p-3">
+              {(p.gallery || [p.photo]).map((img, idx) => (
+                <img
+                  key={idx}
+                  src={img}
+                  alt={`Gallery ${idx + 1}`}
+                  className="h-24 w-full object-cover rounded-xl border border-border"
+                />
+              ))}
+            </div>
+          ) : (
+            <Row
+              label="Private Photos & Gallery"
+              value="••••••••••"
+              icon={<Lock className="h-3.5 w-3.5 text-gold shrink-0" />}
+              onClick={handleLockedFieldClick}
+            />
+          )}
+        </Section>
+
+        <Section title={t("profile.wali")} icon={<ShieldCheck className="h-4 w-4" />}>
+          <Row label={t("profile.waliName")} value={p.waliName || `${p.name.split(" ")[1] || "Wali"} Guardian`} />
+          <Row label="Wali Relationship" value={p.waliRelationship || "Father"} />
+          <Row
+            label="Wali Contact Phone"
+            value={isMatchedPartner && isPremiumUnlocked ? (p.waliPhone || "+92 300 5000000") : "••••••••••"}
+            icon={!isMatchedPartner || !isPremiumUnlocked ? <Lock className="h-3.5 w-3.5 text-gold shrink-0" /> : undefined}
+            onClick={!isMatchedPartner || !isPremiumUnlocked ? handleLockedFieldClick : undefined}
+          />
+          <Row
+            label="Wali Contact Email"
+            value={isMatchedPartner && isPremiumUnlocked ? (p.waliEmail || "wali@gmail.com") : "••••••••••"}
+            icon={!isMatchedPartner || !isPremiumUnlocked ? <Lock className="h-3.5 w-3.5 text-gold shrink-0" /> : undefined}
             onClick={!isMatchedPartner || !isPremiumUnlocked ? handleLockedFieldClick : undefined}
           />
         </Section>
 
-        {hasAccess && (
-          <Section title="Hidden Gallery" icon={<Lock className="h-4 w-4" />}>
-            {isMatchedPartner && isPremiumUnlocked ? (
-              <div className="grid grid-cols-3 gap-2 p-2">
-                <img
-                  src={p.photo}
-                  alt="Gallery 1"
-                  className="h-20 w-full object-cover rounded-xl"
-                />
-                <img
-                  src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=120&auto=format&fit=crop"
-                  alt="Gallery 2"
-                  className="h-20 w-full object-cover rounded-xl"
-                />
-                <img
-                  src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=120&auto=format&fit=crop"
-                  alt="Gallery 3"
-                  className="h-20 w-full object-cover rounded-xl"
-                />
-              </div>
-            ) : (
-              <Row
-                label="Private Photos"
-                value="••••••••••"
-                icon={<Lock className="h-3.5 w-3.5 text-gold shrink-0" />}
-                onClick={handleLockedFieldClick}
-              />
-            )}
-          </Section>
-        )}
-
-        <Section title={t("profile.wali")} icon={<ShieldCheck className="h-4 w-4" />}>
-          <Row label={t("profile.waliName")} value="Abdullah Rahman" />
-          <Row label={t("profile.verified")} value="CNIC & selfie confirmed" />
-        </Section>
 
         <Section title={t("profile.dowry")}>
           <Row

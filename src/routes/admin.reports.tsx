@@ -1,36 +1,38 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { AlertTriangle, Inbox } from "lucide-react";
+import { AlertTriangle, Inbox, Eye } from "lucide-react";
 import { useT } from "@/components/misaq/providers";
 import { useState } from "react";
 import { toast } from "sonner";
+import { usePeople, type Person } from "@/lib/mock";
+import { AdminProfileModal } from "@/components/misaq/admin-profile-modal";
 
 export const Route = createFileRoute("/admin/reports")({ component: AdminReports });
 
 const initialReports = [
   {
     by: "Aisha R.",
-    against: "unknown@user",
+    against: "Hamza Siddiqui",
     reasonKey: "admin.reports.reasons.msg",
     severity: "high",
     time: "12m",
   },
   {
     by: "Hamza S.",
-    against: "user_2183",
+    against: "Maryam Iqbal",
     reasonKey: "admin.reports.reasons.fake",
     severity: "med",
     time: "1h",
   },
   {
     by: "Maryam I.",
-    against: "user_9812",
+    against: "Yusuf Khan",
     reasonKey: "admin.reports.reasons.harass",
     severity: "high",
     time: "3h",
   },
   {
     by: "Yusuf K.",
-    against: "user_4409",
+    against: "Khadija Malik",
     reasonKey: "admin.reports.reasons.spam",
     severity: "low",
     time: "1d",
@@ -39,6 +41,9 @@ const initialReports = [
 
 function AdminReports() {
   const t = useT();
+  const [people, updatePeople] = usePeople();
+  const [investigatingPerson, setInvestigatingPerson] = useState<Person | null>(null);
+
   const [reportList, setReportList] = useState(() => {
     if (typeof window !== "undefined") {
       const saved = localStorage.getItem("misaq_reports");
@@ -55,13 +60,23 @@ function AdminReports() {
   };
 
   const handleInvestigate = (r: any) => {
-    toast.info(`Opening investigation console and chat audit logs for ${r.against}.`);
+    const found = people.find(
+      (p) => p.name.toLowerCase().includes(r.against.toLowerCase()) || r.against.toLowerCase().includes(p.name.split(" ")[0].toLowerCase()),
+    ) || people[0];
+    setInvestigatingPerson(found);
   };
 
   const handleSuspend = (r: any) => {
     toast.promise(new Promise((resolve) => setTimeout(resolve, 800)), {
       loading: "Suspending reported account...",
       success: () => {
+        const found = people.find((p) => p.name.toLowerCase().includes(r.against.toLowerCase()));
+        if (found) {
+          const nextPeople = people.map((p) =>
+            p.id === found.id ? { ...p, verificationStatus: "Suspended" as const } : p,
+          );
+          updatePeople(nextPeople);
+        }
         const next = reportList.filter((x) => x.against !== r.against);
         saveReports(next);
         return `Account ${r.against} suspended successfully!`;
@@ -107,9 +122,9 @@ function AdminReports() {
             <div className="mt-3 grid grid-cols-3 gap-2 text-[11px] font-semibold">
               <button
                 onClick={() => handleInvestigate(r)}
-                className="rounded-full border border-border py-1.5 truncate cursor-pointer hover:bg-muted/30 transition-all"
+                className="rounded-full border border-primary/30 bg-primary/10 text-primary py-1.5 truncate cursor-pointer hover:bg-primary/20 transition-all flex items-center justify-center gap-1"
               >
-                {t("common.investigate")}
+                <Eye className="h-3 w-3" /> {t("common.investigate")}
               </button>
               <button
                 onClick={() => handleSuspend(r)}
@@ -127,6 +142,15 @@ function AdminReports() {
           </div>
         ))
       )}
+
+      {/* Investigation Modal */}
+      <AdminProfileModal
+        person={investigatingPerson}
+        open={!!investigatingPerson}
+        onOpenChange={(open) => !open && setInvestigatingPerson(null)}
+        initialTab="reports"
+      />
     </div>
   );
 }
+

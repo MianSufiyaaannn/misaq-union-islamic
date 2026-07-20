@@ -9,18 +9,13 @@ import {
   UserCheck,
   Ban,
   RotateCcw,
+  Eye,
 } from "lucide-react";
 import { useT } from "@/components/misaq/providers";
 import { useState } from "react";
 import { toast } from "sonner";
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-  DialogDescription,
-} from "@/components/ui/dialog";
 import { cn } from "@/lib/utils";
+import { AdminProfileModal } from "@/components/misaq/admin-profile-modal";
 
 export const Route = createFileRoute("/admin/members")({ component: AdminMembers });
 
@@ -46,61 +41,13 @@ function AdminMembers() {
     if (!matchesSearch) return false;
 
     // Filter
-    if (activeFilter === "verified") return p.verified;
-    if (activeFilter === "pending") return !p.verified;
+    if (activeFilter === "verified") return p.verificationStatus === "Verified" || p.verified;
+    if (activeFilter === "pending") return p.verificationStatus === "Submitted" || p.verificationStatus === "Under Review" || (!p.verified && !p.verificationStatus);
     if (activeFilter === "premium") return p.premium;
     if (activeFilter === "reported") return p.id.endsWith("3") || p.id.endsWith("7"); // Mock reported condition
-    if (activeFilter === "suspended") return p.bio.includes("[SUSPENDED]"); // Mock suspended condition
+    if (activeFilter === "suspended") return p.verificationStatus === "Suspended" || p.bio.includes("[SUSPENDED]");
     return true;
   });
-
-  const handleToggleVerify = (person: Person) => {
-    const nextPeople = people.map((p) => {
-      if (p.id === person.id) {
-        const nextState = !p.verified;
-        toast.success(`${p.name} is now ${nextState ? "Verified" : "Unverified"}`);
-        return { ...p, verified: nextState };
-      }
-      return p;
-    });
-    updatePeople(nextPeople);
-    setSelectedMember(null);
-  };
-
-  const handleTogglePremium = (person: Person) => {
-    const nextPeople = people.map((p) => {
-      if (p.id === person.id) {
-        const nextState = !p.premium;
-        toast.success(`${p.name} is now ${nextState ? "Premium member" : "Standard member"}`);
-        return { ...p, premium: nextState };
-      }
-      return p;
-    });
-    updatePeople(nextPeople);
-    setSelectedMember(null);
-  };
-
-  const handleResetRecommendations = (person: Person) => {
-    resetRecommendations();
-    toast.success(
-      `Discover recommendations reset for ${person.name}. Previously rejected profiles can reappear.`,
-    );
-    setSelectedMember(null);
-  };
-
-  const handleToggleSuspend = (person: Person) => {
-    const nextPeople = people.map((p) => {
-      if (p.id === person.id) {
-        const isSuspended = p.bio.includes("[SUSPENDED]");
-        const nextBio = isSuspended ? p.bio.replace("[SUSPENDED] ", "") : `[SUSPENDED] ${p.bio}`;
-        toast.error(`${p.name} has been ${isSuspended ? "activated" : "suspended"}`);
-        return { ...p, bio: nextBio };
-      }
-      return p;
-    });
-    updatePeople(nextPeople);
-    setSelectedMember(null);
-  };
 
   return (
     <div className="p-4 pb-8">
@@ -137,54 +84,58 @@ function AdminMembers() {
         ) : (
           <ul className="divide-y divide-border">
             {filteredPeople.map((p) => {
-              const isSuspended = p.bio.includes("[SUSPENDED]");
+              const isSuspended = p.verificationStatus === "Suspended" || p.bio.includes("[SUSPENDED]");
               return (
                 <li
                   key={p.id}
-                  className="flex items-center gap-3 px-3 py-2.5 text-sm hover:bg-muted/10 transition-colors"
+                  onClick={() => setSelectedMember(p)}
+                  className="flex items-center gap-3 px-3 py-3 text-sm hover:bg-muted/30 transition-colors cursor-pointer"
                 >
-                  <Avatar person={p} size={36} />
+                  <Avatar person={p} size={40} />
                   <div className="flex-1 min-w-0">
                     <div className="flex items-center gap-1.5 min-w-0">
                       <p
                         className={cn(
-                          "truncate font-medium",
+                          "truncate font-semibold text-foreground",
                           isSuspended && "line-through text-muted-foreground",
                         )}
                       >
                         {p.name}
                       </p>
                       {isSuspended && (
-                        <span className="rounded bg-destructive/10 px-1 py-0.5 text-[8px] font-semibold text-destructive uppercase">
+                        <span className="rounded bg-destructive/10 px-1.5 py-0.5 text-[8px] font-bold text-destructive uppercase">
                           Suspended
                         </span>
                       )}
                     </div>
-                    <p className="truncate text-[10px] text-muted-foreground">
-                      {p.age} · {p.city} · {p.profession}
+                    <p className="truncate text-[10px] text-muted-foreground mt-0.5">
+                      {p.age} yrs · {p.city} · {p.profession}
                     </p>
                   </div>
                   <div className="shrink-0 text-end">
                     <p
                       className={cn(
-                        "text-[10px] font-medium",
-                        p.verified ? "text-primary" : "text-muted-foreground",
+                        "text-[10px] font-semibold",
+                        p.verificationStatus === "Verified" || p.verified ? "text-emerald-600" : "text-amber-500",
                       )}
                     >
-                      {p.verified ? t("common.verified") : t("common.pending")}
+                      {p.verificationStatus || (p.verified ? t("common.verified") : t("common.pending"))}
                     </p>
                     {p.premium && (
-                      <p className="text-[9px] text-[color:var(--color-gold-foreground)]">
+                      <p className="text-[9px] text-amber-500 font-bold">
                         ✦ Premium
                       </p>
                     )}
                   </div>
                   <button
-                    onClick={() => setSelectedMember(p)}
-                    className="shrink-0 text-muted-foreground p-1 hover:bg-muted rounded-full cursor-pointer"
-                    aria-label="menu"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setSelectedMember(p);
+                    }}
+                    className="shrink-0 text-muted-foreground p-1.5 hover:bg-muted rounded-full cursor-pointer"
+                    aria-label="View Profile"
                   >
-                    <MoreVertical className="h-4 w-4" />
+                    <Eye className="h-4 w-4" />
                   </button>
                 </li>
               );
@@ -193,78 +144,13 @@ function AdminMembers() {
         )}
       </div>
 
-      {/* Member Administration Dialog */}
-      <Dialog open={!!selectedMember} onOpenChange={(open) => !open && setSelectedMember(null)}>
-        {selectedMember && (
-          <DialogContent className="max-w-[360px] rounded-3xl bg-background p-6">
-            <DialogHeader className="items-center text-center">
-              <Avatar person={selectedMember} size={64} />
-              <DialogTitle className="font-display text-lg text-primary mt-2">
-                {selectedMember.name}
-              </DialogTitle>
-              <DialogDescription className="text-xs text-muted-foreground">
-                {selectedMember.age} yrs · {selectedMember.city} · {selectedMember.profession}
-              </DialogDescription>
-            </DialogHeader>
-            <div className="mt-4 space-y-2">
-              <button
-                onClick={() => handleToggleVerify(selectedMember)}
-                className="w-full flex items-center justify-between rounded-2xl border border-border p-3 text-xs font-semibold cursor-pointer hover:bg-muted transition-colors"
-              >
-                <span className="flex items-center gap-2">
-                  <UserCheck className="h-4 w-4 text-primary" /> Verification Status
-                </span>
-                <span
-                  className={cn(selectedMember.verified ? "text-primary" : "text-muted-foreground")}
-                >
-                  {selectedMember.verified ? "Verified ✓" : "Verify member"}
-                </span>
-              </button>
-              <button
-                onClick={() => handleTogglePremium(selectedMember)}
-                className="w-full flex items-center justify-between rounded-2xl border border-border p-3 text-xs font-semibold cursor-pointer hover:bg-muted transition-colors"
-              >
-                <span className="flex items-center gap-2">
-                  <Sparkles className="h-4 w-4 text-gold" /> Premium Subscription
-                </span>
-                <span
-                  className={cn(selectedMember.premium ? "text-gold" : "text-muted-foreground")}
-                >
-                  {selectedMember.premium ? "Premium active ✦" : "Grant Premium"}
-                </span>
-              </button>
-              <button
-                onClick={() => handleToggleSuspend(selectedMember)}
-                className="w-full flex items-center justify-between rounded-2xl border border-destructive/20 p-3 text-xs font-semibold cursor-pointer hover:bg-destructive/5 text-destructive transition-colors"
-              >
-                <span className="flex items-center gap-2">
-                  <Ban className="h-4 w-4" /> Account Access
-                </span>
-                <span>
-                  {selectedMember.bio.includes("[SUSPENDED]")
-                    ? "Unsuspend account"
-                    : "Suspend account"}
-                </span>
-              </button>
-              <button
-                onClick={() => handleResetRecommendations(selectedMember)}
-                className="w-full flex items-center justify-between rounded-2xl border border-border p-3 text-xs font-semibold cursor-pointer hover:bg-muted transition-colors"
-              >
-                <span className="flex items-center gap-2">
-                  <RotateCcw className="h-4 w-4 text-primary" /> Discover Recommendations
-                </span>
-                <span className="text-muted-foreground">Reset rejected queue</span>
-              </button>
-            </div>
-            <button
-              onClick={() => setSelectedMember(null)}
-              className="w-full rounded-full bg-primary py-2.5 text-xs font-semibold text-primary-foreground mt-4 shadow-soft"
-            >
-              Close Console
-            </button>
-          </DialogContent>
-        )}
-      </Dialog>
+      {/* Member Full Profile & Admin Management Modal */}
+      <AdminProfileModal
+        person={selectedMember}
+        open={!!selectedMember}
+        onOpenChange={(open) => !open && setSelectedMember(null)}
+      />
     </div>
   );
 }
+

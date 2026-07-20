@@ -1,15 +1,24 @@
-import { createFileRoute, Outlet, useRouterState } from "@tanstack/react-router";
+import { createFileRoute, Outlet, useRouterState, useNavigate } from "@tanstack/react-router";
 import { PhoneFrame } from "@/components/misaq/phone-frame";
 import { BottomNav } from "@/components/misaq/bottom-nav";
 import { useMe } from "@/lib/mock";
-import { ShieldAlert, LogOut } from "lucide-react";
+import { ShieldAlert, LogOut, Eye, ArrowLeft } from "lucide-react";
+import { isReadOnlySession, clearReadOnlySession } from "@/lib/admin-auth";
 import { toast } from "sonner";
 
 export const Route = createFileRoute("/app")({ component: AppShell });
 
 function AppShell() {
   const path = useRouterState({ select: (s) => s.location.pathname });
+  const navigate = useNavigate();
   const [me, updateMe] = useMe();
+  const readOnly = isReadOnlySession();
+
+  const handleExitReadOnly = () => {
+    clearReadOnlySession();
+    toast.success("Exited Read-Only session. Returned to Admin Dashboard.");
+    navigate({ to: "/admin/members" });
+  };
 
   // Hide bottom nav on immersive screens
   const hide =
@@ -17,11 +26,11 @@ function AppShell() {
     path.match(/^\/app\/chats\/[^/]+$/) ||
     path.match(/^\/app\/profile\/[^/]+$/);
 
-  // If user is suspended or banned, block them completely from entering the app
+  // If user is suspended or banned, block them completely from entering the app unless admin read-only
   const isSuspended = me.verificationStatus === "Suspended";
   const isBanned = me.verificationStatus === "Banned";
 
-  if (isSuspended || isBanned) {
+  if (!readOnly && (isSuspended || isBanned)) {
     const handleSignOut = () => {
       // Mock logout by resetting me back to a default verified user and going home
       localStorage.removeItem("misaq_me");
@@ -55,7 +64,28 @@ function AppShell() {
 
   return (
     <PhoneFrame>
-      <div className="flex h-full w-full flex-col overflow-hidden">
+      <div className="flex h-full w-full flex-col overflow-hidden relative">
+        {readOnly && (
+          <div className="z-50 flex items-center justify-between gap-2 border-b border-destructive/30 bg-destructive text-destructive-foreground px-3 py-2 text-xs shadow-md shrink-0">
+            <div className="flex items-center gap-1.5 min-w-0">
+              <Eye className="h-4 w-4 shrink-0 animate-pulse" />
+              <div className="min-w-0">
+                <p className="font-bold leading-none truncate text-[11px] uppercase tracking-wider">
+                  READ ONLY ADMIN SESSION
+                </p>
+                <p className="text-[10px] opacity-90 truncate mt-0.5">
+                  Inspecting: {me.name}
+                </p>
+              </div>
+            </div>
+            <button
+              onClick={handleExitReadOnly}
+              className="shrink-0 rounded-full bg-white text-destructive px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider hover:bg-white/90 cursor-pointer shadow-sm transition-all"
+            >
+              Return to Admin Dashboard
+            </button>
+          </div>
+        )}
         <div className="flex-1 min-h-0 overflow-hidden">
           <Outlet />
         </div>
@@ -64,3 +94,4 @@ function AppShell() {
     </PhoneFrame>
   );
 }
+
