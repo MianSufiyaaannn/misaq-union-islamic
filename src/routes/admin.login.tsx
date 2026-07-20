@@ -6,6 +6,8 @@ import { useT } from "@/components/misaq/providers";
 import { Logo } from "@/components/misaq/logo";
 import { setAdminAuth, isAdminAuthed, clearAdminAuth } from "@/lib/admin-auth";
 
+import { validateRealEmail } from "@/lib/email-validator";
+
 export const Route = createFileRoute("/admin/login")({ component: AdminLogin });
 
 function AdminLogin() {
@@ -26,10 +28,17 @@ function AdminLogin() {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+    setError(null);
     if (!canSubmit) {
       setError(t("admin.login.error") || "Please enter your email and password.");
       return;
     }
+    const valRes = validateRealEmail(email);
+    if (!valRes.valid) {
+      setError(valRes.error || "Please enter a valid email address.");
+      return;
+    }
+
     setLoading(true);
     // Simulated authentication delay
     window.setTimeout(() => {

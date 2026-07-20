@@ -14,7 +14,13 @@ import {
   DialogTitle,
   DialogDescription,
 } from "@/components/ui/dialog";
-import { Plus } from "lucide-react";
+import { Plus, ShieldAlert } from "lucide-react";
+import {
+  validateRealEmail,
+  setPendingVerification,
+  verifyEmailOTP,
+  markEmailAsVerified,
+} from "@/lib/email-validator";
 
 const search = z.object({ role: z.enum(["member", "wali"]).catch("member") });
 
@@ -25,11 +31,6 @@ export const Route = createFileRoute("/auth/register/steps")({
 
 type Gender = "male" | "female" | null;
 
-function validateEmailFormat(email: string) {
-  if (!email) return false;
-  const regex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-  return regex.test(email);
-}
 
 function Wizard() {
   const { role } = Route.useSearch();
@@ -50,9 +51,16 @@ function Wizard() {
   const steps = role === "wali" ? waliSteps : memberSteps;
   const [i, setI] = useState(0);
 
+  const [pendingVerificationOpen, setPendingVerificationOpen] = useState(false);
+  const [targetEmail, setTargetEmail] = useState("");
+  const [otpInput, setOtpInput] = useState("");
+  const [generatedOTP, setGeneratedOTP] = useState("");
+  const [pendingPayload, setPendingPayload] = useState<any>(null);
+
   // Unified persistent form state for stability and back/forward navigation
   const [formData, setFormData] = useState<Record<string, any>>({
     fullName: "",
+    email: "",
     dob: "",
     height: "",
     gender: null,
@@ -118,6 +126,12 @@ function Wizard() {
   if (role === "member") {
     if (i === 0) {
       if (!formData.fullName?.trim()) errors.fullName = "Required";
+      if (!formData.email?.trim()) {
+        errors.email = "Required";
+      } else {
+        const emailRes = validateRealEmail(formData.email);
+        if (!emailRes.valid) errors.email = emailRes.error || "Invalid email format";
+      }
       if (!formData.dob?.trim()) errors.dob = "Required";
       if (!formData.height?.trim()) errors.height = "Required";
       if (!formData.gender) errors.gender = "Required";
@@ -169,8 +183,9 @@ function Wizard() {
       }
       if (!formData.waliEmail?.trim()) {
         errors.waliEmail = "Required";
-      } else if (!validateEmailFormat(formData.waliEmail)) {
-        errors.waliEmail = "Invalid email format";
+      } else {
+        const waliEmailRes = validateRealEmail(formData.waliEmail);
+        if (!waliEmailRes.valid) errors.waliEmail = waliEmailRes.error || "Invalid email format";
       }
       if (!formData.waliCnic?.trim()) {
         errors.waliCnic = "Required";
@@ -193,8 +208,9 @@ function Wizard() {
       }
       if (!formData.waliEmailSelf?.trim()) {
         errors.waliEmailSelf = "Required";
-      } else if (!validateEmailFormat(formData.waliEmailSelf)) {
-        errors.waliEmailSelf = "Invalid email format";
+      } else {
+        const waliSelfRes = validateRealEmail(formData.waliEmailSelf);
+        if (!waliSelfRes.valid) errors.waliEmailSelf = waliSelfRes.error || "Invalid email format";
       }
       if (!formData.waliCountry?.trim()) errors.waliCountry = "Required";
       if (!formData.waliCity?.trim()) errors.waliCity = "Required";
@@ -224,12 +240,19 @@ function Wizard() {
   const prev = () => {
     if (i > 0) setI(i - 1);
   };
+
   const finish = () => {
     if (!isValid) return;
 
+    const emailToVerify = role === "wali" ? formData.waliEmailSelf : (formData.email || "user@misaq.app");
+
     if (role === "wali") {
-      toast.success("Wali account registered successfully!");
-      navigate({ to: "/wali" });
+      const payload = { role: "wali", formData };
+      const otp = setPendingVerification(emailToVerify, payload);
+      setTargetEmail(emailToVerify);
+      setGeneratedOTP(otp);
+      setPendingPayload(payload);
+      setPendingVerificationOpen(true);
     } else {
       const newMe: Person = {
         id: "me",
@@ -256,7 +279,7 @@ function Wizard() {
         premium: false,
 
         // Production Workflow Fields
-        verificationStatus: "Submitted",
+        verificationStatus: "Pending Email Verification",
         cnicNumber: formData.waliCnic || "35201-1234567-8",
         cnicFront: formData.cnicFront,
         cnicBack: formData.cnicBack,
@@ -284,12 +307,33 @@ function Wizard() {
         photoPrivacy: formData.photoPrivacy || "Public",
       };
 
-      updateMe(newMe);
-      updatePeople([newMe, ...peopleList]);
-      toast.success(`Welcome to Misaq, ${newMe.name.split(" ")[0]}!`);
-      navigate({ to: "/app" });
+      const otp = setPendingVerification(emailToVerify, newMe);
+      setTargetEmail(emailToVerify);
+      setGeneratedOTP(otp);
+      setPendingPayload(newMe);
+      setPendingVerificationOpen(true);
     }
   };
+
+  const handleConfirmVerification = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (verifyEmailOTP(targetEmail, otpInput)) {
+      toast.success("Email verified successfully! Account activated.");
+      setPendingVerificationOpen(false);
+
+      if (role === "wali") {
+        navigate({ to: "/wali" });
+      } else {
+        const activatedUser = { ...pendingPayload, verificationStatus: "Submitted" as const };
+        updateMe(activatedUser);
+        updatePeople([activatedUser, ...peopleList]);
+        navigate({ to: "/app" });
+      }
+    } else {
+      toast.error("Invalid verification code. Please try again.");
+    }
+  };
+
   return (
     <PhoneFrame>
       <TopBar
@@ -362,9 +406,57 @@ function Wizard() {
           </button>
         )}
       </div>
+
+      {/* Email Verification OTP Modal */}
+      {pendingVerificationOpen && (
+        <Dialog open={pendingVerificationOpen} onOpenChange={setPendingVerificationOpen}>
+          <DialogContent className="max-w-[360px] rounded-3xl bg-background p-6 text-center">
+            <DialogHeader className="items-center text-center">
+              <div className="flex h-12 w-12 items-center justify-center rounded-full bg-primary/10 text-primary mb-2">
+                <ShieldAlert className="h-6 w-6" />
+              </div>
+              <DialogTitle className="font-display text-lg text-primary font-bold">
+                Pending Email Verification
+              </DialogTitle>
+              <DialogDescription className="text-xs text-muted-foreground mt-1">
+                Account registered! Please verify your email before activating. Enter the 6-digit code sent to{" "}
+                <span className="font-semibold text-foreground">{targetEmail}</span>.
+              </DialogDescription>
+            </DialogHeader>
+
+            <form onSubmit={handleConfirmVerification} className="space-y-4 mt-2 text-left">
+              <div>
+                <label className="block text-xs font-semibold text-muted-foreground mb-1">
+                  6-Digit Verification Code
+                </label>
+                <input
+                  type="text"
+                  maxLength={6}
+                  value={otpInput}
+                  onChange={(e) => setOtpInput(e.target.value.replace(/\D/g, ""))}
+                  placeholder={`E.g. ${generatedOTP || "123456"}`}
+                  className="w-full text-center font-mono text-lg tracking-widest rounded-2xl border border-input bg-surface py-3 outline-none focus:border-primary"
+                  required
+                />
+                <p className="text-[10px] text-muted-foreground text-center mt-1">
+                  Demo code: <span className="font-mono font-bold text-primary">{generatedOTP || "123456"}</span>
+                </p>
+              </div>
+
+              <button
+                type="submit"
+                className="w-full rounded-full bg-primary py-3 text-xs font-semibold text-primary-foreground shadow-md hover:bg-primary/95 transition-all cursor-pointer"
+              >
+                Verify Email & Activate Account
+              </button>
+            </form>
+          </DialogContent>
+        </Dialog>
+      )}
     </PhoneFrame>
   );
 }
+
 
 function Progress({ current, total }: { current: number; total: number }) {
   return (
@@ -690,6 +782,14 @@ function MemberStep({
           onChange={(v) => updateField("fullName", v)}
           error={errors.fullName}
         />
+        <TextInput
+          label="Email Address (Required for Verification)"
+          placeholder="e.g. user@gmail.com"
+          value={formData.email}
+          onChange={(v) => updateField("email", v)}
+          error={errors.email}
+        />
+
         <div className="grid grid-cols-2 gap-3">
           <TextInput
             label={t("reg.l.dob")}
